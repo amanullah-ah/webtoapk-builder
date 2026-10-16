@@ -3,10 +3,53 @@
 // Env vars needed: GITHUB_TOKEN, GH_OWNER, GH_REPO  (optional: GH_BRANCH, default "main")
 const crypto = require("crypto");
 
+// ---------- Rate limiting ----------
+// Optional env vars (all have safe defaults):
+//   RATE_IP_MAX (3)          builds allowed per visitor ...
+//   RATE_IP_WINDOW_MIN (10)  ... within this many minutes
+//   RATE_GLOBAL_HOUR (10)    builds allowed for the whole site per hour
+//   RATE_GLOBAL_DAY (40)     builds allowed for the whole site per day
+const num = (v, d) => { const n = parseInt(v, 10); return n > 0 ? n : d; };
+const IP_MAX = num(process.env.RATE_IP_MAX, 3);
+const IP_WINDOW_MS = num(process.env.RATE_IP_WINDOW_MIN, 10) * 60 * 1000;
+const GLOBAL_HOUR = num(process.env.RATE_GLOBAL_HOUR, 10);
+const GLOBAL_DAY = num(process.env.RATE_GLOBAL_DAY, 40);
+
+// Per-visitor memory. Lives while the serverless instance is warm (best effort);
+// the global limit below is the hard ceiling that always applies.
+const hits = new Map();
+const clientIp = (req) =>
+  String(req.headers["x-real-ip"] || req.headers["x-forwarded-for"] || (req.socket && req.socket.remoteAddress) || "unknown")
+    .split(",")[0].trim();
+function ipWait(ip) {
+  const now = Date.now();
+  const arr = (hits.get(ip) || []).filter((t) => now - t < IP_WINDOW_MS);
+  hits.set(ip, arr);
+  return arr.length >= IP_MAX ? Math.ceil((IP_WINDOW_MS - (now - arr[0])) / 1000) : 0;
+}
+function ipRecord(ip) {
+  const now = Date.now();
+  const arr = hits.get(ip) || [];
+  arr.push(now);
+  hits.set(ip, arr);
+  if (hits.size > 5000) {
+    for (const [k, v] of hits) if (!v.length || now - v[v.length - 1] >= IP_WINDOW_MS) hits.delete(k);
+  }
+}
+const tooMany = (res, seconds, what) => {
+  const wait = Math.max(1, seconds);
+  res.setHeader("Retry-After", String(wait));
+  const mins = Math.ceil(wait / 60);
+  return res.status(429).json({
+    error: `${what} Please try again in ${mins} minute${mins === 1 ? "" : "s"}.`,
+  });
+};
+
 module.exports = async (req, res) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+  res.setHeader("Access-Control-Expose-Headers", "Retry-After");
   if (req.method === "OPTIONS") return res.status(204).end();
   if (req.method !== "POST") return res.status(405).json({ error: "POST only" });
 
@@ -51,7 +94,7 @@ module.exports = async (req, res) => {
   if (!pkg) {
     let slug = name.toLowerCase().replace(/[^a-z0-9]/g, "").slice(0, 30) || "app";
     if (/^\d/.test(slug)) slug = "app" + slug;
-    pkg = "com.aman." + slug;
+    pkg = "com.amanullah." + slug;
   }
   if (pkg.length > 100 || !/^[a-z][a-z0-9_]*(\.[a-z][a-z0-9_]*)+$/.test(pkg)) {
     return res.status(400).json({ error: "Invalid package name (example: com.example.app)" });
@@ -75,6 +118,25 @@ module.exports = async (req, res) => {
         "Content-Type": "application/json",
       },
     });
+
+  // How many builds the whole site started in the last `ms` (asked from GitHub, so it survives restarts)
+  async function runsSince(ms) {
+    const iso = new Date(Date.now() - ms).toISOString().replace(/\.\d+Z$/, "Z");
+    try {
+      const r = await api(`/actions/workflows/build.yml/runs?per_page=1&created=${encodeURIComponent(">=" + iso)}`);
+      if (!r.ok) return null;
+      const j = await r.json();
+      return typeof j.total_count === "number" ? j.total_count : null;
+    } catch (e) { return null; }
+  }
+
+  const ip = clientIp(req);
+  const wait = ipWait(ip);
+  if (wait > 0) return tooMany(res, wait, `You started ${IP_MAX} builds in a short time.`);
+  const [lastHour, lastDay] = await Promise.all([runsSince(60 * 60 * 1000), runsSince(24 * 60 * 60 * 1000)]);
+  if (lastHour !== null && lastHour >= GLOBAL_HOUR) return tooMany(res, 10 * 60, "The builder is busy right now.");
+  if (lastDay !== null && lastDay >= GLOBAL_DAY) return tooMany(res, 60 * 60, "Today's build limit is reached.");
+  ipRecord(ip);
 
   const put = (file, contentB64) =>
     api(`/contents/jobs/${id}/${file}`, {
