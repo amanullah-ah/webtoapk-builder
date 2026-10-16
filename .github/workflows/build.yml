@@ -1,0 +1,471 @@
+name: Build APK
+
+on:
+  workflow_dispatch:
+    inputs:
+      id:
+        description: "Job id"
+        required: true
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      JOB_ID: ${{ inputs.id }}
+      GH_TOKEN: ${{ github.token }}
+      GH_REPO: ${{ github.repository }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: "8.9"
+
+      - name: Generate Android project
+        run: |
+          set -e
+          mkdir -p android/app/src/main/java/com/aman/webapp android/app/src/main/res/values android/app/src/main/res/drawable-nodpi android/app/src/main/assets
+          cat > android/settings.gradle <<'EOF_0'
+          pluginManagement {
+              repositories {
+                  google()
+                  mavenCentral()
+                  gradlePluginPortal()
+              }
+          }
+          dependencyResolutionManagement {
+              repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+              repositories {
+                  google()
+                  mavenCentral()
+              }
+          }
+          rootProject.name = "WebApp"
+          include ':app'
+          EOF_0
+          cat > android/build.gradle <<'EOF_1'
+          plugins {
+              id 'com.android.application' version '8.5.2' apply false
+          }
+          EOF_1
+          cat > android/gradle.properties <<'EOF_2'
+          org.gradle.jvmargs=-Xmx2g -Dfile.encoding=UTF-8
+          android.nonTransitiveRClass=true
+          EOF_2
+          cat > android/app/build.gradle <<'EOF_3'
+          plugins {
+              id 'com.android.application'
+          }
+
+          android {
+              namespace 'com.aman.webapp'
+              compileSdk 34
+
+              defaultConfig {
+                  applicationId System.getenv('APP_ID') ?: 'com.aman.webapp'
+                  minSdk 21
+                  targetSdk 34
+                  versionCode (System.getenv('VER_CODE') ?: '1').toInteger()
+                  versionName System.getenv('VER_NAME') ?: '1.0.0'
+              }
+
+              compileOptions {
+                  sourceCompatibility JavaVersion.VERSION_17
+                  targetCompatibility JavaVersion.VERSION_17
+              }
+          }
+          EOF_3
+          cat > android/app/src/main/AndroidManifest.xml <<'EOF_4'
+          <?xml version="1.0" encoding="utf-8"?>
+          <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+              <uses-permission android:name="android.permission.INTERNET" />
+              <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+              <application
+                  android:allowBackup="false"
+                  android:icon="@drawable/ic_launcher"
+                  android:label="@string/app_name"
+                  android:usesCleartextTraffic="true"
+                  android:theme="@android:style/Theme.Material.Light.NoActionBar">
+
+                  <activity
+                      android:name=".MainActivity"
+                      android:exported="true"
+                      android:configChanges="orientation|screenSize|keyboardHidden|smallestScreenSize|screenLayout|uiMode"
+                      android:windowSoftInputMode="adjustResize">
+                      <intent-filter>
+                          <action android:name="android.intent.action.MAIN" />
+                          <category android:name="android.intent.category.LAUNCHER" />
+                      </intent-filter>
+                  </activity>
+              </application>
+          </manifest>
+          EOF_4
+          cat > android/app/src/main/java/com/aman/webapp/MainActivity.java <<'EOF_5'
+          package com.aman.webapp;
+
+          import android.app.Activity;
+          import android.content.Intent;
+          import android.graphics.Color;
+          import android.net.Uri;
+          import android.os.Bundle;
+          import android.view.View;
+          import android.view.ViewGroup;
+          import android.webkit.DownloadListener;
+          import android.webkit.ValueCallback;
+          import android.webkit.WebChromeClient;
+          import android.webkit.WebResourceError;
+          import android.webkit.WebResourceRequest;
+          import android.webkit.WebSettings;
+          import android.webkit.WebView;
+          import android.webkit.WebViewClient;
+          import android.widget.FrameLayout;
+          import android.widget.ProgressBar;
+
+          import java.io.BufferedReader;
+          import java.io.InputStreamReader;
+
+          public class MainActivity extends Activity {
+
+              private static final int FILE_CHOOSER_REQ = 1001;
+
+              private FrameLayout root;
+              private WebView webView;
+              private ProgressBar progressBar;
+              private String startUrl = "https://example.com";
+
+              private ValueCallback<Uri[]> filePathCallback;
+              private View customView;
+              private WebChromeClient.CustomViewCallback customViewCallback;
+
+              @Override
+              protected void onCreate(Bundle savedInstanceState) {
+                  super.onCreate(savedInstanceState);
+
+                  try {
+                      BufferedReader br = new BufferedReader(new InputStreamReader(getAssets().open("url.txt"), "UTF-8"));
+                      String line = br.readLine();
+                      br.close();
+                      if (line != null && line.trim().length() > 0) startUrl = line.trim();
+                  } catch (Exception ignored) { }
+
+                  root = new FrameLayout(this);
+                  root.setBackgroundColor(Color.WHITE);
+
+                  webView = new WebView(this);
+                  root.addView(webView, new FrameLayout.LayoutParams(
+                          ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+
+                  progressBar = new ProgressBar(this, null, android.R.attr.progressBarStyleHorizontal);
+                  progressBar.setMax(100);
+                  int h = (int) (3 * getResources().getDisplayMetrics().density);
+                  root.addView(progressBar, new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, h));
+
+                  setContentView(root);
+
+                  WebSettings s = webView.getSettings();
+                  s.setJavaScriptEnabled(true);
+                  s.setDomStorageEnabled(true);
+                  s.setDatabaseEnabled(true);
+                  s.setLoadWithOverviewMode(true);
+                  s.setUseWideViewPort(true);
+                  s.setMediaPlaybackRequiresUserGesture(false);
+                  s.setMixedContentMode(WebSettings.MIXED_CONTENT_COMPATIBILITY_MODE);
+                  boolean local = startUrl.startsWith("file:///android_asset/");
+                  s.setAllowFileAccess(local);
+                  if (local) {
+                      // Offline HTML apps: let pages load their own local files (fetch/XHR of bundled json etc.)
+                      s.setAllowFileAccessFromFileURLs(true);
+                      s.setAllowUniversalAccessFromFileURLs(true);
+                  }
+                  s.setBuiltInZoomControls(false);
+
+                  webView.setWebViewClient(new WebViewClient() {
+                      @Override
+                      public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
+                          return handleUrl(request.getUrl().toString());
+                      }
+
+                      @Override
+                      public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
+                          if (request.isForMainFrame()) {
+                              String html = "<html><head><meta name='viewport' content='width=device-width,initial-scale=1'></head>"
+                                      + "<body style='font-family:sans-serif;text-align:center;padding:60px 24px;color:#333'>"
+                                      + "<h2>No connection</h2><p>Please check your internet and try again.</p>"
+                                      + "<button style='padding:12px 28px;font-size:16px;border:0;border-radius:24px;background:#FF6F61;color:#fff' "
+                                      + "onclick='location.href=\"" + startUrl.replace("\"", "") + "\"'>Retry</button></body></html>";
+                              view.loadDataWithBaseURL(startUrl, html, "text/html", "UTF-8", null);
+                          }
+                      }
+                  });
+
+                  webView.setWebChromeClient(new WebChromeClient() {
+                      @Override
+                      public void onProgressChanged(WebView view, int newProgress) {
+                          progressBar.setProgress(newProgress);
+                          progressBar.setVisibility(newProgress >= 100 ? View.GONE : View.VISIBLE);
+                      }
+
+                      @Override
+                      public boolean onShowFileChooser(WebView w, ValueCallback<Uri[]> cb, FileChooserParams params) {
+                          if (filePathCallback != null) filePathCallback.onReceiveValue(null);
+                          filePathCallback = cb;
+                          try {
+                              startActivityForResult(params.createIntent(), FILE_CHOOSER_REQ);
+                          } catch (Exception e) {
+                              filePathCallback = null;
+                              return false;
+                          }
+                          return true;
+                      }
+
+                      @Override
+                      public void onShowCustomView(View view, CustomViewCallback callback) {
+                          if (customView != null) {
+                              callback.onCustomViewHidden();
+                              return;
+                          }
+                          customView = view;
+                          customViewCallback = callback;
+                          webView.setVisibility(View.GONE);
+                          root.addView(view, new FrameLayout.LayoutParams(
+                                  ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+                          getWindow().getDecorView().setSystemUiVisibility(
+                                  View.SYSTEM_UI_FLAG_FULLSCREEN | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                                          | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
+                      }
+
+                      @Override
+                      public void onHideCustomView() {
+                          hideCustomView();
+                      }
+                  });
+
+                  webView.setDownloadListener(new DownloadListener() {
+                      @Override
+                      public void onDownloadStart(String url, String userAgent, String contentDisposition,
+                                                  String mimetype, long contentLength) {
+                          try {
+                              startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(url)));
+                          } catch (Exception ignored) { }
+                      }
+                  });
+
+                  if (savedInstanceState != null) {
+                      webView.restoreState(savedInstanceState);
+                  } else {
+                      webView.loadUrl(startUrl);
+                  }
+              }
+
+              private boolean handleUrl(String url) {
+                  if (url.startsWith("http://") || url.startsWith("https://") || url.startsWith("file:///android_asset/")) {
+                      return false; // stay inside the app
+                  }
+                  try {
+                      Intent intent;
+                      if (url.startsWith("intent:")) {
+                          intent = Intent.parseUri(url, Intent.URI_INTENT_SCHEME);
+                      } else {
+                          intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                      }
+                      startActivity(intent);
+                  } catch (Exception ignored) { }
+                  return true;
+              }
+
+              private void hideCustomView() {
+                  if (customView == null) return;
+                  root.removeView(customView);
+                  customView = null;
+                  webView.setVisibility(View.VISIBLE);
+                  getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_VISIBLE);
+                  if (customViewCallback != null) {
+                      customViewCallback.onCustomViewHidden();
+                      customViewCallback = null;
+                  }
+              }
+
+              @Override
+              protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+                  if (requestCode == FILE_CHOOSER_REQ) {
+                      if (filePathCallback != null) {
+                          filePathCallback.onReceiveValue(
+                                  WebChromeClient.FileChooserParams.parseResult(resultCode, data));
+                          filePathCallback = null;
+                      }
+                  } else {
+                      super.onActivityResult(requestCode, resultCode, data);
+                  }
+              }
+
+              @Override
+              protected void onSaveInstanceState(Bundle outState) {
+                  super.onSaveInstanceState(outState);
+                  webView.saveState(outState);
+              }
+
+              @Override
+              public void onBackPressed() {
+                  if (customView != null) {
+                      hideCustomView();
+                  } else if (webView.canGoBack()) {
+                      webView.goBack();
+                  } else {
+                      super.onBackPressed();
+                  }
+              }
+
+              @Override
+              protected void onPause() {
+                  super.onPause();
+                  webView.onPause();
+              }
+
+              @Override
+              protected void onResume() {
+                  super.onResume();
+                  webView.onResume();
+              }
+
+              @Override
+              protected void onDestroy() {
+                  if (webView != null) {
+                      root.removeView(webView);
+                      webView.destroy();
+                  }
+                  super.onDestroy();
+              }
+          }
+          EOF_5
+
+      - name: Prepare project
+        env:
+          RUN_NUMBER: ${{ github.run_number }}
+        run: |
+          cat > prepare.py <<'EOF_PREP'
+          import json, os, re, shutil, sys, zipfile
+          from xml.sax.saxutils import escape
+
+          job = os.environ.get("JOB_ID", "")
+          if not re.fullmatch(r"[a-f0-9]{10}", job):
+              sys.exit("Invalid job id")
+
+          base = os.path.join("jobs", job)
+          with open(os.path.join(base, "config.json"), encoding="utf-8") as f:
+              cfg = json.load(f)
+
+          mode = cfg.get("mode", "url")
+          name = str(cfg.get("name", "")).strip()
+          pkg = str(cfg.get("package", "")).strip()
+          ver = str(cfg.get("version", "")).strip()
+
+          if not (1 <= len(name) <= 30) or re.search(r"[\x00-\x1f]", name):
+              sys.exit("Invalid app name")
+          if len(pkg) > 100 or not re.fullmatch(r"[a-z][a-z0-9_]*(\.[a-z][a-z0-9_]*)+", pkg):
+              sys.exit("Invalid package name")
+          if not re.fullmatch(r"\d+(\.\d+){0,3}", ver):
+              sys.exit("Invalid version")
+
+          app = os.path.join("android", "app", "src", "main")
+          assets = os.path.join(app, "assets")
+          os.makedirs(assets, exist_ok=True)
+          os.makedirs(os.path.join(app, "res", "drawable-nodpi"), exist_ok=True)
+          os.makedirs(os.path.join(app, "res", "values"), exist_ok=True)
+
+          if mode == "html":
+              site_file = cfg.get("siteFile")
+              if site_file not in ("site.html", "site.zip"):
+                  sys.exit("Invalid site file")
+              www = os.path.join(assets, "www")
+              shutil.rmtree(www, ignore_errors=True)
+              os.makedirs(www)
+              src = os.path.join(base, site_file)
+              if site_file == "site.html":
+                  shutil.copy(src, os.path.join(www, "index.html"))
+              else:
+                  total = 0
+                  with zipfile.ZipFile(src) as z:
+                      for info in z.infolist():
+                          n = info.filename.replace("\\", "/")
+                          parts = [p for p in n.split("/") if p]
+                          if not parts:
+                              continue
+                          if n.startswith("/") or ".." in parts:
+                              sys.exit("Unsafe path in ZIP")
+                          if parts[0] == "__MACOSX" or any(p.startswith(".") for p in parts):
+                              continue
+                          total += info.file_size
+                          if total > 60 * 1024 * 1024:
+                              sys.exit("ZIP too large when unpacked")
+                          dest = os.path.join(www, *parts)
+                          if info.is_dir():
+                              os.makedirs(dest, exist_ok=True)
+                          else:
+                              os.makedirs(os.path.dirname(dest), exist_ok=True)
+                              with z.open(info) as s_, open(dest, "wb") as d_:
+                                  shutil.copyfileobj(s_, d_)
+                  # If everything sits inside a single top folder, move it up one level
+                  if not os.path.exists(os.path.join(www, "index.html")):
+                      entries = os.listdir(www)
+                      if len(entries) == 1 and os.path.isdir(os.path.join(www, entries[0])):
+                          inner = os.path.join(www, entries[0])
+                          for item in os.listdir(inner):
+                              shutil.move(os.path.join(inner, item), os.path.join(www, item))
+                          os.rmdir(inner)
+                  if not os.path.exists(os.path.join(www, "index.html")):
+                      sys.exit("index.html not found in ZIP")
+              url = "file:///android_asset/www/index.html"
+          else:
+              url = str(cfg.get("url", "")).strip()
+              if not re.fullmatch(r"https?://[^\s<>\"']{3,2000}", url):
+                  sys.exit("Invalid URL")
+
+          # Icon must be a real PNG
+          icon_path = os.path.join(base, "icon.png")
+          with open(icon_path, "rb") as f:
+              if f.read(8) != b"\x89PNG\r\n\x1a\n":
+                  sys.exit("Icon is not a PNG")
+
+          with open(os.path.join(assets, "url.txt"), "w", encoding="utf-8") as f:
+              f.write(url)
+
+          safe = escape(name).replace("'", "\\'").replace('"', '\\"')
+          if safe[:1] in ("@", "?"):
+              safe = "\\" + safe
+          with open(os.path.join(app, "res", "values", "strings.xml"), "w", encoding="utf-8") as f:
+              f.write('<?xml version="1.0" encoding="utf-8"?>\n<resources>\n'
+                      '    <string name="app_name" formatted="false">%s</string>\n</resources>\n' % safe)
+
+          shutil.copy(icon_path, os.path.join(app, "res", "drawable-nodpi", "ic_launcher.png"))
+
+          with open(os.environ["GITHUB_ENV"], "a", encoding="utf-8") as f:
+              f.write("APP_ID=%s\n" % pkg)
+              f.write("VER_NAME=%s\n" % ver)
+              f.write("VER_CODE=%s\n" % os.environ.get("RUN_NUMBER", "1"))
+
+          print("Prepared:", name, pkg, ver, url)
+          EOF_PREP
+          python3 prepare.py
+
+      - name: Build APK
+        run: gradle -p android assembleDebug --no-daemon --stacktrace
+
+      - name: Publish APK
+        run: |
+          cp android/app/build/outputs/apk/debug/app-debug.apk "$JOB_ID.apk"
+          gh release create "job-$JOB_ID" "$JOB_ID.apk" --title "job-$JOB_ID" --notes "ok"
+
+      - name: Publish failure marker
+        if: failure()
+        run: gh release create "job-$JOB_ID" --title "job-$JOB_ID" --notes "failed" || true
