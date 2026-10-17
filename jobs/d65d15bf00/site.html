@@ -1,0 +1,988 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Aman Ullah | Creative Developer Portfolio</title>
+<meta name="description" content="Aman Ullah is a creative developer building fast web apps, tools and digital products.">
+<meta name="theme-color" content="#ece7e1">
+<link rel="canonical" href="https://amanullah-visual.vercel.app/">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='30' fill='%234f56d9'/%3E%3Ctext x='32' y='41' font-size='26' font-weight='800' text-anchor='middle' fill='white' font-family='Arial'%3EAU%3C/text%3E%3C/svg%3E">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Aman Ullah | Creative Developer Portfolio">
+<meta property="og:description" content="Fast web apps, PWAs, tools and course platforms by Aman Ullah.">
+<meta property="og:url" content="https://amanullah-visual.vercel.app/">
+<meta name="twitter:card" content="summary">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Person","name":"Aman Ullah","jobTitle":"Creative Developer","url":"https://amanullah-visual.vercel.app/"}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script>document.documentElement.classList.add("js")</script>
+<style>
+:root{
+  --bg:#ece7e1; --ink:#26242b; --muted:#625f6b;
+  --blue:#4f56d9; --a0:#9ea4ff; --a1:#6c73f2; --a2:#3a41c4; --a3:#2a2e95; --amber:#e9b53a; --green:#2f9c78; --red:#d6403f;
+  --glass:rgba(255,255,255,.46); --glass-brd:rgba(255,255,255,.8);
+  --shadow:0 18px 40px -18px rgba(60,40,80,.35), 0 2px 6px rgba(60,40,80,.08);
+  --r-lg:30px; --r-md:22px; --r-pill:999px;
+}
+body.dark{
+  --bg:#17161c; --ink:#f1eef6; --muted:#a9a5b6;
+  --glass:rgba(40,38,50,.55); --glass-brd:rgba(255,255,255,.14);
+  --shadow:0 18px 40px -18px rgba(0,0,0,.7), 0 2px 6px rgba(0,0,0,.3);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:110px}
+body{
+  font-family:"Plus Jakarta Sans",system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
+  background:var(--bg); color:var(--ink); line-height:1.55;
+  transition:background .4s,color .4s;
+  min-height:100vh; overflow-x:hidden;
+}
+body::before{ /* soft colour blobs behind the glass */
+  content:""; position:fixed; inset:0; z-index:-1; pointer-events:none;
+  background:
+    radial-gradient(520px 420px at 12% 18%, rgba(233,181,58,.38), transparent 70%),
+    radial-gradient(520px 460px at 62% 28%, rgba(214,64,63,.26), transparent 70%),
+    radial-gradient(560px 480px at 88% 78%, rgba(47,156,120,.30), transparent 70%),
+    radial-gradient(520px 460px at 30% 90%, color-mix(in srgb,var(--blue) 22%,transparent), transparent 70%);
+}
+body.dark::before{opacity:.55}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit;cursor:pointer;border:0;background:none}
+:focus-visible{outline:3px solid var(--blue);outline-offset:3px}
+.wrap{max-width:1240px;margin:0 auto;padding:0 20px}
+
+.glass{
+  background:var(--glass); border:1px solid var(--glass-brd);
+  backdrop-filter:blur(18px) saturate(1.4); -webkit-backdrop-filter:blur(18px) saturate(1.4);
+  box-shadow:var(--shadow), inset 0 1px 0 rgba(255,255,255,.7);
+}
+
+/* ---------- Navbar ---------- */
+header{position:sticky;top:14px;z-index:50;padding:0 20px;max-width:1240px;margin:14px auto 0}
+.nav{display:flex;align-items:center;gap:16px;padding:10px 14px;border-radius:var(--r-pill)}
+.brand{display:flex;align-items:center;gap:12px;min-width:0}
+.avatar{
+  width:44px;height:44px;border-radius:50%;flex:none;display:grid;place-items:center;
+  font-weight:800;color:#fff;letter-spacing:.5px;
+  background:radial-gradient(circle at 30% 25%,var(--a0),var(--blue) 55%,var(--a3));
+  box-shadow:inset 0 2px 3px rgba(255,255,255,.5),0 4px 10px color-mix(in srgb,var(--blue) 40%,transparent);
+}
+.brand b{display:block;font-size:15px;line-height:1.2}
+.brand small{display:block;color:var(--muted);font-size:11.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.status{font-size:10.5px;font-weight:700;color:#176148;background:#cfeedf;padding:2px 8px;border-radius:var(--r-pill);margin-left:8px;vertical-align:2px}
+.links{display:flex;gap:22px;margin-left:auto;font-size:14px;font-weight:600}
+.links a{padding:6px 2px;border-bottom:2px solid transparent}
+.links a.active,.links a:hover{border-color:var(--blue)}
+.nav-actions{display:flex;align-items:center;gap:8px}
+.chip-btn{padding:8px 14px;border-radius:var(--r-pill);font-weight:700;font-size:13px;background:rgba(255,255,255,.6);border:1px solid var(--glass-brd)}
+body.dark .chip-btn{background:rgba(255,255,255,.08)}
+.icon-btn{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;background:rgba(255,255,255,.6);border:1px solid var(--glass-brd)}
+body.dark .icon-btn{background:rgba(255,255,255,.08)}
+.hire{padding:9px 16px;border-radius:var(--r-pill);font-weight:800;font-size:13px;color:#fff;
+  background:linear-gradient(180deg,#3fb58b,#23805f);box-shadow:inset 0 1px 0 rgba(255,255,255,.5),0 6px 14px -4px rgba(35,128,95,.6)}
+
+/* ---------- Hero ---------- */
+.hero{display:grid;grid-template-columns:minmax(0,1.12fr) minmax(0,.88fr);gap:22px;margin-top:22px;align-items:start}
+.hero-card{border-radius:var(--r-lg);padding:28px}
+.pills{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:22px}
+.pill{font-size:12.5px;font-weight:700;padding:7px 13px;border-radius:var(--r-pill);background:rgba(255,255,255,.7);border:1px solid var(--glass-brd)}
+body.dark .pill{background:rgba(255,255,255,.08)}
+.pill.dark{background:#1d1b24;color:#fff;border-color:#1d1b24}
+.profile{display:flex;gap:24px;align-items:center}
+.photo{
+  width:132px;height:132px;border-radius:50%;flex:none;display:grid;place-items:center;
+  font-size:44px;font-weight:800;color:#fff;
+  background:radial-gradient(circle at 30% 25%,var(--a0),var(--blue) 55%,var(--a3));
+  border:6px solid rgba(255,255,255,.85);box-shadow:var(--shadow), inset 0 3px 6px rgba(255,255,255,.4);
+}
+.logo-word{font-size:34px;font-weight:800;letter-spacing:-1px;line-height:1}
+.logo-word span:nth-child(1){color:var(--blue)}.logo-word span:nth-child(2){color:var(--red)}
+.logo-word span:nth-child(3){color:var(--amber)}.logo-word span:nth-child(4){color:var(--green)}
+.logo-word small{font-size:15px;color:var(--muted);letter-spacing:0;margin-left:8px;font-weight:700}
+h1{font-size:clamp(26px,3.4vw,36px);line-height:1.15;letter-spacing:-.8px;margin:14px 0 12px}
+.lead{color:var(--muted);font-size:15px;font-weight:500;max-width:56ch}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:26px 0 20px}
+.stat{padding:12px;border-radius:20px;display:flex;align-items:center;gap:10px}
+.dot{width:40px;height:40px;border-radius:50%;flex:none;display:grid;place-items:center;font-weight:800;font-size:13px;color:#fff;box-shadow:inset 0 2px 3px rgba(255,255,255,.5)}
+.stat b{display:block;font-size:13.5px;line-height:1.2}.stat small{color:var(--muted);font-size:11.5px;line-height:1.2;display:block}
+.btns{display:flex;flex-wrap:wrap;gap:12px}
+.btn{padding:12px 18px;border-radius:var(--r-pill);font-weight:800;font-size:14px;display:inline-flex;gap:8px;align-items:center}
+.btn.primary{color:#fff;background:linear-gradient(180deg,var(--a1),var(--a2));box-shadow:inset 0 1px 0 rgba(255,255,255,.55),0 10px 20px -8px color-mix(in srgb,var(--blue) 80%,transparent)}
+.btn.gold{background:linear-gradient(180deg,#f6cf63,#d9a22a);box-shadow:inset 0 1px 0 rgba(255,255,255,.6),0 10px 20px -8px rgba(217,162,42,.8);color:#33270a}
+.btn.soft{background:rgba(255,255,255,.7);border:1px solid var(--glass-brd)}
+body.dark .btn.soft{background:rgba(255,255,255,.08)}
+.info-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:18px}
+.info{border-radius:26px;padding:18px}
+.info small{font-size:10.5px;font-weight:800;letter-spacing:.8px;color:var(--muted);text-transform:uppercase}
+.info h3{font-size:16px;margin:4px 0 6px}.info p{font-size:13.5px;color:var(--muted)}
+
+/* ---------- Control centre ---------- */
+.cc-title{display:flex;justify-content:space-between;font-size:11px;font-weight:800;letter-spacing:.8px;text-transform:uppercase;color:var(--muted);margin-bottom:12px}
+.cc{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+.quad .orb{max-width:118px;margin:auto}
+.tile{border-radius:28px;padding:14px}
+.span2{grid-column:span 2}.span4{grid-column:span 4}.row2{grid-row:span 2}
+.orb{
+  aspect-ratio:1;width:100%;border-radius:50%;display:grid;place-items:center;position:relative;
+  background:radial-gradient(circle at 32% 24%,#fff 0,#f3efe9 38%,#d9d3cb 100%);
+  box-shadow:inset 0 -6px 10px rgba(0,0,0,.08),inset 0 4px 6px rgba(255,255,255,.95),0 10px 18px -8px rgba(60,40,80,.45);
+  transition:transform .15s, filter .2s;
+}
+.orb:active{transform:scale(.93)}
+.orb svg{width:38%;height:38%;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.orb.blue{background:radial-gradient(circle at 32% 24%,var(--a0),var(--blue) 60%,var(--a3));color:#fff}
+.orb.red{background:radial-gradient(circle at 32% 24%,#ff9a97,#d6403f 60%,#992322);color:#fff}
+.orb.green{background:radial-gradient(circle at 32% 24%,#7ddcb8,#2f9c78 60%,#1b6a50);color:#fff}
+.orb.amber{background:radial-gradient(circle at 32% 24%,#ffe58f,#e9b53a 60%,#b37f12);color:#3a2a05}
+.orb.rainbow{background:conic-gradient(from 200deg,#ff6b6b,#ffd166,#5fe3a1,var(--blue),#c26bff,#ff6b6b);color:#fff}
+.orb.sand{background:radial-gradient(circle at 32% 24%,#fffaf0,#ece3d2 60%,#cfc3ac)}
+.orb.off{filter:grayscale(.85) brightness(1.05);opacity:.85}
+body.dark .orb:not(.blue):not(.red):not(.green):not(.amber):not(.rainbow){background:radial-gradient(circle at 32% 24%,#4a4756,#2a2833 70%);color:#fff}
+.quad{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.music{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:4px}
+.music b{font-size:14px}.music small{color:var(--muted);font-size:12px}
+.eq{display:flex;gap:4px;height:34px;align-items:flex-end;margin:6px 0}
+.eq i{width:6px;border-radius:4px;background:var(--blue);height:30%}
+.playing .eq i{animation:eq .9s ease-in-out infinite}
+.eq i:nth-child(2){animation-delay:.15s!important;background:var(--red)}.eq i:nth-child(3){animation-delay:.3s!important;background:var(--amber)}.eq i:nth-child(4){animation-delay:.45s!important;background:var(--green)}.eq i:nth-child(5){animation-delay:.6s!important}
+@keyframes eq{0%,100%{height:25%}50%{height:100%}}
+.transport{display:flex;gap:16px;align-items:center}
+.transport button{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;background:rgba(255,255,255,.6);border:1px solid var(--glass-brd)}
+body.dark .transport button{background:rgba(255,255,255,.1)}
+.transport svg{width:16px;height:16px;fill:currentColor}
+.slider{display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:8px;padding:12px 8px;border-radius:32px;min-height:220px}
+.slider input{-webkit-appearance:none;appearance:none;writing-mode:vertical-lr;direction:rtl;width:54px;height:150px;border-radius:27px;background:rgba(0,0,0,.08);overflow:hidden;cursor:pointer}
+.slider input::-webkit-slider-runnable-track{height:100%}
+.slider input::-webkit-slider-thumb{-webkit-appearance:none;width:54px;height:0;box-shadow:0 100vh 0 100vh var(--sl,var(--blue))}
+.slider input::-moz-range-thumb{width:54px;height:0;border:0;box-shadow:0 150px 0 150px var(--sl,var(--blue))}
+.slider span{font-size:12px;font-weight:800;color:var(--muted)}
+.mode{display:flex;align-items:center;gap:14px;padding:12px 16px;border-radius:var(--r-pill);width:100%;text-align:left}
+.mode .orb{width:50px;flex:none}
+.mode b{font-size:15px}.mode small{display:block;color:var(--muted);font-size:12px}
+.explore{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 20px;border-radius:var(--r-pill);width:100%;text-align:left;background:linear-gradient(135deg,rgba(125,220,184,.55),rgba(255,255,255,.5))}
+.explore b{display:block;font-size:14px}.explore small{color:var(--muted);font-size:12px}
+
+/* ---------- Sections ---------- */
+section{padding-top:70px}
+.head{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap;margin-bottom:22px}
+.head h2{font-size:clamp(26px,3.4vw,36px);letter-spacing:-.8px;line-height:1.1}
+.head p{color:var(--muted);font-size:15px;max-width:52ch;margin-top:8px}
+.filters{display:flex;gap:8px;flex-wrap:wrap}
+.filters button{padding:9px 15px;border-radius:var(--r-pill);font-weight:700;font-size:13px;background:rgba(255,255,255,.6);border:1px solid var(--glass-brd)}
+body.dark .filters button{background:rgba(255,255,255,.08)}
+.filters button.on{background:linear-gradient(180deg,var(--a1),var(--a2));color:#fff;border-color:transparent}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.card{border-radius:var(--r-md);padding:20px;transition:transform .2s;display:flex;flex-direction:column;gap:10px}
+.card:hover{transform:translateY(-4px)}
+.card .top{display:flex;justify-content:space-between;align-items:center}
+.card .ico{width:46px;height:46px}
+.tag{font-size:11.5px;font-weight:700;padding:5px 11px;border-radius:var(--r-pill);background:rgba(255,255,255,.75);border:1px solid var(--glass-brd)}
+body.dark .tag{background:rgba(255,255,255,.1)}
+.card h3{font-size:17px;letter-spacing:-.2px}.card p{font-size:14px;color:var(--muted);flex:1}
+.card .go{font-weight:800;font-size:13px;color:var(--blue)}
+.card.hide{display:none}
+.skills{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+.skill{border-radius:var(--r-md);padding:22px;transform-style:preserve-3d;transition:transform .12s;will-change:transform}
+.skill .orb{width:62px;margin-bottom:14px}
+.skill b{display:block;font-size:16px}
+.bar{height:9px;border-radius:9px;background:rgba(0,0,0,.09);margin:12px 0 6px;overflow:hidden}
+.bar i{display:block;height:100%;border-radius:9px;background:linear-gradient(90deg,var(--a1),#2f9c78)}
+.skill small{color:var(--muted);font-weight:700}
+.services{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.contact{border-radius:var(--r-lg);padding:30px;display:grid;grid-template-columns:1fr 1fr;gap:30px}
+form{display:grid;gap:12px}
+input,textarea,select{font:inherit;color:var(--ink);padding:13px 16px;border-radius:18px;border:1px solid var(--glass-brd);background:rgba(255,255,255,.65);width:100%}
+body.dark input,body.dark textarea,body.dark select{background:rgba(255,255,255,.08)}
+textarea{min-height:110px;resize:vertical}
+footer{text-align:center;color:var(--muted);font-size:13px;padding:50px 0 40px}
+
+/* ---------- Modal / toast / torch ---------- */
+.modal{position:fixed;inset:0;z-index:100;display:none;place-items:center;padding:20px;background:rgba(20,16,30,.42);backdrop-filter:blur(6px)}
+.modal.open{display:grid}
+.sheet{max-height:92vh;overflow:auto;width:min(420px,100%);border-radius:28px;padding:24px;background:var(--bg);border:1px solid var(--glass-brd);box-shadow:var(--shadow);animation:pop .25s ease}
+@keyframes pop{from{transform:scale(.94);opacity:0}to{transform:none;opacity:1}}
+.sheet h3{font-size:20px;margin-bottom:14px;display:flex;justify-content:space-between;align-items:center}
+.sheet .x{width:34px;height:34px;border-radius:50%;background:rgba(0,0,0,.08);font-size:18px}
+.row{display:grid;gap:12px}
+.big{font-size:40px;font-weight:800;letter-spacing:-1px;text-align:center;margin:6px 0 14px;font-variant-numeric:tabular-nums}
+.keys{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.keys button{padding:14px 0;border-radius:18px;font-weight:800;font-size:17px;background:rgba(255,255,255,.7);border:1px solid var(--glass-brd)}
+body.dark .keys button{background:rgba(255,255,255,.1)}
+.keys .op{background:var(--amber);color:#33270a}.keys .eqb{background:var(--blue);color:#fff}
+video{width:100%;border-radius:20px;background:#000;aspect-ratio:4/3;object-fit:cover}
+#toast{position:fixed;left:50%;bottom:26px;transform:translate(-50%,30px);opacity:0;z-index:200;padding:12px 20px;border-radius:var(--r-pill);font-weight:700;font-size:14px;background:#1f1d26;color:#fff;transition:.3s;pointer-events:none;max-width:90vw;text-align:center}
+#toast.show{opacity:1;transform:translate(-50%,0)}
+#dim{position:fixed;inset:0;z-index:250;pointer-events:none;background:#000;opacity:0;transition:opacity .2s}
+#torch{position:fixed;inset:0;z-index:90;pointer-events:none;opacity:0;transition:opacity .3s;
+  background:radial-gradient(circle 170px at var(--x,50%) var(--y,50%),transparent 0,transparent 60%,rgba(8,6,14,.82) 100%)}
+#torch.on{opacity:1}
+
+/* ---------- v3: depth, motion, detail ---------- */
+@property --p{syntax:"<number>";inherits:false;initial-value:0}
+#prog{position:fixed;top:0;left:0;height:3px;width:100%;transform-origin:0 50%;transform:scaleX(0);z-index:120;background:linear-gradient(90deg,var(--blue),var(--red),var(--amber),var(--green))}
+.ambient{position:fixed;inset:0;z-index:-1;pointer-events:none;overflow:hidden}
+.ambient i{position:absolute;border-radius:50%;opacity:.5;
+  background:radial-gradient(circle at 32% 26%,rgba(255,255,255,.9) 0,var(--c) 38%,transparent 70%);
+  translate:calc(var(--px,0)*var(--k)*1px) calc(var(--py,0)*var(--k)*1px);animation:float 16s ease-in-out infinite}
+.ambient i:nth-child(1){--c:var(--amber);--k:-30;width:380px;height:380px;left:-120px;top:10%}
+.ambient i:nth-child(2){--c:var(--red);--k:24;width:300px;height:300px;right:-80px;top:46%;animation-delay:-5s}
+.ambient i:nth-child(3){--c:var(--green);--k:-18;width:340px;height:340px;left:34%;bottom:-160px;animation-delay:-9s}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-34px)}}
+body.dark .ambient i{opacity:.26}
+.spot{position:relative;overflow:hidden}
+.spot::after{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;opacity:0;transition:opacity .3s;
+  background:radial-gradient(280px circle at var(--mx,50%) var(--my,50%),rgba(255,255,255,.55),transparent 65%)}
+.spot:hover::after{opacity:1}
+body.dark .spot::after{background:radial-gradient(280px circle at var(--mx,50%) var(--my,50%),rgba(255,255,255,.14),transparent 65%)}
+.js .rv{opacity:0;translate:0 26px;transition:opacity .7s ease var(--d,0s),translate .7s cubic-bezier(.2,.7,.2,1) var(--d,0s),transform .2s}
+.js .rv.in{opacity:1;translate:0 0}
+@media (prefers-reduced-motion:reduce){.js .rv{opacity:1;translate:none}}
+.photo-wrap{position:relative;width:132px;height:132px;flex:none}
+.photo-wrap::before{content:"";position:absolute;inset:-7px;border-radius:50%;animation:spin 8s linear infinite;
+  background:conic-gradient(var(--blue),var(--red),var(--amber),var(--green),var(--blue))}
+@keyframes spin{to{transform:rotate(360deg)}}
+.photo-wrap .photo{position:relative;width:100%;height:100%;border:5px solid var(--bg)}
+.role{font-size:17px;font-weight:700;color:var(--muted);min-height:1.6em}
+.role b{color:var(--blue)}
+.caret{display:inline-block;width:2px;height:1.1em;background:var(--blue);margin-left:3px;vertical-align:-3px;animation:blink 1s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+.status::before{content:"";display:inline-block;width:7px;height:7px;border-radius:50%;background:#2f9c78;margin-right:5px;animation:pulse 1.8s infinite}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(47,156,120,.6)}100%{box-shadow:0 0 0 8px rgba(47,156,120,0)}}
+.marquee{margin-top:54px;overflow:hidden;-webkit-mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent)}
+.track{display:flex;gap:12px;width:max-content;animation:scroll 40s linear infinite}
+.marquee:hover .track{animation-play-state:paused}
+.track span{display:inline-flex;align-items:center;gap:8px;padding:9px 16px;border-radius:var(--r-pill);font-weight:700;font-size:13.5px;white-space:nowrap}
+.track span::before{content:"";width:9px;height:9px;border-radius:50%;background:var(--c,var(--blue));box-shadow:inset 0 1px 1px rgba(255,255,255,.7)}
+@keyframes scroll{to{transform:translateX(-50%)}}
+.thumbwrap{border-radius:16px;overflow:hidden;box-shadow:0 12px 22px -14px rgba(60,40,80,.55)}
+.thumb{display:block;width:100%;height:auto}
+.card{cursor:pointer}
+.skill{text-align:center}
+.skill p{font-size:13.5px;color:var(--muted);margin-top:4px}
+.ring{--c:var(--blue);width:98px;height:98px;border-radius:50%;display:grid;place-items:center;margin:0 auto 14px;position:relative;
+  background:conic-gradient(var(--c) calc(var(--p)*1%),color-mix(in srgb,var(--ink) 12%,transparent) 0);transition:--p 1.4s cubic-bezier(.2,.7,.2,1)}
+.ring::before{content:"";position:absolute;inset:9px;border-radius:50%;background:var(--bg);box-shadow:inset 0 2px 6px rgba(0,0,0,.14)}
+.ring span{position:relative;font-weight:800;font-size:20px}
+.sheet.wide{width:min(560px,100%)}
+.feat{list-style:none;display:grid;gap:8px}
+.feat li{position:relative;padding-left:26px;font-size:14px}
+.feat li::before{content:"✓";position:absolute;left:0;top:0;width:18px;height:18px;border-radius:50%;display:grid;place-items:center;font-size:11px;font-weight:800;color:#fff;background:var(--green)}
+.cmd{padding:14px}
+.cmd ul{list-style:none;margin-top:10px;max-height:340px;overflow:auto;display:grid;gap:4px}
+.cmd li{padding:11px 14px;border-radius:14px;font-weight:600;font-size:14px;display:flex;justify-content:space-between;gap:10px;cursor:pointer}
+.cmd li small{opacity:.65;font-weight:500}
+.cmd li.sel{background:var(--blue);color:#fff}
+#topBtn{position:fixed;right:18px;bottom:22px;width:50px;z-index:55;opacity:0;pointer-events:none;transition:opacity .3s}
+#topBtn.show{opacity:1;pointer-events:auto}
+footer small{display:block;margin-top:6px;opacity:.8}
+img.thumb{aspect-ratio:300/140;object-fit:cover}
+.gal{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:16px}
+.gal button{padding:0;border-radius:24px;overflow:hidden;aspect-ratio:4/5;display:block;position:relative;transition:transform .2s}
+.gal button:hover{transform:translateY(-4px) scale(1.01)}
+.gal img{width:100%;height:100%;object-fit:cover;display:block}
+.gal span{position:absolute;left:12px;right:12px;bottom:12px;padding:8px 12px;border-radius:var(--r-pill);font-size:12.5px;font-weight:700;text-align:left;background:rgba(255,255,255,.78);color:#26242b;backdrop-filter:blur(10px)}
+.lb{display:grid;gap:12px;justify-items:center}
+.lb img{max-width:100%;max-height:68vh;border-radius:20px;object-fit:contain}
+.lb .nav2{display:flex;gap:12px;align-items:center;font-weight:700;font-size:13px}
+.hire,.brand b{white-space:nowrap}
+.stat{padding:12px 10px;gap:8px}.stat b{font-size:13px}
+@media (max-width:420px){#soundBtn{display:none}.brand b{font-size:14px}}
+
+/* ---------- Preloader ---------- */
+#loader{position:fixed;inset:0;z-index:300;display:grid;place-items:center;background:var(--bg);transition:opacity .5s,visibility .5s}
+#loader.done{opacity:0;visibility:hidden}
+.ld{display:grid;justify-items:center;gap:18px}
+.ld-orbs{display:flex;gap:12px}
+.ld-orbs i{width:26px;height:26px;border-radius:50%;animation:bob .9s ease-in-out infinite;box-shadow:inset 0 -3px 5px rgba(0,0,0,.15),inset 0 2px 3px rgba(255,255,255,.7)}
+.ld-orbs i:nth-child(1){background:var(--blue)}.ld-orbs i:nth-child(2){background:#d6403f;animation-delay:.12s}
+.ld-orbs i:nth-child(3){background:#e9b53a;animation-delay:.24s}.ld-orbs i:nth-child(4){background:#2f9c78;animation-delay:.36s}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-14px)}}
+.ld b{font-size:14px;letter-spacing:.3px;color:var(--muted)}
+.ld-bar{width:180px;height:6px;border-radius:6px;background:rgba(0,0,0,.1);overflow:hidden}
+.ld-bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--a1),#2f9c78);transition:width .25s}
+
+/* ---------- Mobile dock ---------- */
+.dock{display:none}
+.process{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px;counter-reset:step}
+.step{border-radius:var(--r-md);padding:22px;position:relative}
+.step::before{counter-increment:step;content:counter(step);display:grid;place-items:center;width:36px;height:36px;border-radius:50%;font-weight:800;color:#fff;margin-bottom:12px;background:radial-gradient(circle at 30% 25%,var(--a0),var(--blue));box-shadow:inset 0 2px 3px rgba(255,255,255,.5)}
+.step b{display:block;font-size:16px;margin-bottom:4px}.step p{font-size:14px;color:var(--muted)}
+.techs{display:flex;flex-wrap:wrap;gap:6px}
+.techs span{font-size:11.5px;font-weight:700;color:var(--muted);padding:3px 9px;border-radius:var(--r-pill);background:rgba(0,0,0,.06)}
+body.dark .techs span{background:rgba(255,255,255,.08)}
+.live{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700;color:#176148}
+.live::before{content:"";width:8px;height:8px;border-radius:50%;background:#2f9c78}
+.photo img,.avatar img{width:100%;height:100%;object-fit:cover;border-radius:50%}
+.social{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}
+.social a,.social button{padding:9px 15px;border-radius:var(--r-pill);font-weight:700;font-size:13px;background:rgba(255,255,255,.65);border:1px solid var(--glass-brd)}
+body.dark .social a,body.dark .social button{background:rgba(255,255,255,.08)}
+
+/* ---------- Responsive ---------- */
+@media (max-width:1020px){
+  .hero{grid-template-columns:1fr}
+  .links{display:none}.nav-actions{margin-left:auto}
+  .grid3,.services{grid-template-columns:repeat(2,1fr)}
+  .skills{grid-template-columns:repeat(2,1fr)}
+  .contact{grid-template-columns:1fr}
+}
+@media (max-width:1020px){.process{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:640px){
+  .process{grid-template-columns:1fr}
+  .dock{display:flex;position:fixed;left:50%;bottom:14px;transform:translateX(-50%);z-index:60;gap:2px;padding:6px;border-radius:var(--r-pill);width:calc(100% - 28px);max-width:420px;justify-content:space-between}
+  .dock a{flex:1;text-align:center;padding:9px 4px;border-radius:var(--r-pill);font-size:12px;font-weight:700;color:var(--muted)}
+  .dock a.active{background:linear-gradient(180deg,var(--a1),var(--a2));color:#fff}
+  footer{padding-bottom:110px}
+  #toast{bottom:84px}
+  #accentBtn{display:none}
+  .nav{gap:8px}
+  .hire{padding:9px 13px}
+  #topBtn{bottom:88px;right:14px}
+  .photo-wrap{width:112px;height:112px}
+  header{padding:0 12px}.wrap{padding:0 14px}
+  .brand small,.status,.chip-btn{display:none}
+  .hero-card{padding:20px}
+  .profile{flex-direction:column;align-items:flex-start}
+  .stats{grid-template-columns:1fr 1fr}
+  .info-row,.grid3,.services,.skills{grid-template-columns:1fr}
+  .cc{gap:10px}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+
+<div id="loader" aria-hidden="true"><div class="ld"><div class="ld-orbs"><i></i><i></i><i></i><i></i></div><b>Loading Aman Visuals</b><div class="ld-bar"><i id="ldBar"></i></div></div></div>
+
+<div class="ambient" aria-hidden="true"><i></i><i></i><i></i></div>
+<div id="prog"></div>
+
+<header>
+  <nav class="nav glass" aria-label="Main">
+    <a href="#top" class="brand">
+      <span class="avatar" id="avatar">AU</span>
+      <span><b>AMAN ULLAH <span class="status">Available for Hire</span></b><small>Creative Developer &bull; Web Apps &amp; Digital Products</small></span>
+    </a>
+    <div class="links">
+      <a href="#top" class="active">Overview</a>
+      <a href="#projects">Projects</a>
+      <a href="#skills">Skills</a>
+      <a href="#services">Services</a>
+      <a href="#contact">Contact</a>
+    </div>
+    <div class="nav-actions">
+      <button class="chip-btn" id="osBtn" type="button">Aman OS</button>
+      <button class="icon-btn" id="cmdBtn" type="button" aria-label="Open command menu" title="Command menu (Ctrl+K)">⌘</button>
+      <button class="icon-btn" id="accentBtn" type="button" aria-label="Change accent colour" title="Change accent colour">🎨</button>
+      <button class="icon-btn" id="soundBtn" type="button" aria-label="Toggle sound" aria-pressed="true">🔊</button>
+      <a class="hire" id="hireBtn" href="#contact">Hire Me</a>
+    </div>
+  </nav>
+</header>
+
+<main class="wrap" id="top">
+  <div class="hero">
+    <!-- LEFT -->
+    <div>
+      <div class="hero-card glass">
+        <div class="pills">
+          <span class="pill dark">🚀 Official Portfolio</span>
+          <span class="pill">✨ Aman Visuals Studio</span>
+          <span class="pill" id="domainPill">🌐 amanullah-visual.vercel.app</span>
+        </div>
+        <div class="profile">
+          <div class="photo-wrap"><div class="photo" id="photo" role="img" aria-label="Aman Ullah profile photo">AU</div></div>
+          <div>
+            <div class="logo-word" aria-label="Aman Visuals"><span>A</span><span>M</span><span>A</span><span>N</span><small>VISUALS</small></div>
+            <h1>Creative Developer building fast web apps &amp; digital products.</h1>
+            <p class="role">I build <b id="typed">fast web apps</b><span class="caret" aria-hidden="true"></span></p>
+          </div>
+        </div>
+        <p class="lead" style="margin-top:14px">Hi! I'm Aman Ullah. I design and build single-page web apps, tools, PWAs and course platforms with clean 3D glass interfaces, Firebase backends and one-tap deployment on Vercel.</p>
+
+        <div class="stats">
+          <div class="stat glass"><span class="dot" style="background:radial-gradient(circle at 30% 25%,var(--a0),var(--blue))" data-count="10" data-suffix="+">10+</span><div><b>Projects</b><small>Delivered</small></div></div>
+          <div class="stat glass"><span class="dot" style="background:radial-gradient(circle at 30% 25%,#7ddcb8,#2f9c78)">PWA</span><div><b>Installable</b><small>Apps</small></div></div>
+          <div class="stat glass"><span class="dot" style="background:radial-gradient(circle at 30% 25%,#ffe58f,#e9b53a);color:#3a2a05" data-count="3" data-suffix="+">3+</span><div><b>Years Exp.</b><small>Full-Stack</small></div></div>
+          <div class="stat glass"><span class="dot" style="background:radial-gradient(circle at 30% 25%,#ff9a97,#d6403f)">24/7</span><div><b>Support</b><small>Fast replies</small></div></div>
+        </div>
+
+        <div class="btns">
+          <a class="btn primary" href="#projects">📚 View Portfolio Work</a>
+          <button class="btn gold" id="quoteBtn" type="button">🧮 Project Quote Estimator</button>
+          <button class="btn soft" id="vcardBtn" type="button">🪪 Save VCard</button>
+        </div>
+      </div>
+
+      <div class="info-row">
+        <div class="info glass"><small>Founder &amp; Lead Developer</small><h3>Aman Visuals Studio</h3><p>Custom web apps, admin panels, automation and clean deployments for clients.</p></div>
+        <div class="info glass"><small>Instant Response</small><h3>Direct WhatsApp &amp; Live Web</h3><p>Message me directly, or open any live build from the project list below.</p></div>
+      </div>
+    </div>
+
+    <!-- RIGHT: control centre -->
+    <aside aria-label="Interactive control centre">
+      <div class="cc-title"><span>Interactive 3D Control Center</span><span>Tap any orb</span></div>
+      <div class="cc">
+        <div class="tile glass span2"><div class="quad">
+          <button class="orb blue" data-toggle="Airplane mode" aria-label="Airplane mode"><svg viewBox="0 0 24 24"><path d="M2 14l9-3 3-8 2 1-1 8 7 3v2l-8-1-2 4h-2l0-4-8 1z"/></svg></button>
+          <button class="orb red" data-toggle="Mobile data" aria-label="Mobile data"><svg viewBox="0 0 24 24"><path d="M8 4v16M4 8l4-4 4 4M16 20V4M12 16l4 4 4-4"/></svg></button>
+          <button class="orb green" data-toggle="Wi-Fi" aria-label="Wi-Fi"><svg viewBox="0 0 24 24"><path d="M2 9a15 15 0 0 1 20 0M5 13a10 10 0 0 1 14 0M8.5 16.5a5 5 0 0 1 7 0M12 20h.01"/></svg></button>
+          <button class="orb amber" data-toggle="Bluetooth" aria-label="Bluetooth"><svg viewBox="0 0 24 24"><path d="M7 7l10 10-5 4V3l5 4L7 17"/></svg></button>
+        </div></div>
+
+        <div class="tile glass span2 music" id="music">
+          <div class="eq" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
+          <b>Aman Visuals</b><small id="trackName">Focus Beats</small>
+          <div class="transport">
+            <button type="button" data-skip="-1" aria-label="Previous"><svg viewBox="0 0 24 24"><path d="M19 5v14L8 12zM6 5h2v14H6z"/></svg></button>
+            <button type="button" id="playBtn" aria-label="Play" aria-pressed="false"><svg viewBox="0 0 24 24"><path d="M7 4l13 8-13 8z"/></svg></button>
+            <button type="button" data-skip="1" aria-label="Next"><svg viewBox="0 0 24 24"><path d="M5 5v14l11-7zM16 5h2v14h-2z"/></svg></button>
+          </div>
+        </div>
+
+        <button class="orb sand" id="rotateBtn" aria-label="Rotate screen"><svg viewBox="0 0 24 24"><path d="M21 12a9 9 0 1 1-3-6.7M21 3v6h-6"/></svg></button>
+        <button class="orb sand" data-toggle="Silent mode" aria-label="Silent mode"><svg viewBox="0 0 24 24"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 8 3 8H3s3-1 3-8M10 20a2 2 0 0 0 4 0M3 3l18 18"/></svg></button>
+
+        <div class="tile glass slider row2"><input type="range" id="bright" min="0" max="100" value="100" aria-label="Brightness"><span id="brightVal">100%</span><span aria-hidden="true">☀️</span></div>
+        <div class="tile glass slider row2"><input type="range" id="vol" min="0" max="100" value="100" aria-label="Volume"><span id="volVal">100%</span><span aria-hidden="true">🔊</span></div>
+
+        <button class="tile glass mode span2" id="darkBtn" type="button" aria-pressed="false" style="grid-column:span 2">
+          <span class="orb" style="background:radial-gradient(circle at 32% 24%,#5a5870,#1f1d2b);color:#ffd66b"><svg viewBox="0 0 24 24" style="stroke:#ffd66b"><path d="M21 13A9 9 0 1 1 11 3a7 7 0 0 0 10 10z"/></svg></span>
+          <span><b>Night mode</b><small id="darkState">Off</small></span>
+        </button>
+
+        <button class="orb" id="torchBtn" aria-label="Cyber torch" aria-pressed="false"><svg viewBox="0 0 24 24"><path d="M9 2h6l-1 6h-4zM10 8h4v14h-4z"/></svg></button>
+        <button class="orb amber" id="timerBtn" aria-label="Stopwatch"><svg viewBox="0 0 24 24"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2 2M9 2h6"/></svg></button>
+        <button class="orb green" id="calcBtn" aria-label="Calculator"><svg viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M8 7h8M8 12h.01M12 12h.01M16 12h.01M8 16h.01M12 16h.01M16 16h.01"/></svg></button>
+        <button class="orb rainbow" id="camBtn" aria-label="Camera"><svg viewBox="0 0 24 24"><path d="M4 8h3l2-3h6l2 3h3v12H4z"/><circle cx="12" cy="14" r="3.5"/></svg></button>
+
+        <a class="explore tile glass span4" href="#projects" style="grid-column:span 4"><span><b>Explore 6 Featured Projects</b><small>Web Apps &bull; Tools &bull; Full-Stack</small></span><span aria-hidden="true">↓</span></a>
+      </div>
+    </aside>
+  </div>
+
+  <div class="marquee" aria-label="Technologies I work with"><div class="track" id="track"></div></div>
+
+  <!-- PROJECTS -->
+  <section id="projects">
+    <div class="head">
+      <div><h2>Featured Portfolio Projects</h2><p>Built by Aman Ullah with glass-style UI, fast single-file apps and Firebase / PHP backends.</p></div>
+      <div class="filters" id="filters">
+        <button class="on" data-f="all">All Projects (6)</button>
+        <button data-f="web">Web Apps</button>
+        <button data-f="tool">Tools</button>
+        <button data-f="full">Full-Stack</button>
+      </div>
+    </div>
+    <div class="grid3" id="projectGrid"></div>
+  </section>
+
+  <!-- SKILLS -->
+  <section id="skills">
+    <div class="head"><div><h2>3D Skills</h2><p>Move your cursor over a card. They tilt toward you.</p></div></div>
+    <div class="skills" id="skillGrid"></div>
+  </section>
+
+  <!-- SERVICES -->
+  <section id="services">
+    <div class="head"><div><h2>Services</h2><p>What I can build for you, start to finish.</p></div></div>
+    <div class="services">
+      <article class="card glass"><span class="orb blue ico"><svg viewBox="0 0 24 24"><path d="M3 5h18v12H3zM8 21h8M12 17v4"/></svg></span><h3>Websites &amp; Portfolios</h3><p>Fast, responsive single-page sites with SEO tags, sitemap and a clean admin panel.</p></article>
+      <article class="card glass"><span class="orb green ico"><svg viewBox="0 0 24 24"><path d="M12 2v20M5 8l7-6 7 6M5 16l7 6 7-6"/></svg></span><h3>Web Apps &amp; PWAs</h3><p>Installable apps with offline support, Firebase data and mobile-first layouts.</p></article>
+      <article class="card glass"><span class="orb amber ico"><svg viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="12" rx="2"/><path d="M3 10h18"/></svg></span><h3>Course &amp; Payment Apps</h3><p>Digital course platforms with user panel, admin panel and payment gateway setup.</p></article>
+    </div>
+  </section>
+
+  <!-- GALLERY (shows only when PHOTOS has items) -->
+  <section id="gallery" hidden>
+    <div class="head"><div><h2>Gallery</h2><p>A few moments from my work and setup.</p></div></div>
+    <div class="gal" id="galGrid"></div>
+  </section>
+
+  <!-- PROCESS -->
+  <section id="process">
+    <div class="head"><div><h2>How we work together</h2><p>Four clear steps, so you always know what happens next.</p></div></div>
+    <div class="process">
+      <div class="step glass"><b>Brief</b><p>You tell me the idea, the audience and the deadline.</p></div>
+      <div class="step glass"><b>Design</b><p>I share a look and layout for your approval before coding.</p></div>
+      <div class="step glass"><b>Build</b><p>I code it, connect the database and test on phone and desktop.</p></div>
+      <div class="step glass"><b>Launch</b><p>I push it to GitHub, deploy on Vercel and hand over the files.</p></div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="contact glass">
+      <div>
+        <h2 style="font-size:clamp(26px,3.4vw,36px);letter-spacing:-.8px">Let's build yours.</h2>
+        <p class="lead" style="margin-top:10px">Tell me what you need and I'll reply with a plan and a price. Your message opens in WhatsApp so it reaches me instantly.</p>
+      </div>
+      <form id="contactForm">
+        <input id="cName" placeholder="Your name" required autocomplete="name">
+        <input id="cMail" type="email" placeholder="Email address" autocomplete="email">
+        <textarea id="cMsg" placeholder="What do you want to build?" required></textarea>
+        <button class="btn primary" type="submit" style="justify-content:center">Send on WhatsApp</button>
+      </form>
+      <div class="social" style="grid-column:1/-1;margin-top:0">
+        <button type="button" id="copyMail">Copy email</button>
+        <button type="button" id="shareBtn">Share this site</button>
+        <a id="siteLink" href="#" target="_blank" rel="noopener">Open live site</a>
+      </div>
+    </div>
+  </section>
+</main>
+<nav class="dock glass" aria-label="Quick navigation">
+  <a href="#top" class="active">Home</a><a href="#projects">Work</a><a href="#skills">Skills</a><a href="#services">Services</a><a href="#contact">Contact</a>
+</nav>
+<footer>&copy; <span id="yr"></span> Aman Ullah. Designed &amp; built by Aman Visuals.<small>Tip: press Ctrl + K (or /) for the command menu.</small></footer>
+
+<!-- Modals -->
+<div class="modal" id="quoteModal" role="dialog" aria-modal="true" aria-labelledby="qt"><div class="sheet">
+  <h3 id="qt">Project Quote Estimator <button class="x" data-close aria-label="Close">×</button></h3>
+  <div class="row">
+    <select id="qType"><option value="150">Portfolio / Landing page</option><option value="300">Web app / Tool</option><option value="600">Full-stack with admin panel</option><option value="900">Course / Store with payments</option></select>
+    <select id="qPages"><option value="1">1 page</option><option value="1.3">2 to 4 pages</option><option value="1.7">5 to 8 pages</option><option value="2.2">9+ pages</option></select>
+    <select id="qExtra"><option value="0">No extras</option><option value="60">PWA install</option><option value="120">Firebase login + database</option><option value="200">PWA + Firebase</option></select>
+    <div class="big" id="qOut">$0</div>
+    <button class="btn primary" id="qSend" type="button" style="justify-content:center">Send this estimate</button>
+  </div>
+</div></div>
+
+<div class="modal" id="calcModal" role="dialog" aria-modal="true" aria-label="Calculator"><div class="sheet">
+  <h3>Calculator <button class="x" data-close aria-label="Close">×</button></h3>
+  <div class="big" id="calcOut">0</div>
+  <div class="keys" id="keys"></div>
+</div></div>
+
+<div class="modal" id="timerModal" role="dialog" aria-modal="true" aria-label="Stopwatch"><div class="sheet">
+  <h3>Stopwatch <button class="x" data-close aria-label="Close">×</button></h3>
+  <div class="big" id="tOut">00:00.0</div>
+  <div class="btns" style="justify-content:center"><button class="btn primary" id="tStart" type="button">Start</button><button class="btn soft" id="tReset" type="button">Reset</button></div>
+</div></div>
+
+<div class="modal" id="camModal" role="dialog" aria-modal="true" aria-label="Camera"><div class="sheet">
+  <h3>Camera <button class="x" data-close aria-label="Close">×</button></h3>
+  <video id="camVideo" autoplay playsinline muted></video>
+  <p id="camMsg" style="color:var(--muted);font-size:13px;margin-top:10px">Allow camera access to see yourself. Nothing is recorded or uploaded.</p>
+</div></div>
+
+<div class="modal" id="projModal" role="dialog" aria-modal="true" aria-labelledby="pmT"><div class="sheet wide">
+  <h3><span id="pmT"></span><button class="x" data-close aria-label="Close">×</button></h3>
+  <div class="thumbwrap" id="pmThumb"></div>
+  <p class="lead" id="pmD" style="margin:14px 0"></p>
+  <ul class="feat" id="pmF"></ul>
+  <div class="techs" id="pmK" style="margin:14px 0"></div>
+  <div class="btns"><a class="btn primary" id="pmLink" href="#" target="_blank" rel="noopener">Open live project</a><button class="btn soft" id="pmAsk" type="button">Ask for something similar</button></div>
+</div></div>
+
+<div class="modal" id="lbModal" role="dialog" aria-modal="true" aria-label="Photo viewer"><div class="sheet wide">
+  <h3><span id="lbT">Gallery</span><button class="x" data-close aria-label="Close">×</button></h3>
+  <div class="lb"><img id="lbImg" alt="">
+    <div class="nav2"><button class="btn soft" id="lbPrev" type="button">Prev</button><span id="lbCount"></span><button class="btn soft" id="lbNext" type="button">Next</button></div></div>
+</div></div>
+
+<div class="modal" id="cmdModal" role="dialog" aria-modal="true" aria-label="Command menu"><div class="sheet cmd" style="width:min(520px,100%)">
+  <input id="cmdIn" placeholder="Type a command, e.g. dark, quote, projects" autocomplete="off" aria-label="Search commands">
+  <ul id="cmdList" role="listbox"></ul>
+</div></div>
+
+<button class="orb sand" id="topBtn" type="button" aria-label="Back to top"><svg viewBox="0 0 24 24"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button>
+<div id="dim"></div>
+<div id="torch"></div>
+<div id="toast" role="status" aria-live="polite"></div>
+
+<script>
+/* ===== EDIT THESE ===== */
+const CONFIG = {
+  name: "Aman Ullah",
+  whatsapp: "920000000000",              // country code + number, digits only
+  email: "you@example.com",
+  site: "https://amanullah-visual.vercel.app",
+  photo: ""                               // paste an image URL here, e.g. "https://ik.imagekit.io/yourid/me.jpg"
+};
+const PROJECTS = [
+  {ic:"M4 7h16l-1 12H5zM8 7a4 4 0 0 1 8 0", t:"AMAN Source Store", c:"web", tag:"Web App", i:"blue", k:["HTML","Firebase","PWA"], img:"", u:"#",
+   d:"Installable store for free and paid source codes, powered by Firebase with a hidden admin panel.",
+   f:["Free and paid source cards","Hidden admin panel to add and edit sources","Firestore rules that protect your data","Installs on the phone like an app"]},
+  {ic:"M12 3v12M7 10l5 5 5-5M4 20h16", t:"AMAN Video Downloader", c:"tool", tag:"Tool", i:"red", k:["JavaScript","RapidAPI"], img:"", u:"#",
+   d:"Paste a TikTok, YouTube, Facebook, Instagram or Pinterest link and download the video.",
+   f:["Works with five major platforms","Paste a link and download","RapidAPI powered","One single index.html file"]},
+  {ic:"M7 2h10v20H7zM11 18h2", t:"AMAN Web to APK", c:"tool", tag:"Tool", i:"amber", k:["HTML","APK builder"], img:"", u:"#",
+   d:"Turn any website URL, app name and icon into an Android APK in a few taps.",
+   f:["Enter a website URL and an app name","Upload your own app icon","Get an Android APK back"]},
+  {ic:"M3 6h18v12H3zM8 21h8", t:"Live TV App", c:"web", tag:"PWA", i:"green", k:["HTML","Vercel","PWA"], img:"", u:"#",
+   d:"Single-file live TV web app on Vercel with install prompt, SEO and sitemap.",
+   f:["Live channels in one HTML file","Install prompt and favicon","SEO tags, sitemap and robots.txt","Hosted on Vercel"]},
+  {ic:"M2 9l10-5 10 5-10 5zM6 11v5c3 2 9 2 12 0v-5", t:"SkillzUp", c:"full", tag:"Full-Stack", i:"blue", k:["PHP","MySQL","Tailwind","Razorpay"], img:"", u:"#",
+   d:"Mobile-first course selling app in PHP and MySQL with Razorpay, user panel and admin panel.",
+   f:["User panel and admin panel","Razorpay payments","install.php creates the database","Mobile-first Tailwind design"]},
+  {ic:"M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8M4 21c0-4 4-6 8-6s8 2 8 6", t:"Aman Visuals Portfolio", c:"full", tag:"Full-Stack", i:"rainbow", k:["JavaScript","Firebase","Admin panel"], img:"", u:"#",
+   d:"This portfolio: hidden admin panel, paid and free item menus, and automatic unlock codes.",
+   f:["Menus for source code, courses and hacks","Free and paid items with unlock codes","Firestore database","Admin panel to edit the whole site"]}
+];
+const SKILLS = [
+  {ic:"", n:"HTML / CSS / JS", p:95, c:"var(--blue)",  d:"Layouts, animation, PWAs"},
+  {ic:"", n:"Firebase",        p:85, c:"var(--amber)", d:"Firestore, auth, rules"},
+  {ic:"", n:"PHP / MySQL",     p:80, c:"var(--green)", d:"Admin panels, payments"},
+  {ic:"", n:"UI / UX Design",  p:88, c:"var(--red)",   d:"Glass UI, mobile-first"}
+];
+/* PHOTOS: add your own pictures here. src can be a file next to index.html (e.g. "photos/me.jpg") or a full URL. */
+const PHOTOS=[
+  // {src:"photos/1.jpg", alt:"Working on a new project"},
+  // {src:"photos/2.jpg", alt:"My desk setup"},
+];
+const TECH=["HTML5","CSS3","JavaScript","Firebase","Firestore","PHP","MySQL","Tailwind","Razorpay","Vercel","GitHub","PWA","RapidAPI","SEO"];
+
+/* ===== helpers ===== */
+const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>[...r.querySelectorAll(s)];
+let soundOn=true;
+const reduce=matchMedia("(prefers-reduced-motion:reduce)").matches;
+const toast=(m)=>{const t=$("#toast");t.textContent=m;t.classList.add("show");clearTimeout(toast.id);toast.id=setTimeout(()=>t.classList.remove("show"),1800)};
+const AC=window.AudioContext||window.webkitAudioContext; let ctx;
+const blip=(f=620)=>{ if(!soundOn||!AC) return; ctx=ctx||new AC(); const o=ctx.createOscillator(),g=ctx.createGain(); o.frequency.value=f; o.type="sine"; g.gain.value=.05*(volume/100); if(navigator.vibrate)navigator.vibrate(6); o.connect(g);g.connect(ctx.destination);o.start();g.gain.exponentialRampToValueAtTime(.0001,ctx.currentTime+.12);o.stop(ctx.currentTime+.13)};
+let volume=100;
+$("#yr").textContent=new Date().getFullYear();
+
+/* ===== render projects + skills ===== */
+const svg=d=>`<svg viewBox="0 0 24 24"><path d="${d}"/></svg>`;
+const PAL={blue:["#9ea4ff","#4f56d9"],red:["#ff9a97","#d6403f"],amber:["#ffe58f","#d9a22a"],green:["#7ddcb8","#1f8a68"],rainbow:["#ffd166","#c26bff"]};
+let thumbN=0;
+const thumb=(p,n)=>{if(p.img)return `<img class="thumb" src="${p.img}" alt="${p.t} screenshot" loading="lazy">`;
+  const [x,y]=PAL[p.i],g="tg"+(thumbN++);
+  const blocks=[
+   '<rect x="28" y="62" width="110" height="52" rx="12" fill="#fff" opacity=".88"/><rect x="150" y="62" width="60" height="52" rx="12" fill="#fff" opacity=".6"/><rect x="222" y="62" width="50" height="52" rx="12" fill="#fff" opacity=".42"/>',
+   '<circle cx="70" cy="92" r="28" fill="#fff" opacity=".88"/><rect x="112" y="72" width="150" height="12" rx="6" fill="#fff" opacity=".88"/><rect x="112" y="94" width="110" height="10" rx="5" fill="#fff" opacity=".55"/>',
+   '<rect x="28" y="60" width="72" height="56" rx="12" fill="#fff" opacity=".88"/><rect x="114" y="60" width="72" height="56" rx="12" fill="#fff" opacity=".65"/><rect x="200" y="60" width="72" height="56" rx="12" fill="#fff" opacity=".42"/>'][n%3];
+  return `<svg class="thumb" viewBox="0 0 300 140" aria-hidden="true"><defs><linearGradient id="${g}" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="${x}"/><stop offset="1" stop-color="${y}"/></linearGradient></defs><rect width="300" height="140" fill="url(#${g})"/><rect x="12" y="10" width="276" height="30" rx="10" fill="#fff" opacity=".28"/><circle cx="28" cy="25" r="4" fill="#fff"/><circle cx="42" cy="25" r="4" fill="#fff" opacity=".8"/><circle cx="56" cy="25" r="4" fill="#fff" opacity=".6"/><rect x="80" y="19" width="140" height="12" rx="6" fill="#fff" opacity=".5"/>${blocks}</svg>`};
+$("#projectGrid").innerHTML=PROJECTS.map((p,i)=>`
+  <article class="card glass" data-c="${p.c}">
+    <div class="thumbwrap">${thumb(p,i)}</div>
+    <div class="top"><span class="orb ${p.i} ico" style="width:46px">${svg(p.ic)}</span><span class="tag">${p.tag}</span></div>
+    <h3>${p.t}</h3><p>${p.d}</p>
+    <div class="techs">${p.k.map(x=>`<span>${x}</span>`).join("")}</div>
+    <span class="go">View details</span>
+  </article>`).join("");
+$("#skillGrid").innerHTML=SKILLS.map(s=>`
+  <div class="skill glass"><div class="ring" style="--c:${s.c}" data-p="${s.p}"><span>${s.p}%</span></div><b>${s.n}</b><p>${s.d}</p></div>`).join("");
+$("#track").innerHTML=[...TECH,...TECH].map((t,i)=>`<span class="glass" style="--c:${["var(--blue)","var(--red)","var(--amber)","var(--green)"][i%4]}">${t}</span>`).join("");
+let lbI=0;
+function showPhoto(i){lbI=(i+PHOTOS.length)%PHOTOS.length;const ph=PHOTOS[lbI];$("#lbImg").src=ph.src;$("#lbImg").alt=ph.alt||"";$("#lbT").textContent=ph.alt||"Gallery";$("#lbCount").textContent=(lbI+1)+" / "+PHOTOS.length}
+if(PHOTOS.length){
+  $("#gallery").hidden=false;
+  $("#galGrid").innerHTML=PHOTOS.map((ph,i)=>`<button class="glass" type="button" data-i="${i}" aria-label="Open photo: ${ph.alt||i+1}"><img src="${ph.src}" alt="${ph.alt||""}" loading="lazy">${ph.alt?`<span>${ph.alt}</span>`:""}</button>`).join("");
+  $("#galGrid").addEventListener("click",e=>{const b=e.target.closest("button[data-i]");if(b){showPhoto(+b.dataset.i);open("#lbModal")}});
+  $("#lbPrev").addEventListener("click",()=>showPhoto(lbI-1));$("#lbNext").addEventListener("click",()=>showPhoto(lbI+1));
+  addEventListener("keydown",e=>{if($("#lbModal").classList.contains("open")){if(e.key==="ArrowLeft")showPhoto(lbI-1);if(e.key==="ArrowRight")showPhoto(lbI+1)}});
+}
+$$("#projectGrid .card").forEach((c,i)=>{
+  c.tabIndex=0;c.setAttribute("role","button");c.setAttribute("aria-label","View details: "+PROJECTS[i].t);
+  c.addEventListener("click",()=>openProject(i));
+  c.addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();openProject(i)}});
+});
+
+/* ===== filters ===== */
+$("#filters").addEventListener("click",e=>{
+  const b=e.target.closest("button"); if(!b) return;
+  $$("#filters button").forEach(x=>x.classList.toggle("on",x===b));
+  $$("#projectGrid .card").forEach(c=>c.classList.toggle("hide",b.dataset.f!=="all"&&c.dataset.c!==b.dataset.f));
+  blip(520);
+});
+
+/* ===== 3D tilt on skill cards ===== */
+if(!matchMedia("(prefers-reduced-motion:reduce)").matches){
+  $$(".skill").forEach(el=>{
+    el.addEventListener("pointermove",e=>{const r=el.getBoundingClientRect();const x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;el.style.transform=`perspective(700px) rotateY(${x*14}deg) rotateX(${-y*14}deg) translateZ(6px)`});
+    el.addEventListener("pointerleave",()=>el.style.transform="");
+  });
+}
+
+/* ===== orb toggles ===== */
+$$("[data-toggle]").forEach(b=>b.addEventListener("click",()=>{
+  const off=b.classList.toggle("off"); toast(`${b.dataset.toggle} ${off?"off":"on"}`); blip(off?420:720);
+}));
+$("#rotateBtn").addEventListener("click",e=>{const b=e.currentTarget;b.style.transition="transform .6s";b.style.transform=`rotate(${(b._r=(b._r||0)+360)}deg)`;toast("Screen rotation locked");blip(560)});
+
+/* ===== music (generated live with Web Audio, no audio files) ===== */
+const TRACKS=[
+  {n:"Focus Beats", s:[261.63,293.66,329.63,392,440,523.25], ms:520},
+  {n:"Night Drive", s:[220,261.63,293.66,329.63,392,440], ms:680},
+  {n:"Sunrise",     s:[293.66,329.63,369.99,440,493.88,587.33], ms:430}
+];
+let track=0,mTimer=null,mGain=null,mDelay=null,mBeat=0;
+const mLevel=()=>soundOn?volume/100*.22:0;
+function note(f,dur,type,g){
+  const o=ctx.createOscillator(),e=ctx.createGain(),lp=ctx.createBiquadFilter(),t=ctx.currentTime;
+  o.type=type;o.frequency.value=f;lp.type="lowpass";lp.frequency.value=1600;
+  e.gain.setValueAtTime(0,t);e.gain.linearRampToValueAtTime(g,t+.03);e.gain.exponentialRampToValueAtTime(.0001,t+dur);
+  o.connect(lp);lp.connect(e);e.connect(mGain);e.connect(mDelay);o.start(t);o.stop(t+dur+.05);
+}
+function startMusic(){
+  if(!AC)return false;
+  ctx=ctx||new AC(); if(ctx.resume)ctx.resume();
+  mGain=ctx.createGain();mGain.gain.value=mLevel();mGain.connect(ctx.destination);
+  mDelay=ctx.createDelay();mDelay.delayTime.value=.34;
+  const fb=ctx.createGain();fb.gain.value=.38;mDelay.connect(fb);fb.connect(mDelay);mDelay.connect(mGain);
+  mBeat=0;
+  mTimer=setInterval(()=>{
+    const t=TRACKS[track];
+    if(mBeat%8===0)note(t.s[0]/2,t.ms*7/1000,"sine",.5);
+    if(Math.random()<.82)note(t.s[Math.floor(Math.random()*t.s.length)],1.6,"triangle",.35);
+    mBeat++;
+  },TRACKS[track].ms);
+  return true;
+}
+function stopMusic(){
+  clearInterval(mTimer);mTimer=null;
+  if(mGain){const g=mGain;g.gain.setTargetAtTime(0,ctx.currentTime,.15);setTimeout(()=>g.disconnect(),700);mGain=null}
+}
+$("#playBtn").addEventListener("click",e=>{
+  const m=$("#music"),b=e.currentTarget,p=!m.classList.contains("playing");
+  if(p&&!startMusic()){toast("Audio is not supported in this browser");return}
+  if(!p)stopMusic();
+  m.classList.toggle("playing",p);b.setAttribute("aria-pressed",p);b.setAttribute("aria-label",p?"Pause":"Play");
+  b.innerHTML=p?'<svg viewBox="0 0 24 24"><path d="M6 4h4v16H6zM14 4h4v16h-4z"/></svg>':'<svg viewBox="0 0 24 24"><path d="M7 4l13 8-13 8z"/></svg>';
+  toast(p?"Playing "+TRACKS[track].n:"Paused");
+});
+$$("[data-skip]").forEach(b=>b.addEventListener("click",()=>{
+  track=(track+ +b.dataset.skip+TRACKS.length)%TRACKS.length;
+  $("#trackName").textContent=TRACKS[track].n;toast(TRACKS[track].n);
+  if(mTimer){stopMusic();startMusic()}else blip(660);
+}));
+
+/* ===== sliders ===== */
+const bright=$("#bright"),vol=$("#vol");
+const paint=(el,c)=>el.style.setProperty("--sl",c);
+paint(bright,"var(--a3)");paint(vol,"#e9b53a");
+bright.addEventListener("input",()=>{$("#brightVal").textContent=bright.value+"%";$("#dim").style.opacity=((100-bright.value)/100*.55).toFixed(2)});
+vol.addEventListener("input",()=>{volume=+vol.value;$("#volVal").textContent=vol.value+"%";if(mGain)mGain.gain.value=mLevel()});
+vol.addEventListener("change",()=>blip(700));
+
+/* ===== night mode ===== */
+function setDark(on,save){if(save)try{localStorage.setItem("aman-theme",on?"dark":"light")}catch{}document.body.classList.toggle("dark",on);$("#darkBtn").setAttribute("aria-pressed",on);$("#darkState").textContent=on?"On":"Off";$('meta[name=theme-color]').content=on?"#17161c":"#ece7e1"}
+$("#darkBtn").addEventListener("click",()=>{setDark(!document.body.classList.contains("dark"),true);blip(500)});
+(()=>{let t=null;try{t=localStorage.getItem("aman-theme")}catch{}setDark(t?t==="dark":matchMedia("(prefers-color-scheme:dark)").matches)})();
+
+/* ===== torch ===== */
+const torch=$("#torch");
+$("#torchBtn").addEventListener("click",e=>{const on=torch.classList.toggle("on");e.currentTarget.setAttribute("aria-pressed",on);toast(on?"Torch on. Move cursor or finger":"Torch off");blip(on?800:400)});
+["pointermove","pointerdown"].forEach(ev=>addEventListener(ev,e=>{torch.style.setProperty("--x",e.clientX+"px");torch.style.setProperty("--y",e.clientY+"px")}));
+
+/* ===== modals ===== */
+let lastFocus=null;
+const open=id=>{lastFocus=document.activeElement;const m=$(id);m.classList.add("open");blip(600);setTimeout(()=>($("#cmdIn",m)||$("[data-close]",m)).focus(),30)};
+const closeAll=()=>{$$(".modal.open").forEach(m=>m.classList.remove("open"));stopCam();if(lastFocus)lastFocus.focus()};
+$$("[data-close]").forEach(b=>b.addEventListener("click",closeAll));
+$$(".modal").forEach(m=>m.addEventListener("click",e=>{if(e.target===m)closeAll()}));
+addEventListener("keydown",e=>{if(e.key==="Escape")closeAll()});
+
+/* quote */
+const calcQuote=()=>{const v=Math.round(+$("#qType").value*+$("#qPages").value+ +$("#qExtra").value);$("#qOut").textContent="$"+v+" – $"+Math.round(v*1.4);return v};
+$$("#quoteModal select").forEach(s=>s.addEventListener("change",calcQuote));
+$("#quoteBtn").addEventListener("click",()=>{calcQuote();open("#quoteModal")});
+$("#qSend").addEventListener("click",()=>{
+  const t=$("#qType").selectedOptions[0].text,p=$("#qPages").selectedOptions[0].text,x=$("#qExtra").selectedOptions[0].text;
+  wa(`Hi ${CONFIG.name}, I'd like a quote.\nType: ${t}\nSize: ${p}\nExtras: ${x}\nEstimate: ${$("#qOut").textContent}`);
+});
+
+/* calculator */
+let cur="0",prev=null,op=null,fresh=true;
+const keys=["7","8","9","÷","4","5","6","×","1","2","3","−","C","0",".","+"];
+$("#keys").innerHTML=keys.map(k=>`<button type="button" class="${"÷×−+".includes(k)?"op":""}" data-k="${k}">${k}</button>`).join("")+'<button type="button" class="eqb" data-k="=" style="grid-column:span 4">=</button>';
+const run=()=>{const a=+prev,b=+cur;return String(+({"+":a+b,"−":a-b,"×":a*b,"÷":b?a/b:NaN}[op]).toPrecision(10))};
+$("#keys").addEventListener("click",e=>{
+  const k=e.target.dataset.k; if(!k) return;
+  if("0123456789.".includes(k)){ if(fresh){cur=k==="."?"0.":k;fresh=false}else if(!(k==="."&&cur.includes(".")))cur+=k }
+  else if(k==="C"){cur="0";prev=op=null;fresh=true}
+  else if(k==="="){ if(op){cur=run();prev=op=null;fresh=true} }
+  else { if(op&&!fresh){cur=run()} prev=cur;op=k;fresh=true }
+  $("#calcOut").textContent=cur==="NaN"?"Error":cur;
+});
+$("#calcBtn").addEventListener("click",()=>open("#calcModal"));
+
+/* stopwatch */
+let tInt=null,tStart=0,tAcc=0;
+const fmt=ms=>{const s=ms/1000;return String(Math.floor(s/60)).padStart(2,"0")+":"+(s%60).toFixed(1).padStart(4,"0")};
+$("#tStart").addEventListener("click",e=>{
+  if(tInt){clearInterval(tInt);tInt=null;tAcc+=Date.now()-tStart;e.target.textContent="Start"}
+  else{tStart=Date.now();tInt=setInterval(()=>$("#tOut").textContent=fmt(tAcc+Date.now()-tStart),100);e.target.textContent="Stop"}
+});
+$("#tReset").addEventListener("click",()=>{clearInterval(tInt);tInt=null;tAcc=0;$("#tOut").textContent="00:00.0";$("#tStart").textContent="Start"});
+$("#timerBtn").addEventListener("click",()=>open("#timerModal"));
+
+/* camera */
+let stream=null;
+function stopCam(){if(stream){stream.getTracks().forEach(t=>t.stop());stream=null}}
+$("#camBtn").addEventListener("click",async()=>{
+  open("#camModal");
+  try{stream=await navigator.mediaDevices.getUserMedia({video:{facingMode:"user"}});$("#camVideo").srcObject=stream;$("#camMsg").textContent="Camera is live. Close this window to turn it off."}
+  catch{$("#camMsg").textContent="Camera access was blocked. Allow it in your browser's site settings to use this."}
+});
+
+/* ===== nav, vcard, contact ===== */
+$("#osBtn").addEventListener("click",()=>{document.querySelector("aside").scrollIntoView({behavior:"smooth",block:"center"});toast("Aman OS: tap any orb")});
+$("#soundBtn").addEventListener("click",e=>{soundOn=!soundOn;if(mGain)mGain.gain.value=mLevel();e.currentTarget.textContent=soundOn?"🔊":"🔇";e.currentTarget.setAttribute("aria-pressed",soundOn);toast(soundOn?"Sound on":"Sound off")});
+function wa(text){window.open(`https://wa.me/${CONFIG.whatsapp}?text=${encodeURIComponent(text)}`,"_blank","noopener")}
+$("#contactForm").addEventListener("submit",e=>{e.preventDefault();wa(`Hi ${CONFIG.name}, I'm ${$("#cName").value}${$("#cMail").value?" ("+$("#cMail").value+")":""}.\n${$("#cMsg").value}`)});
+$("#vcardBtn").addEventListener("click",()=>{
+  const v=`BEGIN:VCARD\nVERSION:3.0\nFN:${CONFIG.name}\nORG:Aman Visuals Studio\nTITLE:Creative Developer\nTEL;TYPE=CELL:+${CONFIG.whatsapp}\nEMAIL:${CONFIG.email}\nURL:${CONFIG.site}\nEND:VCARD`;
+  const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([v],{type:"text/vcard"}));a.download="Aman-Ullah.vcf";a.click();URL.revokeObjectURL(a.href);toast("VCard saved");
+});
+$("#hireBtn").href=`https://wa.me/${CONFIG.whatsapp}?text=${encodeURIComponent("Hi "+CONFIG.name+", I want to hire you.")}`;
+$("#hireBtn").target="_blank";$("#hireBtn").rel="noopener";
+$("#domainPill").textContent="🌐 "+CONFIG.site.replace("https://","");
+
+/* ===== v3 features ===== */
+/* accent colour */
+const ACCENTS=[["Indigo","#4f56d9"],["Violet","#8b5cf6"],["Coral","#e0564b"],["Emerald","#1f9d74"],["Teal","#0f8fa0"]];
+let accent=0;
+const mix=(h,t,a)=>"#"+[1,3,5].map(i=>Math.round(parseInt(h.slice(i,i+2),16)*(1-a)+parseInt(t.slice(i,i+2),16)*a).toString(16).padStart(2,"0")).join("");
+function setAccent(i,save){
+  accent=i;const h=ACCENTS[i][1],st=document.documentElement.style;
+  st.setProperty("--blue",h);st.setProperty("--a0",mix(h,"#ffffff",.45));st.setProperty("--a1",mix(h,"#ffffff",.18));
+  st.setProperty("--a2",mix(h,"#000000",.18));st.setProperty("--a3",mix(h,"#000000",.4));
+  if(save)try{localStorage.setItem("aman-accent",i)}catch{}
+}
+function nextAccent(){setAccent((accent+1)%ACCENTS.length,true);toast("Accent: "+ACCENTS[accent][0]);blip(680)}
+$("#accentBtn").addEventListener("click",nextAccent);
+(()=>{let a=0;try{a=+localStorage.getItem("aman-accent")||0}catch{}setAccent(ACCENTS[a]?a:0)})();
+
+/* project detail */
+function openProject(i){
+  const p=PROJECTS[i];
+  $("#pmT").textContent=p.t;$("#pmThumb").innerHTML=thumb(p,i+7);$("#pmD").textContent=p.d;
+  $("#pmF").innerHTML=p.f.map(x=>`<li>${x}</li>`).join("");$("#pmK").innerHTML=p.k.map(x=>`<span>${x}</span>`).join("");
+  $("#pmLink").setAttribute("href",p.u);open("#projModal");
+}
+$("#pmLink").addEventListener("click",e=>{if(e.currentTarget.getAttribute("href")==="#"){e.preventDefault();toast("Add this project's live link in PROJECTS")}});
+$("#pmAsk").addEventListener("click",()=>wa(`Hi ${CONFIG.name}, I saw "${$("#pmT").textContent}" on your portfolio and want something similar.`));
+
+/* spotlight on glass cards */
+$$(".card,.skill,.info,.stat,.step,.contact").forEach(el=>{
+  el.classList.add("spot");
+  el.addEventListener("pointermove",e=>{const r=el.getBoundingClientRect();el.style.setProperty("--mx",(e.clientX-r.left)+"px");el.style.setProperty("--my",(e.clientY-r.top)+"px")});
+});
+
+/* scroll reveal + rings */
+const rio=new IntersectionObserver(es=>es.forEach(en=>{
+  if(!en.isIntersecting)return;
+  en.target.classList.add("in");
+  const r=$(".ring",en.target);if(r)r.style.setProperty("--p",r.dataset.p);
+  rio.unobserve(en.target);
+}),{threshold:.12});
+$$(".head,.card,.skill,.step,.info").forEach(el=>{
+  el.classList.add("rv");el.style.setProperty("--d",([...el.parentNode.children].indexOf(el)%4)*.08+"s");
+  reduce?(el.classList.add("in"),$(".ring",el)&&$(".ring",el).style.setProperty("--p",$(".ring",el).dataset.p)):rio.observe(el);
+});
+
+/* counters */
+function startCounters(){
+  if(reduce)return;
+  $$("[data-count]").forEach(el=>{
+    const to=+el.dataset.count,suf=el.dataset.suffix||"",t0=performance.now();
+    const step=t=>{const k=Math.min((t-t0)/1200,1);el.textContent=Math.round(to*(1-Math.pow(1-k,3)))+suf;if(k<1)requestAnimationFrame(step)};
+    requestAnimationFrame(step);
+  });
+}
+
+/* typed role line */
+(()=>{
+  if(reduce)return;
+  const el=$("#typed"),words=["fast web apps","installable PWAs","course platforms","Firebase backends","clean admin panels"];
+  let w=0,i=0,del=false;
+  const run=()=>{
+    const word=words[w];el.textContent=word.slice(0,i);
+    if(!del&&i===word.length){del=true;return setTimeout(run,1500)}
+    if(del&&i===0){del=false;w=(w+1)%words.length}
+    i+=del?-1:1;setTimeout(run,del?35:70);
+  };
+  i=0;run();
+})();
+
+/* pointer parallax for the ambient glass spheres */
+if(!reduce)addEventListener("pointermove",e=>{
+  const st=document.documentElement.style;
+  st.setProperty("--px",((e.clientX/innerWidth-.5)*2).toFixed(3));st.setProperty("--py",((e.clientY/innerHeight-.5)*2).toFixed(3));
+},{passive:true});
+
+/* scroll progress + back to top */
+let ticking=false;
+addEventListener("scroll",()=>{
+  if(ticking)return;ticking=true;
+  requestAnimationFrame(()=>{
+    const h=document.documentElement,k=scrollY/((h.scrollHeight-innerHeight)||1);
+    $("#prog").style.transform=`scaleX(${Math.min(k,1).toFixed(3)})`;
+    $("#topBtn").classList.toggle("show",scrollY>700);ticking=false;
+  });
+},{passive:true});
+$("#topBtn").addEventListener("click",()=>scrollTo({top:0,behavior:reduce?"auto":"smooth"}));
+
+/* command menu (Ctrl/Cmd + K or /) */
+const go=id=>document.getElementById(id).scrollIntoView({behavior:reduce?"auto":"smooth"});
+const CMDS=[
+  {n:"Go to Overview",h:"section",run:()=>go("top")},
+  {n:"Go to Projects",h:"section",run:()=>go("projects")},
+  {n:"Go to Skills",h:"section",run:()=>go("skills")},
+  {n:"Go to Services",h:"section",run:()=>go("services")},
+  {n:"Go to Process",h:"section",run:()=>go("process")},
+  ...(PHOTOS.length?[{n:"Go to Gallery",h:"section",run:()=>go("gallery")}]:[]),
+  {n:"Go to Contact",h:"section",run:()=>go("contact")},
+  {n:"Toggle night mode",h:"theme",k:"dark light mode",run:()=>$("#darkBtn").click()},
+  {n:"Change accent colour",h:"theme",k:"color theme",run:nextAccent},
+  {n:"Play or pause music",h:"music",k:"song audio sound",run:()=>$("#playBtn").click()},
+  {n:"Open quote estimator",h:"tool",k:"price cost estimate",run:()=>$("#quoteBtn").click()},
+  {n:"Open calculator",h:"tool",run:()=>$("#calcBtn").click()},
+  {n:"Open stopwatch",h:"tool",run:()=>$("#timerBtn").click()},
+  {n:"Save VCard",h:"contact",k:"download contact card",run:()=>$("#vcardBtn").click()},
+  {n:"Copy email address",h:"contact",run:()=>$("#copyMail").click()},
+  {n:"Message on WhatsApp",h:"contact",k:"chat hire",run:()=>wa(`Hi ${CONFIG.name}, I found your portfolio and want to talk.`)},
+  {n:"Toggle sound on or off",h:"music",k:"mute volume",run:()=>$("#soundBtn").click()},
+  {n:"Share this site",h:"contact",run:()=>$("#shareBtn").click()}
+];
+let cmdSel=0,cmdShown=[];
+function renderCmd(q=""){
+  cmdShown=CMDS.filter(c=>(c.n+" "+c.h+" "+(c.k||"")).toLowerCase().includes(q.trim().toLowerCase()));cmdSel=0;
+  $("#cmdList").innerHTML=cmdShown.map((c,i)=>`<li role="option" data-i="${i}" class="${i?"":"sel"}">${c.n}<small>${c.h}</small></li>`).join("")||"<li>No matching command</li>";
+}
+function markCmd(){$$("#cmdList li").forEach((li,i)=>li.classList.toggle("sel",i===cmdSel));const li=$$("#cmdList li")[cmdSel];if(li)li.scrollIntoView({block:"nearest"})}
+function runCmd(i){const c=cmdShown[i];if(!c)return;closeAll();setTimeout(c.run,80)}
+function openCmd(){open("#cmdModal");$("#cmdIn").value="";renderCmd()}
+$("#cmdBtn").addEventListener("click",openCmd);
+$("#cmdIn").addEventListener("input",e=>renderCmd(e.target.value));
+$("#cmdIn").addEventListener("keydown",e=>{
+  if(e.key==="ArrowDown"){e.preventDefault();cmdSel=Math.min(cmdSel+1,cmdShown.length-1);markCmd()}
+  else if(e.key==="ArrowUp"){e.preventDefault();cmdSel=Math.max(cmdSel-1,0);markCmd()}
+  else if(e.key==="Enter"){e.preventDefault();runCmd(cmdSel)}
+});
+$("#cmdList").addEventListener("click",e=>{const li=e.target.closest("li[data-i]");if(li)runCmd(+li.dataset.i)});
+addEventListener("keydown",e=>{
+  const typing=/INPUT|TEXTAREA|SELECT/.test(document.activeElement.tagName);
+  if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==="k"){e.preventDefault();openCmd()}
+  else if(e.key==="/"&&!typing){e.preventDefault();openCmd()}
+});
+
+/* photo from CONFIG */
+if(CONFIG.photo){["#photo","#avatar"].forEach(sel=>{const el=$(sel);const im=new Image();im.alt="";im.onload=()=>{el.textContent="";el.appendChild(im)};im.src=CONFIG.photo})}
+$("#siteLink").href=CONFIG.site;
+$("#copyMail").addEventListener("click",async()=>{try{await navigator.clipboard.writeText(CONFIG.email);toast("Email copied")}catch{toast(CONFIG.email)}});
+$("#shareBtn").addEventListener("click",async()=>{
+  if(navigator.share){try{await navigator.share({title:"Aman Ullah | Creative Developer",url:CONFIG.site})}catch{}}
+  else{try{await navigator.clipboard.writeText(CONFIG.site);toast("Link copied")}catch{toast(CONFIG.site)}}
+});
+
+/* preloader */
+(()=>{const bar=$("#ldBar"),L=$("#loader");let v=0;
+  const t=setInterval(()=>{v=Math.min(v+8+Math.random()*10,90);bar.style.width=v+"%"},120);
+  const finish=()=>{clearInterval(t);bar.style.width="100%";setTimeout(()=>L.classList.add("done"),250);setTimeout(startCounters,500);setTimeout(()=>L.remove(),900)};
+  if(document.readyState==="complete")setTimeout(finish,500);else addEventListener("load",()=>setTimeout(finish,400));
+  setTimeout(finish,3500);
+})();
+
+/* active nav link on scroll */
+const secs=["top","projects","skills","services","contact"].map(id=>document.getElementById(id));
+const io=new IntersectionObserver(es=>es.forEach(en=>{if(en.isIntersecting){$$(".links a,.dock a").forEach(a=>a.classList.toggle("active",a.getAttribute("href")==="#"+en.target.id))}}),{rootMargin:"-40% 0px -55% 0px"});
+secs.forEach(s=>s&&io.observe(s));
+</script>
+</body>
+</html>
