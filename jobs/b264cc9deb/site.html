@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KHUBAIB // CYBER VAULT</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+  body { font-family: 'JetBrains Mono', monospace; background:#05050a; color:white; overflow-x:hidden; }
+  .syne { font-family: 'Syne', sans-serif; }
+  body::before { content:''; position:fixed; inset:0; background: radial-gradient(circle at 20% 30%, rgba(0,255,157,0.15), transparent 50%), radial-gradient(circle at 80% 70%, rgba(0,255,255,0.12), transparent 50%); pointer-events:none; z-index:-1; }
+  .cyber-grid { position:fixed; inset:0; background-image: linear-gradient(rgba(0,255,157,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(0,255,157,0.03) 1px, transparent 1px); background-size:50px 50px; pointer-events:none; z-index:-1; }
+  .neon-card { background: rgba(16,16,16,0.8); border:1px solid rgba(0,255,157,0.2); backdrop-filter: blur(10px); border-radius:16px; transition: all 0.3s; }
+  .neon-card:hover { border-color: #00ff9d; box-shadow: 0 0 20px rgba(0,255,157,0.3); transform: translateY(-3px); }
+  .neon-btn { background: linear-gradient(135deg, #00ff9d, #00ffcc); color:black; font-weight:900; box-shadow: 0 0 15px rgba(0,255,157,0.5); cursor:pointer; }
+  .tab-active { background:#00ff9d; color:black; box-shadow: 0 0 15px rgba(0,255,157,0.6); }
+  .tab-inactive { background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); }
+  @keyframes flicker { 0%,18%,22%,25%,53%,57%,100% { text-shadow: 0 0 10px #00ff9d, 0 0 20px #00ff9d, 0 0 40px #00ff9d; opacity:1; } 20%,24%,55% { text-shadow: none; opacity:0.6; } }
+  @keyframes glowMove { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+  .neon-khubaib { font-family:'Syne', sans-serif; font-weight:800; font-size:32px; letter-spacing:0.2em; background: linear-gradient(90deg, #00ff9d, #00ffff, #ff00ff, #00ff9d); background-size:300% 300%; -webkit-background-clip:text; -webkit-text-fill-color:transparent; animation: flicker 3s infinite, glowMove 4s ease infinite; }
+  .neon-line { height:1px; background: linear-gradient(90deg, transparent, #00ff9d, #00ffff, transparent); box-shadow: 0 0 10px #00ff9d; background-size:200% 100%; }
+</style>
+</head>
+<body class="min-h-screen flex flex-col items-center px-4 py-6">
+<div class="cyber-grid"></div>
+<button id="muteBtn" class="fixed top-4 right-4 w-10 h-10 bg-black border border-[#00ff9d]/30 rounded-full text-sm z-50">🔊</button>
+
+  <div class="w-full max-w-[640px] text-center mt-6">
+    <div class="inline-flex items-center gap-2 border border-[#00ff9d]/30 bg-[#00ff9d]/5 px-4 py-1.5 text-[10px] tracking-[0.3em] rounded-full"><span class="w-2 h-2 bg-[#00ff9d] rounded-full animate-pulse"></span> CYBER VAULT // ONLINE</div>
+    <h1 class="syne text-[56px] leading-[0.85] font-[800] tracking-tighter mt-6">KHU<br><span class="text-[#00ff9d]">BAIB.</span></h1>
+    <div class="flex justify-center gap-3 mt-8">
+      <button id="tabApps" class="tab-active px-8 py-2.5 rounded-full text-xs font-bold tracking-widest">APPS</button>
+      <button id="tabLinks" class="tab-inactive px-8 py-2.5 rounded-full text-xs font-bold tracking-widest">LINKS</button>
+    </div>
+  </div>
+
+  <div id="content" class="w-full max-w-[640px] mt-8 flex flex-col gap-4"></div>
+  <button id="adminBtn" class="fixed bottom-5 right-5 w-12 h-12 bg-[#00ff9d] text-black rounded-full font-bold shadow-[0_0_20px_rgba(0,255,157,0.6)]">⚙</button>
+
+  <!-- ADMIN -->
+  <div id="adminPanel" class="fixed inset-0 bg-black/90 backdrop-blur-md hidden z-50 p-4 overflow-y-auto">
+    <div class="max-w-[520px] mx-auto mt-6 bg-[#0a0a0a] border border-[#00ff9d]/20 p-6 rounded-2xl">
+      <div id="lockScreen">
+        <h2 class="syne text-xl mb-4 text-[#00ff9d]">ADMIN // ACCESS</h2>
+        <input id="passInput" type="password" placeholder="PASSWORD" class="w-full bg-black border border-zinc-800 p-3 text-sm outline-none rounded-lg">
+        <button id="unlockBtn" class="w-full bg-[#00ff9d] text-black py-3 text-sm font-bold rounded-lg mt-3">UNLOCK</button>
+      </div>
+      <div id="adminContent" class="hidden">
+        <div class="flex justify-between items-center mb-6"><h2 class="syne text-lg">VAULT CONTROL</h2><button id="closeAdmin" class="w-8 h-8 bg-zinc-900 rounded-full">X</button></div>
+        <div class="flex gap-2 mb-4">
+          <button id="addTypeApp" class="flex-1 py-2 bg-[#00ff9d] text-black rounded-lg text-xs font-bold">APP</button>
+          <button id="addTypeLink" class="flex-1 py-2 bg-zinc-900 rounded-lg text-xs font-bold">LINK</button>
+        </div>
+        <div class="flex flex-col gap-3">
+          <input id="titleInput" placeholder="App / Link Name" class="type-sound bg-black border border-zinc-800 p-3 text-sm outline-none rounded-lg">
+          
+          <!-- APP FILE MANAGER -->
+          <div id="fileManagerBox" class="border border-dashed border-[#00ff9d]/40 p-4 rounded-xl bg-[#00ff9d]/5">
+            <p class="text-[11px] text-[#00ff9d] tracking-widest mb-3">📁 FILE MANAGER // SELECT APP FILE</p>
+            <input id="fileInput" type="file" accept=".apk,.apks,.xapk,.zip" class="w-full text-xs text-white file:mr-3 file:py-2 file:px-4 file:rounded-full file:border-0 file:bg-[#00ff9d] file:text-black file:font-bold">
+            <div id="uploadStatus" class="text-[11px] text-zinc-400 mt-3">No file selected</div>
+            <div id="uploadProgress" class="w-full h-1 bg-zinc-900 rounded-full mt-2 hidden"><div id="progressBar" class="h-1 bg-[#00ff9d] rounded-full" style="width:0%"></div></div>
+          </div>
+
+          <!-- LINK URL (Only for links) -->
+          <div id="linkBox">
+            <input id="urlInput" placeholder="Paste Link URL https://..." class="type-sound w-full bg-black border border-zinc-800 p-3 text-sm outline-none rounded-lg">
+          </div>
+
+          <input id="iconInput" placeholder="Icon Letters (e.g. SP) or Icon Image URL" class="type-sound bg-black border border-zinc-800 p-3 text-sm outline-none rounded-lg">
+          <div id="appFields" class="grid grid-cols-2 gap-3">
+            <input id="verInput" placeholder="Version v2.1" class="type-sound bg-black border border-zinc-800 p-3 text-sm outline-none rounded-lg">
+            <input id="sizeInput" placeholder="Size auto" class="type-sound bg-black border border-zinc-800 p-3 text-sm outline-none rounded-lg">
+          </div>
+          <button id="saveBtn" class="bg-white text-black py-3 text-sm font-bold rounded-lg mt-2">PUBLISH</button>
+          <div id="adminList" class="flex flex-col gap-2 mt-6"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getFirestore, collection, addDoc, getDocs, deleteDoc, doc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyCI-SsG1HP59CEB3WbGKwqp02Eotez3zGI",
+  authDomain: "psychopath-links.firebaseapp.com",
+  projectId: "psychopath-links",
+  storageBucket: "psychopath-links.firebasestorage.app",
+  messagingSenderId: "362335393981",
+  appId: "1:362335393981:web:b20c8b0e6ad43dda80ffd4"
+};
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+const storage = getStorage(app);
+const appsCol = collection(db, "apps");
+const linksCol = collection(db, "links");
+const ADMIN_PASS = "MINHA.01";
+let currentTab = 'apps';
+let addType = 'app';
+let isMuted = false;
+let uploadedFileUrl = '';
+
+// SOUNDS
+const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+function playTick(){ if(isMuted) return; const o=audioCtx.createOscillator(), g=audioCtx.createGain(); o.type='square'; o.frequency.value=900+Math.random()*300; g.gain.setValueAtTime(0.1,audioCtx.currentTime); g.gain.exponentialRampToValueAtTime(0.01,audioCtx.currentTime+0.08); o.connect(g); g.connect(audioCtx.destination); o.start(); o.stop(audioCtx.currentTime+0.08); }
+function playNeon(){ if(isMuted) return; const o=audioCtx.createOscillator(), g=audioCtx.createGain(); o.type='sawtooth'; o.frequency.setValueAtTime(200,audioCtx.currentTime); o.frequency.linearRampToValueAtTime(800,audioCtx.currentTime+0.15); g.gain.setValueAtTime(0.08,audioCtx.currentTime); g.gain.exponentialRampToValueAtTime(0.01,audioCtx.currentTime+0.2); o.connect(g); g.connect(audioCtx.destination); o.start(); o.stop(audioCtx.currentTime+0.2); }
+document.getElementById('muteBtn').onclick = () => { isMuted=!isMuted; document.getElementById('muteBtn').textContent=isMuted?'🔇':'🔊'; if(!isMuted && audioCtx.state==='suspended') audioCtx.resume(); };
+document.addEventListener('click', ()=>{ if(audioCtx.state==='suspended') audioCtx.resume(); }, {once:true});
+
+const contentDiv = document.getElementById('content');
+const tabApps = document.getElementById('tabApps');
+const tabLinks = document.getElementById('tabLinks');
+tabApps.onclick = () => { playNeon(); currentTab='apps'; tabApps.className='tab-active px-8 py-2.5 rounded-full text-xs font-bold tracking-widest'; tabLinks.className='tab-inactive px-8 py-2.5 rounded-full text-xs font-bold tracking-widest'; loadData(); };
+tabLinks.onclick = () => { playNeon(); currentTab='links'; tabLinks.className='tab-active px-8 py-2.5 rounded-full text-xs font-bold tracking-widest'; tabApps.className='tab-inactive px-8 py-2.5 rounded-full text-xs font-bold tracking-widest'; loadData(); };
+document.getElementById('addTypeApp').onclick = () => { playTick(); addType='app'; document.getElementById('addTypeApp').className='flex-1 py-2 bg-[#00ff9d] text-black rounded-lg text-xs font-bold'; document.getElementById('addTypeLink').className='flex-1 py-2 bg-zinc-900 rounded-lg text-xs font-bold'; document.getElementById('fileManagerBox').style.display='block'; document.getElementById('linkBox').style.display='none'; document.getElementById('appFields').style.display='grid'; };
+document.getElementById('addTypeLink').onclick = () => { playTick(); addType='link'; document.getElementById('addTypeLink').className='flex-1 py-2 bg-[#00ff9d] text-black rounded-lg text-xs font-bold'; document.getElementById('addTypeApp').className='flex-1 py-2 bg-zinc-900 rounded-lg text-xs font-bold'; document.getElementById('fileManagerBox').style.display='none'; document.getElementById('linkBox').style.display='block'; document.getElementById('appFields').style.display='none'; };
+document.getElementById('addTypeApp').click();
+
+// FILE UPLOAD DIRECT TO STORAGE
+document.getElementById('fileInput').onchange = (e) => {
+  const file = e.target.files[0];
+  if(!file) return;
+  const status = document.getElementById('uploadStatus');
+  const progressWrap = document.getElementById('uploadProgress');
+  const bar = document.getElementById('progressBar');
+  status.textContent = `UPLOADING ${file.name}...`;
+  progressWrap.classList.remove('hidden');
+  document.getElementById('sizeInput').value = (file.size/1024/1024).toFixed(1)+' MB';
+  if(!document.getElementById('titleInput').value) document.getElementById('titleInput').value = file.name.replace('.apk','').replace('.zip','');
+  
+  const storageRef = ref(storage, `apps/${Date.now()}_${file.name}`);
+  const uploadTask = uploadBytesResumable(storageRef, file);
+  uploadTask.on('state_changed', (snap)=>{
+    const pct = (snap.bytesTransferred/snap.totalBytes)*100;
+    bar.style.width = pct+'%';
+    status.textContent = `UPLOADING ${Math.round(pct)}%...`;
+  }, (err)=>{ status.textContent = `❌ ${err.message}`; }, async ()=>{
+    uploadedFileUrl = await getDownloadURL(uploadTask.snapshot.ref);
+    status.textContent = `✅ READY TO PUBLISH // ${file.name}`;
+    playNeon();
+  });
+};
+
+async function loadData(){
+  contentDiv.innerHTML = `<div class="text-center text-zinc-600 text-xs py-16 animate-pulse">>> ACCESSING ${currentTab.toUpperCase()} VAULT...</div>`;
+  try{
+    const appsSnap = await getDocs(appsCol);
+    const linksSnap = await getDocs(linksCol);
+    const snap = currentTab==='apps' ? appsSnap : linksSnap;
+    let html=''; 
+    if(snap.empty){ html = `<div class="neon-card p-10 text-center"><p class="text-zinc-500 text-xs tracking-[0.3em]">VAULT EMPTY // NO ${currentTab.toUpperCase()}</p></div>`; }
+    else {
+      snap.forEach(d=>{
+        const data=d.data();
+        const isIconUrl = data.icon && data.icon.startsWith('http');
+        const iconEl = isIconUrl ? `<img src="${data.icon}" class="w-14 h-14 rounded-xl object-cover border border-[#00ff9d]/20">` : `<div class="w-14 h-14 bg-gradient-to-br from-[#00ff9d] to-[#00ffff] text-black flex items-center justify-center font-bold rounded-xl text-sm">${(data.icon||data.title).substring(0,2).toUpperCase()}</div>`;
+        if(currentTab==='apps'){
+          html+=`<div class="neon-card p-4 flex items-center justify-between"><div class="flex items-center gap-4">${iconEl}<div class="text-left"><h3 class="font-bold text-[14px]">${data.title}</h3><p class="text-[10px] text-zinc-500 mt-1">${data.version||'v1.0'} • ${data.size||'--'}</p></div></div><button onclick="directInstall('${data.url}','${data.title}')" class="neon-btn px-6 py-2.5 rounded-full text-[11px]">INSTALL</button></div>`;
+        } else {
+          html+=`<a href="${data.url}" target="_blank" class="neon-card p-4 flex items-center justify-between"><div class="flex items-center gap-4">${iconEl}<span class="font-bold text-[14px]">${data.title}</span></div><span class="text-[#00ff9d]">↗</span></a>`;
+        }
+      });
+    }
+    contentDiv.innerHTML=html;
+    let adminHtml = `<p class="text-[10px] text-[#00ff9d]">APPS (${appsSnap.size})</p>`;
+    appsSnap.forEach(d=>{ const data=d.data(); adminHtml+=`<div class="flex justify-between items-center bg-black p-3 border border-zinc-900 text-xs rounded-lg"><span>📱 ${data.title}</span><button onclick="deleteItem('apps','${d.id}')" class="bg-red-500/20 text-red-400 px-3 py-1 rounded-full">DELETE</button></div>`; });
+    adminHtml+=`<p class="text-[10px] text-[#00ffff] mt-4">LINKS (${linksSnap.size})</p>`;
+    linksSnap.forEach(d=>{ const data=d.data(); adminHtml+=`<div class="flex justify-between items-center bg-black p-3 border border-zinc-900 text-xs rounded-lg"><span>🔗 ${data.title}</span><button onclick="deleteItem('links','${d.id}')" class="bg-red-500/20 text-red-400 px-3 py-1 rounded-full">DELETE</button></div>`; });
+    document.getElementById('adminList').innerHTML=adminHtml;
+  }catch(e){ contentDiv.innerHTML=`<div class="bg-red-900/20 border border-red-900 p-4 text-xs rounded-lg">ERROR: ${e.message} - Check Firebase Storage Rules</div>`; }
+}
+
+// DIRECT INSTALL - no URL shown, direct download
+window.directInstall = (url, name) => {
+  playNeon();
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = name+'.apk';
+  a.target = '_blank';
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+};
+
+document.getElementById('adminBtn').onclick = () => { playNeon(); document.getElementById('adminPanel').classList.remove('hidden'); };
+document.getElementById('closeAdmin').onclick = () => { document.getElementById('adminPanel').classList.add('hidden'); document.getElementById('lockScreen').classList.remove('hidden'); document.getElementById('adminContent').classList.add('hidden'); document.getElementById('passInput').value=''; };
+document.getElementById('unlockBtn').onclick = () => { if(document.getElementById('passInput').value === ADMIN_PASS){ playNeon(); document.getElementById('lockScreen').classList.add('hidden'); document.getElementById('adminContent').classList.remove('hidden'); loadData(); } else { alert('ACCESS DENIED'); } };
+document.getElementById('saveBtn').onclick = async () => {
+  const t=document.getElementById('titleInput').value.trim();
+  const linkUrl=document.getElementById('urlInput').value.trim();
+  const i=document.getElementById('iconInput').value.trim();
+  const v=document.getElementById('verInput').value.trim();
+  const s=document.getElementById('sizeInput').value.trim();
+  if(addType==='app'){
+    if(!t || !uploadedFileUrl) return alert('App Name + File select karo, upload complete hone do!');
+    await addDoc(appsCol, {title:t, url:uploadedFileUrl, icon:i, version:v, size:s, createdAt: serverTimestamp()});
+  } else {
+    if(!t || !linkUrl) return alert('Link Name + URL zaroori hai');
+    await addDoc(linksCol, {title:t, url:linkUrl, icon:i, createdAt: serverTimestamp()});
+  }
+  playNeon(); alert(`${addType.toUpperCase()} Published!`); uploadedFileUrl=''; document.getElementById('fileInput').value=''; document.getElementById('uploadStatus').textContent='No file selected'; document.getElementById('titleInput').value=''; loadData();
+};
+window.deleteItem = async (colName, id) => { if(!confirm(`Delete this ${colName}?`)) return; await deleteDoc(doc(db, colName, id)); playTick(); loadData(); };
+loadData();
+</script>
+
+<div class="w-full max-w-[640px] mt-16 flex flex-col items-center gap-3">
+  <div class="neon-line w-full"></div>
+  <div class="neon-khubaib mt-4">KHUBAIB</div>
+  <p class="text-[9px] tracking-[0.5em] text-zinc-600">NEON GHOST • CYBER VAULT • EST 2026</p>
+</div>
+</body>
+</html>
