@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Video to Audio + Noise Remover</title>
+<style>
+body{background:#0f0f0f;color:#fff;font-family:system-ui;padding:15px}
+.box{max-width:620px;margin:auto;background:#1c1c1c;padding:20px;border-radius:16px}
+video{width:100%;border-radius:12px;background:#000;margin-top:12px}
+button,input{width:100%;padding:13px;margin-top:10px;border-radius:10px;border:0;font-weight:bold;cursor:pointer}
+input[type=file]{background:#2a2a2a;color:#fff}
+.opt{background:#252525;padding:12px;border-radius:10px;margin-top:12px;text-align:left}
+.opt label{display:flex;gap:10px;align-items:center;font-size:14px;margin:6px 0;cursor:pointer}
+.opt input{width:auto}
+.btn{background:#007aff;color:#fff}
+.btn2{background:#ff3b30;color:#fff}
+.btn3{background:#30d158;color:#000;display:none}
+#status{font-size:13px;opacity:.7;margin-top:10px;text-align:center}
+</style>
+</head>
+<body>
+<div class="box">
+<h2 style="text-align:center">Video Sound Tools</h2>
+<input type="file" id="file" accept="video/*">
+<video id="video" controls></video>
+
+<div class="opt">
+<b>Audio Save karne se pehle select karo:</b>
+<label><input type="radio" name="mode" value="original" checked> Original Audio (jaise hai waise)</label>
+<label><input type="radio" name="mode" value="clean"> Background Shor Remove karke (Voice Clean)</label>
+<label><input type="radio" name="mode" value="mute"> Bilkul Mute (No Sound)</label>
+</div>
+
+<button class="btn" id="extractBtn">🎵 Video Se Audio Nikalo & Save Karo</button>
+<button class="btn2" id="videoBtn">🎬 Video Ka Sound Remove Karke Save Karo</button>
+<button class="btn3" id="downloadBtn">⬇️ Download</button>
+<p id="status">Pehle video select karo</p>
+</div>
+
+<script>
+const fileInput = document.getElementById('file');
+const video = document.getElementById('video');
+const status = document.getElementById('status');
+const downloadBtn = document.getElementById('downloadBtn');
+let currentBlobUrl = null;
+
+fileInput.onchange = e => {
+  const file = e.target.files[0];
+  if(!file) return;
+  video.src = URL.createObjectURL(file);
+  status.textContent = "Video ready hai. Ab option select karo.";
+}
+
+function getSelectedMode(){ return document.querySelector('input[name="mode"]:checked').value; }
+
+async function getProcessedAudioStream() {
+  const mode = getSelectedMode();
+  const videoStream = video.captureStream();
+  
+  if(mode === 'mute'){
+    return new MediaStream([...videoStream.getVideoTracks()]); // no audio
+  }
+
+  if(mode === 'original'){
+    return videoStream;
+  }
+
+  if(mode === 'clean'){
+    // Background noise remover filter
+    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    const source = audioCtx.createMediaElementSource(video);
+    
+    const highPass = audioCtx.createBiquadFilter();
+    highPass.type = "highpass";
+    highPass.frequency.value = 180;
+
+    const lowPass = audioCtx.createBiquadFilter();
+    lowPass.type = "lowpass";
+    lowPass.frequency.value = 4000;
+
+    const compressor = audioCtx.createDynamicsCompressor();
+    compressor.threshold.value = -28;
+    compressor.ratio.value = 10;
+
+    const dest = audioCtx.createMediaStreamDestination();
+    
+    source.connect(highPass);
+    highPass.connect(lowPass);
+    lowPass.connect(compressor);
+    compressor.connect(dest);
+    dest.connect(audioCtx.destination); // for preview
+
+    const filteredStream = new MediaStream([
+      ...videoStream.getVideoTracks(),
+      ...dest.stream.getAudioTracks()
+    ]);
+    return filteredStream;
+  }
+}
+
+async function recordAndDownload(isAudioOnly){
+  if(!video.src){ alert("Video select karo"); return; }
+  const stream = await getProcessedAudioStream();
+  const finalStream = isAudioOnly ? new MediaStream(stream.getAudioTracks()) : stream;
+
+  if(isAudioOnly && finalStream.getAudioTracks().length === 0){
+    alert("Ye Mute mode hai, isme audio nahi hai. Original ya Clean select karo.");
+    return;
+  }
+
+  const chunks = [];
+  const recorder = new MediaRecorder(finalStream, {mimeType: isAudioOnly ? 'audio/webm' : 'video/webm'});
+  recorder.ondataavailable = e => { if(e.data.size>0) chunks.push(e.data); };
+  recorder.onstop = () => {
+    const blob = new Blob(chunks, {type: isAudioOnly ? 'audio/webm' : 'video/webm'});
+    if(currentBlobUrl) URL.revokeObjectURL(currentBlobUrl);
+    currentBlobUrl = URL.createObjectURL(blob);
+    downloadBtn.style.display = 'block';
+    downloadBtn.textContent = isAudioOnly ? '⬇️ Audio Download Karo (MP3 jaisa)' : '⬇️ Video Download Karo (No Sound)';
+    downloadBtn.onclick = () => {
+      const a = document.createElement('a');
+      a.href = currentBlobUrl;
+      a.download = isAudioOnly ? `audio-${getSelectedMode()}.webm` : `video-${getSelectedMode()}.webm`;
+      a.click();
+    }
+    status.textContent = isAudioOnly ? "Audio ready! Download karo." : "Video ready! Download karo.";
+  };
+  
+  recorder.start();
+  video.currentTime = 0;
+  await video.play();
+  status.textContent = "Recording ho rahi hai... video khatam hone tak wait karo.";
+  video.onended = () => recorder.stop();
+  // safety stop after 60s
+  setTimeout(()=>{ if(recorder.state==='recording') recorder.stop(); }, 60000);
+}
+
+document.getElementById('extractBtn').onclick = () => recordAndDownload(true);
+document.getElementById('videoBtn').onclick = () => recordAndDownload(false);
+</script>
+</body>
+</html>
