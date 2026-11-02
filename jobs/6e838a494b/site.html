@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="ur" dir="rtl" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>پروفیشنل پورٹ فولیو ویب سائٹ</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#f0f9ff',
+                            100: '#e0f2fe',
+                            500: '#0284c7',
+                            600: '#0369a1',
+                            700: '#075985',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['System-UI', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Custom Styles for Glow Effects & Smooth Transitions */
+        .gradient-text {
+            background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 50%, #ec4899 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .gradient-bg {
+            background: linear-gradient(135deg, #2563eb 0%, #7c3aed 100%);
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .dark .glass-card {
+            background: rgba(30, 41, 59, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 dark:bg-slate-900 dark:text-gray-100 transition-colors duration-300 font-sans">
+
+    <!-- Header / Navbar -->
+    <header class="fixed top-0 left-0 right-0 z-50 glass-card transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <!-- Logo -->
+                <div class="flex items-center space-x-3 space-x-reverse">
+                    <div class="w-10 h-10 rounded-xl gradient-bg flex items-center justify-center text-white font-bold text-xl shadow-lg">
+                        وی
+                    </div>
+                    <span class="text-xl font-bold tracking-tight text-gray-900 dark:text-white">
+                        پروفیشنل<span class="gradient-text">ویب</span>
+                    </span>
+                </div>
+
+                <!-- Desktop Nav Navigation -->
+                <nav class="hidden md:flex items-center space-x-8 space-x-reverse font-medium">
+                    <a href="#hero" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">ہوم</a>
+                    <a href="#services" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">سروسز</a>
+                    <a href="#portfolio" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">پورٹ فولیو</a>
+                    <a href="#contact" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">رابطہ</a>
+                </nav>
+
+                <!-- Actions: Theme Switcher & Code Download Button -->
+                <div class="flex items-center space-x-4 space-x-reverse">
+                    <!-- Theme Toggle -->
+                    <button id="themeToggle" class="p-2.5 rounded-xl bg-gray-200 dark:bg-slate-800 text-gray-700 dark:text-amber-400 hover:opacity-80 transition-all">
+                        <i id="themeIcon" class="fas fa-moon text-lg"></i>
+                    </button>
+
+                    <!-- Download HTML Button -->
+                    <button onclick="downloadCode()" class="hidden sm:flex items-center space-x-2 space-x-reverse px-4 py-2.5 rounded-xl gradient-bg text-white font-medium shadow-lg hover:opacity-90 transition-all transform active:scale-95">
+                        <i class="fas fa-download"></i>
+                        <span>فائل ڈاؤن لوڈ کریں</span>
+                    </button>
+
+                    <!-- Mobile Menu Toggle Button -->
+                    <button id="mobileMenuBtn" class="md:hidden p-2.5 rounded-xl bg-gray-200 dark:bg-slate-800 text-gray-700 dark:text-gray-200">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu Nav -->
+        <div id="mobileMenu" class="hidden md:hidden border-t dark:border-slate-800 bg-white dark:bg-slate-900 px-4 pt-2 pb-6 space-y-3">
+            <a href="#hero" class="block py-2 text-gray-700 dark:text-gray-200 hover:text-blue-600">ہوم</a>
+            <a href="#services" class="block py-2 text-gray-700 dark:text-gray-200 hover:text-blue-600">سروسز</a>
+            <a href="#portfolio" class="block py-2 text-gray-700 dark:text-gray-200 hover:text-blue-600">پورٹ فولیو</a>
+            <a href="#contact" class="block py-2 text-gray-700 dark:text-gray-200 hover:text-blue-600">رابطہ</a>
+            <button onclick="downloadCode()" class="w-full flex items-center justify-center space-x-2 space-x-reverse px-4 py-2.5 rounded-xl gradient-bg text-white font-medium shadow-lg">
+                <i class="fas fa-download"></i>
+                <span>فائل ڈاؤن لوڈ کریں</span>
+            </button>
+        </div>
+    </header>
+
+    <main class="pt-20">
+        <!-- Hero Section -->
+        <section id="hero" class="relative min-h-[90vh] flex items-center justify-center overflow-hidden py-20 px-4 sm:px-6 lg:px-8">
+            <!-- Background Glows -->
+            <div class="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-blue-500/20 rounded-full blur-3xl pointer-events-none"></div>
+            <div class="absolute bottom-10 right-10 w-80 h-80 bg-purple-500/20 rounded-full blur-3xl pointer-events-none"></div>
+
+            <div class="max-w-5xl mx-auto text-center relative z-10 space-y-8">
+                <div class="inline-flex items-center space-x-2 space-x-reverse px-4 py-2 rounded-full glass-card text-sm font-medium border border-blue-500/30 text-blue-600 dark:text-blue-400 shadow-sm">
+                    <span class="w-2 h-2 rounded-full bg-blue-500 animate-pulse"></span>
+                    <span>خوش آمدید! آپ کی ڈیجیٹل کامیابی کی منزل</span>
+                </div>
+
+                <h1 class="text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight leading-tight">
+                    ہم بناتے ہیں بہترین اور <br>
+                    <span class="gradient-text">جدید ترین ویب سائٹس</span>
+                </h1>
+
+                <p class="max-w-2xl mx-auto text-lg sm:text-xl text-gray-600 dark:text-gray-300 leading-relaxed">
+                    اپنے کاروبار کو جدید دور کے تقاضوں سے ہم آہنگ کریں۔ دلکش ڈیزائن، تیز رفتار کارکردگی، اور ہر ڈیوائس پر بہترین رزلٹ کے ساتھ۔
+                </p>
+
+                <div class="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
+                    <a href="#contact" class="w-full sm:w-auto px-8 py-4 rounded-xl gradient-bg text-white font-semibold text-lg shadow-xl shadow-blue-500/25 hover:shadow-2xl hover:opacity-95 transform hover:-translate-y-0.5 transition-all">
+                        کام شروع کریں
+                    </a>
+                    <a href="#portfolio" class="w-full sm:w-auto px-8 py-4 rounded-xl glass-card text-gray-800 dark:text-white font-semibold text-lg border border-gray-300 dark:border-slate-700 hover:bg-gray-100 dark:hover:bg-slate-800 transition-all">
+                        کام کی نمائش
+                    </a>
+                </div>
+
+                <!-- Fast Info Badges -->
+                <div class="pt-12 grid grid-cols-2 md:grid-cols-4 gap-6 border-t border-gray-200 dark:border-slate-800">
+                    <div class="p-4">
+                        <div class="text-3xl font-bold gradient-text">100%</div>
+                        <div class="text-sm text-gray-500 dark:text-gray-400 mt-1">رسپانسو ڈیزائن</div>
+                    </div>
+                    <div class="p-4">
+                        <div class="text-3xl font-bold gradient-text">24/7</div>
+                        <div class="text-sm text-gray-500 dark:text-gray-400 mt-1">سپورٹ دستیابی</div>
+                    </div>
+                    <div class="p-4">
+                        <div class="text-3xl font-bold gradient-text">تیز رفتار</div>
+                        <div class="text-sm text-gray-500 dark:text-gray-400 mt-1">لوڈنگ اسپیڈ</div>
+                    </div>
+                    <div class="p-4">
+                        <div class="text-3xl font-bold gradient-text">جدید</div>
+                        <div class="text-sm text-gray-500 dark:text-gray-400 mt-1">ایچ ٹی ایم ایل و سی ایس ایس</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Services Section -->
+        <section id="services" class="py-20 px-4 sm:px-6 lg:px-8 bg-gray-100/50 dark:bg-slate-800/50">
+            <div class="max-w-7xl mx-auto space-y-12">
+                <div class="text-center space-y-4">
+                    <h2 class="text-3xl sm:text-4xl font-bold">ہماری <span class="gradient-text">خدمات</span></h2>
+                    <p class="text-gray-600 dark:text-gray-300 max-w-xl mx-auto">
+                        ہم آپ کے خیال کو حقیقت کا روپ دینے کے لیے بہترین تکنیکی اور ڈیزائننگ کی خدمات فراہم کرتے ہیں۔
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Service 1 -->
+                    <div class="glass-card p-8 rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 border border-gray-100 dark:border-slate-800">
+                        <div class="w-14 h-14 rounded-2xl gradient-bg flex items-center justify-center text-white text-2xl mb-6 shadow-md">
+                            <i class="fas fa-laptop-code"></i>
+                        </div>
+                        <h3 class="text-xl font-bold mb-3">ویب ڈیزائننگ</h3>
+                        <p class="text-gray-600 dark:text-gray-300 leading-relaxed">
+                            جدید ترین ٹیکنالوجی اور خوبصورت لے آؤٹس کے ساتھ ایسی ویب سائٹ جو صارفین کو متاثر کرے۔
+                        </p>
+                    </div>
+
+                    <!-- Service 2 -->
+                    <div class="glass-card p-8 rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 border border-gray-100 dark:border-slate-800">
+                        <div class="w-14 h-14 rounded-2xl gradient-bg flex items-center justify-center text-white text-2xl mb-6 shadow-md">
+                            <i class="fas fa-mobile-alt"></i>
+                        </div>
+                        <h3 class="text-xl font-bold mb-3">موبائل فرینڈلی</h3>
+                        <p class="text-gray-600 dark:text-gray-300 leading-relaxed">
+                            ہر قسم کی اسکرین یعنی موبائل، ٹیبلیٹ اور ڈیسک ٹاپ پر بہترین طریقے سے چلنے والا ڈیزائن۔
+                        </p>
+                    </div>
+
+                    <!-- Service 3 -->
+                    <div class="glass-card p-8 rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 border border-gray-100 dark:border-slate-800">
+                        <div class="w-14 h-14 rounded-2xl gradient-bg flex items-center justify-center text-white text-2xl mb-6 shadow-md">
+                            <i class="fas fa-rocket"></i>
+                        </div>
+                        <h3 class="text-xl font-bold mb-3">تیز رفتاری (SEO Optimization)</h3>
+                        <p class="text-gray-600 dark:text-gray-300 leading-relaxed">
+                            سرچ انجن کی درجہ بندی میں سب سے آگے رہنے اور تیزی سے لوڈ ہونے والی ویب سائٹ۔
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Portfolio Section -->
+        <section id="portfolio" class="py-20 px-4 sm:px-6 lg:px-8">
+            <div class="max-w-7xl mx-auto space-y-12">
+                <div class="text-center space-y-4">
+                    <h2 class="text-3xl sm:text-4xl font-bold">ہمارا <span class="gradient-text">پورٹ فولیو</span></h2>
+                    <p class="text-gray-600 dark:text-gray-300 max-w-xl mx-auto">
+                        چند حال ہی میں تیار کیے گئے پروجیکٹس پر ایک نظر ڈالیں۔
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Portfolio Item 1 -->
+                    <div class="group rounded-2xl overflow-hidden glass-card border border-gray-200 dark:border-slate-800 hover:shadow-2xl transition-all">
+                        <div class="relative overflow-hidden h-48 bg-slate-200 dark:bg-slate-700">
+                            <img src="https://placehold.co/600x400/2563eb/ffffff?text=E-Commerce+Project" alt="Project 1" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                        </div>
+                        <div class="p-6 space-y-2">
+                            <span class="text-xs font-semibold uppercase tracking-wider text-blue-500">ای کامرس</span>
+                            <h3 class="text-xl font-bold">آن لائن اسٹور ایپ</h3>
+                            <p class="text-gray-600 dark:text-gray-400 text-sm">موبائل فرینڈلی ای کامرس ویب سائٹ جہاں ہر چیز آسانی سے خریدی جا سکتی ہے۔</p>
+                        </div>
+                    </div>
+
+                    <!-- Portfolio Item 2 -->
+                    <div class="group rounded-2xl overflow-hidden glass-card border border-gray-200 dark:border-slate-800 hover:shadow-2xl transition-all">
+                        <div class="relative overflow-hidden h-48 bg-slate-200 dark:bg-slate-700">
+                            <img src="https://placehold.co/600x400/7c3aed/ffffff?text=Corporate+Website" alt="Project 2" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                        </div>
+                        <div class="p-6 space-y-2">
+                            <span class="text-xs font-semibold uppercase tracking-wider text-purple-500">کارپوریٹ</span>
+                            <h3 class="text-xl font-bold">بزنس پروفائل پورٹل</h3>
+                            <p class="text-gray-600 dark:text-gray-400 text-sm">ایک معروف ادارے کے لیے بنائی گئی جدید کارپوریٹ سائٹ۔</p>
+                        </div>
+                    </div>
+
+                    <!-- Portfolio Item 3 -->
+                    <div class="group rounded-2xl overflow-hidden glass-card border border-gray-200 dark:border-slate-800 hover:shadow-2xl transition-all">
+                        <div class="relative overflow-hidden h-48 bg-slate-200 dark:bg-slate-700">
+                            <img src="https://placehold.co/600x400/ec4899/ffffff?text=Dashboard+App" alt="Project 3" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                        </div>
+                        <div class="p-6 space-y-2">
+                            <span class="text-xs font-semibold uppercase tracking-wider text-pink-500">ڈیش بورڈ</span>
+                            <h3 class="text-xl font-bold">اینالیٹکس ڈیش بورڈ</h3>
+                            <p class="text-gray-600 dark:text-gray-400 text-sm">ڈیٹا دیکھنے اور سمجھنے کے لیے آسان گرافس والا ڈیش بورڈ۔</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Form Section -->
+        <section id="contact" class="py-20 px-4 sm:px-6 lg:px-8 bg-gray-100/50 dark:bg-slate-800/50">
+            <div class="max-w-4xl mx-auto glass-card rounded-3xl p-8 sm:p-12 border border-gray-200 dark:border-slate-800 shadow-xl space-y-8">
+                <div class="text-center space-y-3">
+                    <h2 class="text-3xl sm:text-4xl font-bold">ہم سے <span class="gradient-text">رابطہ کریں</span></h2>
+                    <p class="text-gray-600 dark:text-gray-300">اپنے پروجیکٹ کے لیے آج ہی رابطہ فرمائیں۔ ہم جلد جواب دیں گے۔</p>
+                </div>
+
+                <form id="contactForm" onsubmit="handleFormSubmit(event)" class="space-y-6">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-sm font-medium mb-2">نام</label>
+                            <input type="text" required placeholder="اپنا پورا نام درج کریں" class="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-slate-700 bg-white dark:bg-slate-900 focus:ring-2 focus:ring-blue-500 outline-none transition-all">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium mb-2">ای میل</label>
+                            <input type="email" required placeholder="example@domain.com" class="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-slate-700 bg-white dark:bg-slate-900 focus:ring-2 focus:ring-blue-500 outline-none transition-all">
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium mb-2">پیغام</label>
+                        <textarea rows="4" required placeholder="اپنا پیغام یہاں لکھیے..." class="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-slate-700 bg-white dark:bg-slate-900 focus:ring-2 focus:ring-blue-500 outline-none transition-all"></textarea>
+                    </div>
+                    <button type="submit" class="w-full py-4 rounded-xl gradient-bg text-white font-semibold text-lg shadow-lg hover:opacity-95 transition-all">
+                        پیغام بھیجیں
+                    </button>
+                </form>
+
+                <div id="formAlert" class="hidden p-4 rounded-xl bg-green-500/20 text-green-700 dark:text-green-300 border border-green-500/30 text-center font-medium">
+                    آپ کا پیغام کامیابی سے موصول ہو گیا ہے! ہم جلد رابطہ کریں گے۔
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-gray-200 dark:border-slate-800 py-8 px-4 text-center text-sm text-gray-500 dark:text-gray-400">
+        <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
+            <p>© 2026 جملہ حقوق محفوظ ہیں۔ پروفیشنل ویب۔</p>
+            <div class="flex space-x-4 space-x-reverse text-lg">
+                <a href="#" class="hover:text-blue-500 transition-colors"><i class="fab fa-facebook"></i></a>
+                <a href="#" class="hover:text-blue-500 transition-colors"><i class="fab fa-twitter"></i></a>
+                <a href="#" class="hover:text-blue-500 transition-colors"><i class="fab fa-instagram"></i></a>
+                <a href="#" class="hover:text-blue-500 transition-colors"><i class="fab fa-github"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript logic -->
+    <script>
+        // Dark / Light Mode Logic
+        const themeToggleBtn = document.getElementById('themeToggle');
+        const themeIcon = document.getElementById('themeIcon');
+        
+        themeToggleBtn.addEventListener('click', () => {
+            document.documentElement.classList.toggle('dark');
+            if (document.documentElement.classList.contains('dark')) {
+                themeIcon.classList.remove('fa-moon');
+                themeIcon.classList.add('fa-sun');
+            } else {
+                themeIcon.classList.remove('fa-sun');
+                themeIcon.classList.add('fa-moon');
+            }
+        });
+
+        // Mobile Menu Toggle Logic
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Form Submit Simulation
+        function handleFormSubmit(event) {
+            event.preventDefault();
+            const alertBox = document.getElementById('formAlert');
+            alertBox.classList.remove('hidden');
+            document.getElementById('contactForm').reset();
+            setTimeout(() => {
+                alertBox.classList.add('hidden');
+            }, 5000);
+        }
+
+        // HTML File Download Logic
+        function downloadCode() {
+            const htmlContent = "<!DOCTYPE html>\n" + document.documentElement.outerHTML;
+            const blob = new Blob([htmlContent], { type: 'text/html;charset=utf-8;' });
+            const link = document.createElement('a');
+            const url = URL.createObjectURL(blob);
+            link.setAttribute('href', url);
+            link.setAttribute('download', 'index.html');
+            link.style.visibility = 'hidden';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+    </script>
+</body>
+</html>
