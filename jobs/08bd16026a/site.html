@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Awais Abbas Movies Hub</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        gold: '#E5A93C',
+                        brandRed: '#E50914',
+                        darkBg: '#0F172A',
+                        cardBg: '#1E293B'
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0f172a;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #334155;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #E50914;
+        }
+    </style>
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col justify-between selection:bg-brandRed selection:text-white">
+
+    <!-- Top Contact & Announcement Bar -->
+    <div class="bg-gradient-to-r from-red-900 via-slate-900 to-amber-900 text-xs sm:text-sm py-2 px-4 border-b border-slate-800">
+        <div class="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-2 text-center sm:text-left">
+            <div class="flex items-center gap-3">
+                <span class="bg-red-600 text-white font-bold px-2 py-0.5 rounded text-xs uppercase tracking-wider">Owner</span>
+                <span class="font-semibold text-slate-200"><i class="fa-solid fa-user border border-slate-700 p-1 rounded-full text-xs mr-1"></i> Awais Abbas</span>
+            </div>
+            <div class="flex items-center gap-4">
+                <a href="tel:03254327451" class="hover:text-gold transition flex items-center gap-1 font-medium">
+                    <i class="fa-solid fa-phone text-red-500"></i> 03254327451
+                </a>
+                <a href="https://wa.me/923254327451" target="_blank" class="hover:text-green-400 transition flex items-center gap-1 font-medium bg-emerald-950/60 text-emerald-400 border border-emerald-800 px-2.5 py-0.5 rounded-full text-xs">
+                    <i class="fa-brands fa-whatsapp text-emerald-400"></i> WhatsApp Us
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Navigation Header -->
+    <header class="sticky top-0 z-40 bg-slate-950/90 backdrop-blur-md border-b border-slate-800 shadow-xl">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5 flex flex-col md:flex-row md:items-center justify-between gap-4">
+            
+            <!-- Logo & Title -->
+            <div class="flex items-center justify-between">
+                <a href="#" class="flex items-center gap-3 group">
+                    <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-red-600 to-amber-500 flex items-center justify-center text-white text-xl font-black shadow-lg shadow-red-900/40 group-hover:scale-105 transition">
+                        <i class="fa-solid fa-film"></i>
+                    </div>
+                    <div>
+                        <h1 class="text-xl sm:text-2xl font-black tracking-tight bg-gradient-to-r from-white via-slate-200 to-red-400 bg-clip-text text-transparent">
+                            AWAIS ABBAS
+                        </h1>
+                        <p class="text-xs text-amber-500 font-semibold tracking-wider uppercase -mt-1">Movies Hub</p>
+                    </div>
+                </a>
+
+                <!-- Mobile Upload Button Toggle -->
+                <button onclick="toggleUploadModal()" class="md:hidden bg-red-600 hover:bg-red-700 text-white p-2.5 rounded-lg font-medium text-sm transition flex items-center gap-2">
+                    <i class="fa-solid fa-cloud-arrow-up"></i>
+                </button>
+            </div>
+
+            <!-- Search Bar -->
+            <div class="flex-1 max-w-lg relative">
+                <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400"></i>
+                <input type="text" id="searchInput" oninput="filterMovies()" placeholder="Search movies, genres, or keywords..." 
+                    class="w-full bg-slate-900/90 border border-slate-700/80 rounded-xl pl-10 pr-4 py-2 text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:border-red-500 focus:ring-1 focus:ring-red-500 transition">
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="hidden md:flex items-center gap-3">
+                <button onclick="toggleUploadModal()" class="bg-gradient-to-r from-red-600 to-red-700 hover:from-red-500 hover:to-red-600 text-white font-semibold px-4 py-2 rounded-xl text-sm transition shadow-lg shadow-red-900/30 flex items-center gap-2">
+                    <i class="fa-solid fa-circle-plus"></i> Upload Movie
+                </button>
+            </div>
+        </div>
+
+        <!-- Filter Categories Scrollbar -->
+        <div class="bg-slate-900/60 border-t border-slate-800/60">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2.5 flex items-center gap-2 overflow-x-auto no-scrollbar" id="categoryContainer">
+                <button onclick="selectCategory('All')" class="category-btn active bg-red-600 text-white px-4 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap transition">All Movies</button>
+                <button onclick="selectCategory('Action')" class="category-btn bg-slate-800 hover:bg-slate-700 text-slate-300 px-4 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap transition">Action</button>
+                <button onclick="selectCategory('Drama')" class="category-btn bg-slate-800 hover:bg-slate-700 text-slate-300 px-4 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap transition">Drama</button>
+                <button onclick="selectCategory('Comedy')" class="category-btn bg-slate-800 hover:bg-slate-700 text-slate-300 px-4 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap transition">Comedy</button>
+                <button onclick="selectCategory('Sci-Fi')" class="category-btn bg-slate-800 hover:bg-slate-700 text-slate-300 px-4 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap transition">Sci-Fi</button>
+                <button onclick="selectCategory('Thriller')" class="category-btn bg-slate-800 hover:bg-slate-700 text-slate-300 px-4 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap transition">Thriller</button>
+                <button onclick="selectCategory('Uploaded')" class="category-btn bg-slate-800 hover:bg-slate-700 text-slate-300 px-4 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap transition"><i class="fa-solid fa-user-check text-amber-400 mr-1"></i> My Uploads</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-1 w-full">
+        
+        <!-- Hero Spotlight Banner -->
+        <div class="relative rounded-2xl overflow-hidden mb-10 border border-slate-800 bg-gradient-to-r from-slate-900 via-slate-800 to-red-950 p-6 sm:p-10 flex flex-col md:flex-row items-center justify-between gap-6 shadow-2xl">
+            <div class="z-10 max-w-xl">
+                <span class="inline-flex items-center gap-1.5 bg-amber-500/10 text-amber-400 border border-amber-500/30 text-xs font-bold px-3 py-1 rounded-full mb-3 uppercase tracking-wider">
+                    <i class="fa-solid fa-crown text-amber-400"></i> Featured Movie
+                </span>
+                <h2 class="text-3xl sm:text-4xl font-black text-white leading-tight mb-3">Tears of Steel</h2>
+                <p class="text-slate-300 text-sm mb-6 line-clamp-3">Explore open-source sci-fi cinema hosted right here. Watch high-definition movie streams directly or upload your own favorite films to the repository!</p>
+                <div class="flex flex-wrap items-center gap-3">
+                    <button onclick="playMovie(1)" class="bg-red-600 hover:bg-red-700 text-white font-bold px-6 py-2.5 rounded-xl text-sm transition flex items-center gap-2 shadow-lg shadow-red-900/40">
+                        <i class="fa-solid fa-play"></i> Watch Now
+                    </button>
+                    <button onclick="toggleUploadModal()" class="bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 font-medium px-5 py-2.5 rounded-xl text-sm transition">
+                        <i class="fa-solid fa-plus text-red-500 mr-1.5"></i> Add Movie
+                    </button>
+                </div>
+            </div>
+            <div class="relative w-full md:w-72 h-44 md:h-60 rounded-xl overflow-hidden shadow-2xl border border-slate-700 shrink-0">
+                <img src="https://images.unsplash.com/photo-1536440136628-849c177e76a1?auto=format&fit=crop&w=600&q=80" alt="Hero Banner" class="w-full h-full object-cover">
+                <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent"></div>
+            </div>
+        </div>
+
+        <!-- Section Header -->
+        <div class="flex items-center justify-between mb-6">
+            <div class="flex items-center gap-2">
+                <div class="w-1.5 h-6 bg-red-600 rounded-full"></div>
+                <h3 class="text-xl font-bold text-white tracking-wide" id="sectionTitle">All Movies</h3>
+            </div>
+            <span class="text-xs text-slate-400 font-medium" id="movieCount">0 Movies available</span>
+        </div>
+
+        <!-- Movies Responsive Grid -->
+        <div id="moviesGrid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 sm:gap-6">
+            <!-- Dynamic Movie Cards JavaScript Injection -->
+        </div>
+
+        <!-- Empty State Container -->
+        <div id="emptyState" class="hidden text-center py-16 px-4">
+            <div class="w-16 h-16 bg-slate-900 border border-slate-800 rounded-full flex items-center justify-center mx-auto mb-4 text-slate-500 text-2xl">
+                <i class="fa-solid fa-film"></i>
+            </div>
+            <h4 class="text-lg font-bold text-slate-300">No movies found</h4>
+            <p class="text-xs text-slate-500 mt-1 max-w-sm mx-auto">Try searching for a different keyword or category, or upload a new movie using the button above.</p>
+            <button onclick="toggleUploadModal()" class="mt-4 bg-red-600 hover:bg-red-700 text-white font-semibold px-4 py-2 rounded-xl text-xs transition inline-flex items-center gap-2">
+                <i class="fa-solid fa-plus"></i> Upload New Movie
+            </button>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-slate-950 border-t border-slate-800/80 py-10 mt-12 text-slate-400 text-xs sm:text-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+                <div>
+                    <div class="flex items-center gap-2 mb-3">
+                        <div class="w-7 h-7 rounded-lg bg-red-600 flex items-center justify-center text-white text-sm font-bold">
+                            <i class="fa-solid fa-film"></i>
+                        </div>
+                        <span class="font-bold text-slate-100 text-base">Awais Abbas Movies Hub</span>
+                    </div>
+                    <p class="text-slate-400 text-xs leading-relaxed">
+                        A professional streaming portal tailored for seamless movie browsing and custom video uploads.
+                    </p>
+                </div>
+                <div>
+                    <h5 class="font-bold text-slate-200 mb-3 text-xs uppercase tracking-wider">Contact Information</h5>
+                    <ul class="space-y-2 text-xs">
+                        <li class="flex items-center gap-2 text-slate-300">
+                            <i class="fa-solid fa-user text-red-500 w-4"></i> Owner: Awais Abbas
+                        </li>
+                        <li class="flex items-center gap-2 text-slate-300">
+                            <i class="fa-solid fa-phone text-red-500 w-4"></i> Direct Phone: 
+                            <a href="tel:03254327451" class="hover:text-gold transition">03254327451</a>
+                        </li>
+                        <li class="flex items-center gap-2 text-slate-300">
+                            <i class="fa-brands fa-whatsapp text-emerald-500 w-4"></i> WhatsApp: 
+                            <a href="https://wa.me/923254327451" target="_blank" class="hover:text-emerald-400 transition">+92 325 4327451</a>
+                        </li>
+                    </ul>
+                </div>
+                <div>
+                    <h5 class="font-bold text-slate-200 mb-3 text-xs uppercase tracking-wider">Quick Actions</h5>
+                    <div class="flex flex-wrap gap-2">
+                        <button onclick="toggleUploadModal()" class="bg-slate-900 border border-slate-800 hover:border-slate-700 text-slate-300 px-3 py-1.5 rounded-lg text-xs font-medium transition">
+                            <i class="fa-solid fa-upload text-red-500 mr-1"></i> Upload Film
+                        </button>
+                        <button onclick="selectCategory('All')" class="bg-slate-900 border border-slate-800 hover:border-slate-700 text-slate-300 px-3 py-1.5 rounded-lg text-xs font-medium transition">
+                            <i class="fa-solid fa-list text-amber-500 mr-1"></i> All Categories
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-slate-900 pt-6 flex flex-col sm:flex-row justify-between items-center gap-3 text-center sm:text-left text-slate-500 text-xs">
+                <p>&copy; <span id="currentYear"></span> Awais Abbas Movies Hub. All Rights Reserved.</p>
+                <p>Designed for High Performance & Mobile Responsive Streaming</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Movie Player Modal -->
+    <div id="playerModal" class="fixed inset-0 z-50 hidden bg-slate-950/90 backdrop-blur-md flex items-center justify-center p-3 sm:p-6 overflow-y-auto">
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl w-full max-w-4xl overflow-hidden shadow-2xl relative my-auto">
+            
+            <!-- Modal Header / Close -->
+            <button onclick="closePlayerModal()" class="absolute top-3 right-3 z-20 bg-slate-950/70 hover:bg-red-600 text-slate-300 hover:text-white w-9 h-9 rounded-full flex items-center justify-center transition border border-slate-700">
+                <i class="fa-solid fa-xmark text-base"></i>
+            </button>
+
+            <!-- Video Player Screen Container -->
+            <div class="relative bg-black aspect-video w-full" id="videoContainer">
+                <!-- Video player element inserted dynamically -->
+            </div>
+
+            <!-- Video Information Details -->
+            <div class="p-4 sm:p-6">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-800 pb-4 mb-4">
+                    <div>
+                        <div class="flex items-center gap-2 mb-1">
+                            <span id="modalCategory" class="bg-red-600/20 text-red-400 border border-red-500/30 text-xs font-semibold px-2.5 py-0.5 rounded-md">Category</span>
+                            <span id="modalRating" class="bg-amber-500/20 text-amber-400 border border-amber-500/30 text-xs font-semibold px-2.5 py-0.5 rounded-md flex items-center gap-1">
+                                <i class="fa-solid fa-star text-amber-400"></i> 8.5
+                            </span>
+                        </div>
+                        <h3 id="modalTitle" class="text-xl sm:text-2xl font-bold text-white">Movie Title</h3>
+                    </div>
+
+                    <!-- Contact & Share Actions -->
+                    <div class="flex items-center gap-2">
+                        <a id="modalWhatsAppBtn" href="#" target="_blank" class="bg-emerald-600 hover:bg-emerald-700 text-white px-3 py-2 rounded-xl text-xs font-semibold flex items-center gap-1.5 transition">
+                            <i class="fa-brands fa-whatsapp text-sm"></i> Share / Inquire
+                        </a>
+                        <button onclick="shareMovie()" class="bg-slate-800 hover:bg-slate-700 text-slate-300 px-3 py-2 rounded-xl text-xs font-semibold flex items-center gap-1.5 transition border border-slate-700">
+                            <i class="fa-solid fa-share-nodes"></i> Copy Link
+                        </button>
+                    </div>
+                </div>
+
+                <p id="modalDescription" class="text-slate-300 text-sm leading-relaxed mb-4">Movie description will be loaded here...</p>
+
+                <div class="bg-slate-950/60 rounded-xl p-3 border border-slate-800 flex items-center justify-between text-xs text-slate-400">
+                    <span class="flex items-center gap-1.5">
+                        <i class="fa-solid fa-user-shield text-slate-500"></i> Uploaded by: <strong class="text-slate-200">Awais Abbas</strong>
+                    </span>
+                    <span class="flex items-center gap-1.5">
+                        <i class="fa-solid fa-phone text-red-500"></i> 03254327451
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Upload Movie Modal -->
+    <div id="uploadModal" class="fixed inset-0 z-50 hidden bg-slate-950/90 backdrop-blur-md flex items-center justify-center p-3 sm:p-6 overflow-y-auto">
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl w-full max-w-xl overflow-hidden shadow-2xl relative my-auto">
+            
+            <div class="px-6 py-4 border-b border-slate-800 flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                    <div class="w-8 h-8 rounded-lg bg-red-600/20 text-red-500 flex items-center justify-center font-bold">
+                        <i class="fa-solid fa-cloud-arrow-up"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-white">Upload New Movie</h3>
+                </div>
+                <button onclick="toggleUploadModal()" class="text-slate-400 hover:text-white p-1 transition">
+                    <i class="fa-solid fa-xmark text-lg"></i>
+                </button>
+            </div>
+
+            <form id="uploadForm" onsubmit="handleMovieUpload(event)" class="p-6 space-y-4">
+                <div>
+                    <label class="block text-xs font-semibold text-slate-300 mb-1">Movie Title *</label>
+                    <input type="text" id="movieTitleInput" required placeholder="e.g. Action Hero 2026" 
+                        class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-slate-100 focus:outline-none focus:border-red-500 focus:ring-1 focus:ring-red-500">
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-300 mb-1">Category / Genre *</label>
+                        <select id="movieCategoryInput" required class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-slate-100 focus:outline-none focus:border-red-500">
+                            <option value="Action">Action</option>
+                            <option value="Drama">Drama</option>
+                            <option value="Comedy">Comedy</option>
+                            <option value="Sci-Fi">Sci-Fi</option>
+                            <option value="Thriller">Thriller</option>
+                            <option value="General">General</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-300 mb-1">IMDb Rating (1-10) *</label>
+                        <input type="number" id="movieRatingInput" step="0.1" min="1" max="10" value="8.0" required 
+                            class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-slate-100 focus:outline-none focus:border-red-500">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-semibold text-slate-300 mb-1">Poster Image URL *</label>
+                    <input type="url" id="moviePosterInput" required placeholder="https://images.unsplash.com/..." 
+                        class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-slate-100 focus:outline-none focus:border-red-500">
+                    <p class="text-[11px] text-slate-500 mt-1">Provide an image URL or image link for the thumbnail cover.</p>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-semibold text-slate-300 mb-1">Video Stream URL / Embed Link *</label>
+                    <input type="url" id="movieVideoInput" required placeholder="Direct MP4 URL or YouTube Embed URL" 
+                        class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-slate-100 focus:outline-none focus:border-red-500">
+                    <p class="text-[11px] text-slate-500 mt-1">Accepts direct video files (.mp4/.webm) or standard embed links.</p>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-semibold text-slate-300 mb-1">Description *</label>
+                    <textarea id="movieDescInput" rows="3" required placeholder="Brief movie storyline..." 
+                        class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-slate-100 focus:outline-none focus:border-red-500"></textarea>
+                </div>
+
+                <div class="flex items-center justify-end gap-3 pt-4 border-t border-slate-800">
+                    <button type="button" onclick="toggleUploadModal()" class="px-4 py-2 rounded-xl text-xs font-semibold text-slate-400 hover:text-white transition">Cancel</button>
+                    <button type="submit" class="bg-red-600 hover:bg-red-700 text-white px-5 py-2 rounded-xl text-xs font-semibold transition flex items-center gap-2 shadow-lg shadow-red-900/30">
+                        <i class="fa-solid fa-cloud-arrow-up"></i> Publish Movie
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Notification Toast -->
+    <div id="toast" class="fixed bottom-5 right-5 z-50 hidden bg-slate-900 border border-emerald-500 text-white px-4 py-3 rounded-xl shadow-2xl flex items-center gap-3 transition">
+        <i class="fa-solid fa-circle-check text-emerald-400 text-lg"></i>
+        <span id="toastMessage" class="text-xs font-medium">Notification message</span>
+    </div>
+
+    <!-- Application Logic Script -->
+    <script>
+        // Sample Movies Dataset
+        const sampleMovies = [
+            {
+                id: 1,
+                title: "Tears of Steel",
+                category: "Sci-Fi",
+                rating: 8.4,
+                poster: "https://images.unsplash.com/photo-1536440136628-849c177e76a1?auto=format&fit=crop&w=600&q=80",
+                videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4",
+                description: "Set in a dystopian future, a group of warriors and scientists gather in Amsterdam to stage a desperate attempt to rescue the world from destructive robots.",
+                isUserUploaded: false
+            },
+            {
+                id: 2,
+                title: "Sintel Journey",
+                category: "Drama",
+                rating: 8.8,
+                poster: "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=600&q=80",
+                videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4",
+                description: "A lonely young woman, Sintel, helps a baby dragon she names Scales. When the dragon is kidnapped by an adult dragon, Sintel embarks on a dangerous quest to rescue him.",
+                isUserUploaded: false
+            },
+            {
+                id: 3,
+                title: "Big Buck Bunny",
+                category: "Comedy",
+                rating: 7.9,
+                poster: "https://images.unsplash.com/photo-1534447677768-be436bb09401?auto=format&fit=crop&w=600&q=80",
+                videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+                description: "A giant rabbit with a heart of gold takes revenge on bullies of the forest who ruin his tranquil morning and hurt innocent woodland creatures.",
+                isUserUploaded: false
+            },
+            {
+                id: 4,
+                title: "Cosmic Horizon",
+                category: "Sci-Fi",
+                rating: 9.1,
+                poster: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=600&q=80",
+                videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4",
+                description: "A mysterious journey through surreal mechanical worlds where two explorers decipher the secrets of an infinite digital architecture.",
+                isUserUploaded: false
+            },
+            {
+                id: 5,
+                title: "Urban Speed Chase",
+                category: "Action",
+                rating: 8.2,
+                poster: "https://images.unsplash.com/photo-1509198397868-475647b2a1e5?auto=format&fit=crop&w=600&q=80",
+                videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
+                description: "High octane street racing and fast-paced thrill across neon city tracks. Experience high stakes velocity and adrenaline.",
+                isUserUploaded: false
+            },
+            {
+                id: 6,
+                title: "Ocean's Whisper",
+                category: "Thriller",
+                rating: 7.8,
+                poster: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=600&q=80",
+                videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4",
+                description: "Deep-sea explorers encounter strange sonar signals beneath the Pacific trenches, unlocking ancient submerged secrets.",
+                isUserUploaded: false
+            }
+        ];
+
+        let movies = [];
+        let currentCategory = 'All';
+
+        // Load Movies from LocalStorage & Initialize
+        window.onload = function() {
+            document.getElementById('currentYear').textContent = new Date().getFullYear();
+            const stored = localStorage.getItem('awais_abbas_movies');
+            if (stored) {
+                try {
+                    movies = JSON.parse(stored);
+                } catch(e) {
+                    movies = [...sampleMovies];
+                }
+            } else {
+                movies = [...sampleMovies];
+                saveToLocalStorage();
+            }
+            renderMovies();
+        };
+
+        function saveToLocalStorage() {
+            localStorage.setItem('awais_abbas_movies', JSON.stringify(movies));
+        }
+
+        // Render Movie Grid
+        function renderMovies() {
+            const grid = document.getElementById('moviesGrid');
+            const searchVal = document.getElementById('searchInput').value.toLowerCase().trim();
+            const emptyState = document.getElementById('emptyState');
+            const countEl = document.getElementById('movieCount');
+
+            grid.innerHTML = '';
+
+            const filtered = movies.filter(movie => {
+                const matchesCategory = (currentCategory === 'All') ? true :
+                                        (currentCategory === 'Uploaded') ? movie.isUserUploaded :
+                                        movie.category.toLowerCase() === currentCategory.toLowerCase();
+                const matchesSearch = movie.title.toLowerCase().includes(searchVal) || 
+                                      movie.category.toLowerCase().includes(searchVal) ||
+                                      movie.description.toLowerCase().includes(searchVal);
+                return matchesCategory && matchesSearch;
+            });
+
+            countEl.textContent = `${filtered.length} Movie${filtered.length === 1 ? '' : 's'} available`;
+
+            if (filtered.length === 0) {
+                emptyState.classList.remove('hidden');
+            } else {
+                emptyState.classList.add('hidden');
+                filtered.forEach(movie => {
+                    const card = document.createElement('div');
+                    card.className = "group relative bg-slate-900 rounded-xl overflow-hidden border border-slate-800/80 hover:border-red-600/60 transition duration-300 shadow-lg flex flex-col cursor-pointer";
+                    card.onclick = () => playMovie(movie.id);
+
+                    card.innerHTML = `
+                        <div class="relative aspect-[2/3] w-full overflow-hidden bg-slate-950">
+                            <img src="${movie.poster}" alt="${movie.title}" 
+                                class="w-full h-full object-cover group-hover:scale-110 transition duration-500"
+                                onerror="this.onerror=null; this.src='https://placehold.co/400x600/1e293b/e2e8f0?text=Movie+Poster';">
+                            <div class="absolute inset-0 bg-slate-950/40 opacity-0 group-hover:opacity-100 transition duration-300 flex items-center justify-center">
+                                <div class="w-12 h-12 rounded-full bg-red-600 text-white flex items-center justify-center shadow-xl transform scale-75 group-hover:scale-100 transition duration-300">
+                                    <i class="fa-solid fa-play text-lg ml-1"></i>
+                                </div>
+                            </div>
+                            <div class="absolute top-2 left-2 flex flex-col gap-1">
+                                <span class="bg-slate-950/80 backdrop-blur-md text-amber-400 border border-amber-500/30 text-[10px] font-bold px-2 py-0.5 rounded-md flex items-center gap-1">
+                                    <i class="fa-solid fa-star"></i> ${movie.rating}
+                                </span>
+                            </div>
+                            ${movie.isUserUploaded ? `
+                                <span class="absolute top-2 right-2 bg-red-600 text-white text-[9px] font-extrabold px-1.5 py-0.5 rounded uppercase tracking-wider">
+                                    Uploaded
+                                </span>
+                            ` : ''}
+                        </div>
+                        <div class="p-3.5 flex flex-col flex-1 justify-between">
+                            <div>
+                                <span class="text-[10px] font-bold text-red-400 uppercase tracking-wider">${movie.category}</span>
+                                <h4 class="font-bold text-slate-100 text-sm line-clamp-1 group-hover:text-red-400 transition mt-0.5">${movie.title}</h4>
+                            </div>
+                            <p class="text-[11px] text-slate-400 line-clamp-2 mt-1.5">${movie.description}</p>
+                        </div>
+                    `;
+                    grid.appendChild(card);
+                });
+            }
+        }
+
+        // Category Selection Filter
+        function selectCategory(category) {
+            currentCategory = category;
+            document.querySelectorAll('.category-btn').forEach(btn => {
+                if(btn.textContent.trim().includes(category) || (category === 'Uploaded' && btn.textContent.includes('My Uploads'))) {
+                    btn.className = "category-btn active bg-red-600 text-white px-4 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap transition";
+                } else {
+                    btn.className = "category-btn bg-slate-800 hover:bg-slate-700 text-slate-300 px-4 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap transition";
+                }
+            });
+            document.getElementById('sectionTitle').textContent = category === 'All' ? 'All Movies' : `${category} Movies`;
+            renderMovies();
+        }
+
+        function filterMovies() {
+            renderMovies();
+        }
+
+        // Video Player Modal Handling
+        function playMovie(id) {
+            const movie = movies.find(m => m.id === id);
+            if (!movie) return;
+
+            const modal = document.getElementById('playerModal');
+            const videoContainer = document.getElementById('videoContainer');
+            
+            document.getElementById('modalTitle').textContent = movie.title;
+            document.getElementById('modalCategory').textContent = movie.category;
+            document.getElementById('modalRating').innerHTML = `<i class="fa-solid fa-star text-amber-400"></i> ${movie.rating}`;
+            document.getElementById('modalDescription').textContent = movie.description;
+
+            // WhatsApp link prep
+            const waMsg = encodeURIComponent(`Hi Awais Abbas, I am watching '${movie.title}' on your Movie Web Application! (Contact: 03254327451)`);
+            document.getElementById('modalWhatsAppBtn').href = `https://wa.me/923254327451?text=${waMsg}`;
+
+            // Player render (Direct MP4 vs Embed)
+            if (movie.videoUrl.includes('youtube.com') || movie.videoUrl.includes('youtu.be') || movie.videoUrl.includes('embed')) {
+                videoContainer.innerHTML = `<iframe src="${movie.videoUrl}" class="w-full h-full" border="0" allowfullscreen allow="autoplay"></iframe>`;
+            } else {
+                videoContainer.innerHTML = `
+                    <video controls autoplay class="w-full h-full object-contain">
+                        <source src="${movie.videoUrl}" type="video/mp4">
+                        Your browser does not support HTML5 video streaming.
+                    </video>
+                `;
+            }
+
+            modal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closePlayerModal() {
+            const modal = document.getElementById('playerModal');
+            const videoContainer = document.getElementById('videoContainer');
+            videoContainer.innerHTML = ''; // Stop video play on close
+            modal.classList.add('hidden');
+            document.body.style.overflow = 'auto';
+        }
+
+        // Toggle Upload Form Modal
+        function toggleUploadModal() {
+            const modal = document.getElementById('uploadModal');
+            if (modal.classList.contains('hidden')) {
+                modal.classList.remove('hidden');
+                document.body.style.overflow = 'hidden';
+            } else {
+                modal.classList.add('hidden');
+                document.body.style.overflow = 'auto';
+            }
+        }
+
+        // Handle Form Submission for Upload
+        function handleMovieUpload(event) {
+            event.preventDefault();
+
+            const title = document.getElementById('movieTitleInput').value.trim();
+            const category = document.getElementById('movieCategoryInput').value;
+            const rating = parseFloat(document.getElementById('movieRatingInput').value) || 8.0;
+            const poster = document.getElementById('moviePosterInput').value.trim();
+            const videoUrl = document.getElementById('movieVideoInput').value.trim();
+            const description = document.getElementById('movieDescInput').value.trim();
+
+            const newId = Date.now();
+            const newMovie = {
+                id: newId,
+                title,
+                category,
+                rating,
+                poster,
+                videoUrl,
+                description,
+                isUserUploaded: true
+            };
+
+            movies.unshift(newMovie);
+            saveToLocalStorage();
+            renderMovies();
+            toggleUploadModal();
+            document.getElementById('uploadForm').reset();
+            showToast(`Movie "${title}" successfully published!`);
+        }
+
+        // Copy Share Link Toast Action
+        function shareMovie() {
+            const tempInput = document.createElement('input');
+            tempInput.value = window.location.href;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempInput);
+            showToast('Movie link copied to clipboard!');
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toastMessage').textContent = message;
+            toast.classList.remove('hidden');
+            setTimeout(() => {
+                toast.classList.add('hidden');
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
