@@ -1,0 +1,926 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YouTube Clone - Awais Abbas</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        ytRed: '#FF0000',
+                        ytDarkBg: '#0f0f0f',
+                        ytDarkHeader: '#0f0f0f',
+                        ytDarkCard: '#1f1f1f',
+                        ytDarkHover: '#272727',
+                        ytDarkBorder: '#3f3f3f'
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Lucide Icons CDN -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Font Family -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #0f0f0f;
+            color: #f1f1f1;
+        }
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0f0f0f;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #3f3f3f;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #555555;
+        }
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen antialiased bg-ytDarkBg text-gray-100">
+
+    <!-- TOP HEADER -->
+    <header class="sticky top-0 z-40 flex items-center justify-between px-4 py-2 bg-ytDarkHeader border-b border-ytDarkBorder/40">
+        <!-- Left: Menu Icon & Logo -->
+        <div class="flex items-center space-x-4">
+            <button id="toggleSidebar" class="p-2 rounded-full hover:bg-ytDarkHover transition text-gray-200">
+                <i data-lucide="menu" class="w-6 h-6"></i>
+            </button>
+            <div class="flex items-center space-x-1 cursor-pointer" onclick="resetToHome()">
+                <div class="bg-ytRed text-white p-1.5 rounded-xl flex items-center justify-center">
+                    <i data-lucide="play" class="w-5 h-5 fill-current"></i>
+                </div>
+                <span class="text-xl font-bold tracking-tighter text-white font-sans">YouTube <span class="text-xs font-normal text-gray-400 border border-gray-700 px-1.5 py-0.5 rounded ml-1">PK</span></span>
+            </div>
+        </div>
+
+        <!-- Center: Search Bar -->
+        <div class="flex items-center justify-center flex-1 max-w-2xl mx-4">
+            <div class="flex items-center w-full">
+                <div class="relative w-full">
+                    <input type="text" id="searchInput" placeholder="Search videos, creators, or topics..." 
+                        class="w-full bg-[#121212] border border-ytDarkBorder focus:border-blue-500 rounded-l-full py-2 px-4 text-sm text-gray-200 focus:outline-none transition">
+                    <button id="clearSearch" class="hidden absolute right-3 top-2.5 text-gray-400 hover:text-white">
+                        <i data-lucide="x" class="w-4 h-4"></i>
+                    </button>
+                </div>
+                <button id="searchBtn" class="bg-ytDarkHover border border-l-0 border-ytDarkBorder px-6 py-2 rounded-r-full hover:bg-ytDarkBorder transition text-gray-200" title="Search">
+                    <i data-lucide="search" class="w-5 h-5"></i>
+                </button>
+            </div>
+            <button class="ml-3 p-2 bg-ytDarkHover rounded-full hover:bg-ytDarkBorder transition text-gray-200 hidden sm:block" title="Search with voice">
+                <i data-lucide="mic" class="w-5 h-5"></i>
+            </button>
+        </div>
+
+        <!-- Right: Actions & User Info -->
+        <div class="flex items-center space-x-2 sm:space-x-3">
+            <!-- Download Code Button -->
+            <button id="openDownloadModalBtn" class="flex items-center space-x-1 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white text-xs font-medium px-3 py-2 rounded-full transition shadow-lg">
+                <i data-lucide="download" class="w-4 h-4"></i>
+                <span class="hidden md:inline">Source Code</span>
+            </button>
+
+            <!-- Upload Button -->
+            <button id="openUploadModalBtn" class="p-2 rounded-full hover:bg-ytDarkHover transition text-gray-200 flex items-center space-x-1" title="Create Video">
+                <i data-lucide="video" class="w-5 h-5"></i>
+            </button>
+
+            <!-- Notification Icon -->
+            <button class="p-2 rounded-full hover:bg-ytDarkHover transition text-gray-200 relative" title="Notifications">
+                <i data-lucide="bell" class="w-5 h-5"></i>
+                <span class="absolute top-1 right-1 bg-ytRed text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center font-bold">3</span>
+            </button>
+
+            <!-- WhatsApp Direct Contact Button -->
+            <a href="https://wa.me/923254327451?text=Hello%20Awais%20Abbas,%20I%20saw%20your%20YouTube%20Clone%20website!" target="_blank" 
+               class="flex items-center space-x-1 bg-green-600 hover:bg-green-500 text-white text-xs px-3 py-1.5 rounded-full transition font-semibold" title="WhatsApp Awais Abbas">
+                <i data-lucide="message-circle" class="w-4 h-4"></i>
+                <span class="hidden lg:inline">03254327451</span>
+            </a>
+
+            <!-- Avatar -->
+            <div class="w-8 h-8 rounded-full bg-gradient-to-tr from-purple-600 to-red-600 flex items-center justify-center text-white font-bold text-sm cursor-pointer" title="Awais Abbas Profile">
+                AA
+            </div>
+        </div>
+    </header>
+
+    <!-- DEVELOPER BANNER (Awais Abbas Contact Info) -->
+    <div class="bg-gradient-to-r from-red-950 via-ytDarkCard to-gray-900 border-b border-ytDarkBorder px-4 py-2 flex flex-col sm:flex-row items-center justify-between text-xs text-gray-300">
+        <div class="flex items-center space-x-2 mb-1 sm:mb-0">
+            <span class="bg-ytRed text-white text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider">Developer</span>
+            <span class="font-medium text-gray-100">Created by <strong class="text-white">Awais Abbas</strong></span>
+            <span class="text-gray-500">|</span>
+            <span class="text-emerald-400 font-mono">WhatsApp: 03254327451</span>
+        </div>
+        <div class="flex items-center space-x-4">
+            <span class="hidden md:inline text-gray-400">Professional Web & Mobile Developer</span>
+            <a href="https://wa.me/923254327451" target="_blank" class="text-green-400 hover:text-green-300 font-semibold underline flex items-center space-x-1">
+                <i data-lucide="phone-call" class="w-3 h-3"></i>
+                <span>Hire Developer</span>
+            </a>
+        </div>
+    </div>
+
+    <!-- MAIN BODY CONTAINER -->
+    <div class="flex flex-1 overflow-hidden">
+        
+        <!-- SIDEBAR NAVIGATION -->
+        <aside id="sidebar" class="w-64 bg-ytDarkHeader border-r border-ytDarkBorder/30 p-3 flex flex-col space-y-4 shrink-0 transition-all duration-300 overflow-y-auto">
+            <!-- Primary Nav -->
+            <div class="space-y-1">
+                <button class="nav-item active flex items-center space-x-5 w-full px-3 py-2.5 rounded-xl hover:bg-ytDarkHover transition text-sm font-medium" data-category="All">
+                    <i data-lucide="home" class="w-5 h-5 text-ytRed"></i>
+                    <span>Home</span>
+                </button>
+                <button class="nav-item flex items-center space-x-5 w-full px-3 py-2.5 rounded-xl hover:bg-ytDarkHover transition text-sm font-medium" data-category="Trending">
+                    <i data-lucide="flame" class="w-5 h-5"></i>
+                    <span>Trending</span>
+                </button>
+                <button class="nav-item flex items-center space-x-5 w-full px-3 py-2.5 rounded-xl hover:bg-ytDarkHover transition text-sm font-medium" data-category="Subscriptions">
+                    <i data-lucide="tv" class="w-5 h-5"></i>
+                    <span>Subscriptions</span>
+                </button>
+            </div>
+
+            <hr class="border-ytDarkBorder/50">
+
+            <!-- Secondary Nav -->
+            <div class="space-y-1">
+                <div class="px-3 text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">Library</div>
+                <button class="nav-item flex items-center space-x-5 w-full px-3 py-2.5 rounded-xl hover:bg-ytDarkHover transition text-sm font-medium">
+                    <i data-lucide="folder" class="w-5 h-5"></i>
+                    <span>Library</span>
+                </button>
+                <button class="nav-item flex items-center space-x-5 w-full px-3 py-2.5 rounded-xl hover:bg-ytDarkHover transition text-sm font-medium">
+                    <i data-lucide="history" class="w-5 h-5"></i>
+                    <span>History</span>
+                </button>
+                <button class="nav-item flex items-center space-x-5 w-full px-3 py-2.5 rounded-xl hover:bg-ytDarkHover transition text-sm font-medium">
+                    <i data-lucide="thumbs-up" class="w-5 h-5"></i>
+                    <span>Liked Videos</span>
+                </button>
+            </div>
+
+            <hr class="border-ytDarkBorder/50">
+
+            <!-- Subscriptions List -->
+            <div class="space-y-1">
+                <div class="px-3 text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">Subscriptions</div>
+                <div class="flex items-center space-x-3 px-3 py-2 hover:bg-ytDarkHover rounded-xl cursor-pointer">
+                    <div class="w-6 h-6 rounded-full bg-blue-600 flex items-center justify-center text-xs font-bold">TC</div>
+                    <span class="text-sm truncate">Tech Channel</span>
+                </div>
+                <div class="flex items-center space-x-3 px-3 py-2 hover:bg-ytDarkHover rounded-xl cursor-pointer">
+                    <div class="w-6 h-6 rounded-full bg-emerald-600 flex items-center justify-center text-xs font-bold">AA</div>
+                    <span class="text-sm truncate">Awais Abbas Official</span>
+                </div>
+                <div class="flex items-center space-x-3 px-3 py-2 hover:bg-ytDarkHover rounded-xl cursor-pointer">
+                    <div class="w-6 h-6 rounded-full bg-purple-600 flex items-center justify-center text-xs font-bold">GC</div>
+                    <span class="text-sm truncate">Gaming Central</span>
+                </div>
+            </div>
+
+            <hr class="border-ytDarkBorder/50">
+
+            <!-- Contact Box in Sidebar -->
+            <div class="p-3 bg-ytDarkCard rounded-xl border border-ytDarkBorder/60 space-y-2">
+                <div class="text-xs font-bold text-gray-300">Contact Owner</div>
+                <div class="text-xs text-gray-400">Awais Abbas</div>
+                <a href="https://wa.me/923254327451" target="_blank" class="block w-full text-center bg-green-600 hover:bg-green-500 text-white font-medium text-xs py-1.5 rounded-lg transition">
+                    WhatsApp Support
+                </a>
+            </div>
+
+            <!-- Footer Info -->
+            <div class="px-3 text-[11px] text-gray-500 space-y-1 pt-2">
+                <p>&copy; 2026 YouTube Clone</p>
+                <p>Designed by Awais Abbas</p>
+                <p>Contact: 03254327451</p>
+            </div>
+        </aside>
+
+        <!-- MAIN CONTENT AREA -->
+        <main class="flex-1 overflow-y-auto p-4 sm:p-6 flex flex-col">
+            
+            <!-- CATEGORY CHIPS BAR -->
+            <div id="categoryChips" class="flex items-center space-x-3 overflow-x-auto pb-4 hide-scrollbar">
+                <button class="chip active bg-white text-black px-4 py-1.5 rounded-lg text-sm font-medium whitespace-nowrap hover:bg-gray-200 transition">All</button>
+                <button class="chip bg-ytDarkCard text-white border border-ytDarkBorder px-4 py-1.5 rounded-lg text-sm font-medium whitespace-nowrap hover:bg-ytDarkHover transition">Coding</button>
+                <button class="chip bg-ytDarkCard text-white border border-ytDarkBorder px-4 py-1.5 rounded-lg text-sm font-medium whitespace-nowrap hover:bg-ytDarkHover transition">Music</button>
+                <button class="chip bg-ytDarkCard text-white border border-ytDarkBorder px-4 py-1.5 rounded-lg text-sm font-medium whitespace-nowrap hover:bg-ytDarkHover transition">Gaming</button>
+                <button class="chip bg-ytDarkCard text-white border border-ytDarkBorder px-4 py-1.5 rounded-lg text-sm font-medium whitespace-nowrap hover:bg-ytDarkHover transition">Tech</button>
+                <button class="chip bg-ytDarkCard text-white border border-ytDarkBorder px-4 py-1.5 rounded-lg text-sm font-medium whitespace-nowrap hover:bg-ytDarkHover transition">Live</button>
+                <button class="chip bg-ytDarkCard text-white border border-ytDarkBorder px-4 py-1.5 rounded-lg text-sm font-medium whitespace-nowrap hover:bg-ytDarkHover transition">Podcasts</button>
+                <button class="chip bg-ytDarkCard text-white border border-ytDarkBorder px-4 py-1.5 rounded-lg text-sm font-medium whitespace-nowrap hover:bg-ytDarkHover transition">Pakistani Tech</button>
+            </div>
+
+            <!-- VIDEO GRID -->
+            <div id="videoGrid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 gap-y-6 mt-2">
+                <!-- Video cards will be injected dynamically by JavaScript -->
+            </div>
+
+            <!-- NO RESULTS STATE -->
+            <div id="noResults" class="hidden flex-1 flex flex-col items-center justify-center py-16 text-center">
+                <i data-lucide="search-x" class="w-16 h-16 text-gray-500 mb-4"></i>
+                <h3 class="text-xl font-bold text-gray-200">No videos found</h3>
+                <p class="text-gray-400 mt-1 max-w-md">Try searching for something else or explore categories above.</p>
+                <button onclick="resetToHome()" class="mt-4 bg-ytRed text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-red-700 transition">Back to Home</button>
+            </div>
+        </main>
+    </div>
+
+    <!-- VIDEO PLAYER MODAL -->
+    <div id="videoModal" class="fixed inset-0 z-50 bg-black/90 hidden backdrop-blur-md overflow-y-auto">
+        <div class="max-w-6xl mx-auto p-4 md:p-6 min-h-screen flex flex-col justify-center">
+            
+            <!-- Modal Header / Close -->
+            <div class="flex items-center justify-between mb-3">
+                <div class="flex items-center space-x-2">
+                    <span class="bg-ytRed text-white text-xs px-2 py-0.5 rounded font-bold uppercase">Playing</span>
+                    <h2 id="modalVideoCategory" class="text-xs text-gray-400 font-semibold tracking-wider">CATEGORY</h2>
+                </div>
+                <button id="closeVideoModal" class="p-2 rounded-full bg-ytDarkCard hover:bg-ytDarkHover text-gray-300 transition">
+                    <i data-lucide="x" class="w-6 h-6"></i>
+                </button>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <!-- Main Player & Details (2 Cols) -->
+                <div class="lg:col-span-2 space-y-4">
+                    <!-- Video Container -->
+                    <div class="relative w-full aspect-video bg-black rounded-2xl overflow-hidden shadow-2xl group border border-ytDarkBorder">
+                        <video id="mainVideoPlayer" class="w-full h-full object-contain" controls poster="">
+                            <source id="videoSource" src="" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                    </div>
+
+                    <!-- Video Title -->
+                    <h1 id="modalVideoTitle" class="text-xl font-bold text-white tracking-wide">Video Title Here</h1>
+
+                    <!-- Channel & Reaction Controls -->
+                    <div class="flex flex-wrap items-center justify-between gap-4 pb-4 border-b border-ytDarkBorder">
+                        <!-- Creator Info -->
+                        <div class="flex items-center space-x-3">
+                            <div id="modalChannelAvatar" class="w-10 h-10 rounded-full bg-gradient-to-r from-red-500 to-amber-500 flex items-center justify-center font-bold text-white text-sm">
+                                AA
+                            </div>
+                            <div>
+                                <div id="modalChannelName" class="font-semibold text-sm text-gray-100">Awais Abbas</div>
+                                <div id="modalSubCount" class="text-xs text-gray-400">125K subscribers</div>
+                            </div>
+                            <button id="subBtn" class="ml-4 bg-white text-black hover:bg-gray-200 px-4 py-2 rounded-full font-semibold text-xs transition">
+                                Subscribe
+                            </button>
+                        </div>
+
+                        <!-- Reactions -->
+                        <div class="flex items-center space-x-2">
+                            <div class="flex items-center bg-ytDarkCard rounded-full border border-ytDarkBorder overflow-hidden">
+                                <button id="likeBtn" class="flex items-center space-x-2 px-4 py-2 hover:bg-ytDarkHover transition text-sm">
+                                    <i data-lucide="thumbs-up" class="w-4 h-4"></i>
+                                    <span id="likeCount" class="text-xs font-semibold">12.4K</span>
+                                </button>
+                                <div class="w-px h-6 bg-ytDarkBorder"></div>
+                                <button id="dislikeBtn" class="px-3 py-2 hover:bg-ytDarkHover transition text-sm">
+                                    <i data-lucide="thumbs-down" class="w-4 h-4"></i>
+                                </button>
+                            </div>
+
+                            <button id="shareBtn" class="flex items-center space-x-2 bg-ytDarkCard hover:bg-ytDarkHover border border-ytDarkBorder px-4 py-2 rounded-full transition text-sm">
+                                <i data-lucide="share-2" class="w-4 h-4"></i>
+                                <span class="text-xs font-semibold">Share</span>
+                            </button>
+
+                            <a href="https://wa.me/923254327451" target="_blank" class="flex items-center space-x-1 bg-green-600 hover:bg-green-500 px-3 py-2 rounded-full transition text-xs font-medium text-white">
+                                <i data-lucide="message-circle" class="w-4 h-4"></i>
+                                <span class="hidden sm:inline">WhatsApp Developer</span>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Video Description Box -->
+                    <div class="bg-ytDarkCard p-4 rounded-xl border border-ytDarkBorder space-y-2">
+                        <div class="flex items-center space-x-3 text-xs text-gray-400 font-semibold">
+                            <span id="modalViews">1.2M views</span>
+                            <span id="modalDate">2 days ago</span>
+                            <span class="text-ytRed font-bold">#AwaisAbbas #YouTubeClone</span>
+                        </div>
+                        <p id="modalDescription" class="text-sm text-gray-300 leading-relaxed">
+                            This is a fully custom video cloned layout built for demonstration. Contact Awais Abbas on WhatsApp (03254327451) for web developments!
+                        </p>
+                    </div>
+
+                    <!-- COMMENTS SECTION -->
+                    <div class="pt-4 space-y-4">
+                        <div class="flex items-center justify-between">
+                            <h3 class="font-bold text-lg text-gray-100 flex items-center space-x-2">
+                                <span>Comments</span>
+                                <span id="commentsCount" class="text-xs bg-ytDarkCard px-2 py-1 rounded-full text-gray-400">4</span>
+                            </h3>
+                        </div>
+
+                        <!-- Add Comment Input -->
+                        <div class="flex items-start space-x-3">
+                            <div class="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center text-xs font-bold shrink-0">
+                                You
+                            </div>
+                            <div class="flex-1 space-y-2">
+                                <textarea id="commentInput" rows="2" placeholder="Add a comment..." 
+                                    class="w-full bg-ytDarkCard border border-ytDarkBorder focus:border-blue-500 rounded-xl p-3 text-sm text-gray-200 focus:outline-none transition"></textarea>
+                                <div class="flex justify-end space-x-2">
+                                    <button id="cancelCommentBtn" class="px-4 py-1.5 rounded-full hover:bg-ytDarkHover text-xs font-semibold text-gray-400">Cancel</button>
+                                    <button id="submitCommentBtn" class="bg-blue-600 hover:bg-blue-500 text-white px-4 py-1.5 rounded-full text-xs font-semibold transition">Comment</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Comments List -->
+                        <div id="commentsList" class="space-y-4 pt-2">
+                            <!-- Dynamic comments will appear here -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Up Next Sidebar (1 Col) -->
+                <div class="space-y-4">
+                    <h3 class="font-bold text-md text-gray-200 uppercase tracking-wider text-xs">Related Videos</h3>
+                    <div id="relatedVideosList" class="space-y-3">
+                        <!-- Up next videos dynamically added -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- UPLOAD VIDEO MODAL -->
+    <div id="uploadModal" class="fixed inset-0 z-50 bg-black/80 hidden items-center justify-center p-4 backdrop-blur-sm">
+        <div class="bg-ytDarkCard border border-ytDarkBorder w-full max-w-lg rounded-2xl p-6 shadow-2xl relative">
+            <button id="closeUploadModalBtn" class="absolute top-4 right-4 text-gray-400 hover:text-white">
+                <i data-lucide="x" class="w-6 h-6"></i>
+            </button>
+            
+            <div class="flex items-center space-x-2 text-ytRed mb-4">
+                <i data-lucide="upload-cloud" class="w-6 h-6"></i>
+                <h2 class="text-xl font-bold text-white">Upload New Video</h2>
+            </div>
+            
+            <form id="uploadForm" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-semibold text-gray-300 uppercase mb-1">Video Title</label>
+                    <input type="text" id="uploadTitle" required placeholder="e.g. Building a Website with HTML & CSS" 
+                        class="w-full bg-ytDarkHeader border border-ytDarkBorder rounded-lg p-2.5 text-sm text-gray-100 focus:outline-none focus:border-ytRed">
+                </div>
+                
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-300 uppercase mb-1">Category</label>
+                        <select id="uploadCategory" class="w-full bg-ytDarkHeader border border-ytDarkBorder rounded-lg p-2.5 text-sm text-gray-100 focus:outline-none focus:border-ytRed">
+                            <option value="Coding">Coding</option>
+                            <option value="Music">Music</option>
+                            <option value="Gaming">Gaming</option>
+                            <option value="Tech">Tech</option>
+                            <option value="Live">Live</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-300 uppercase mb-1">Channel Name</label>
+                        <input type="text" id="uploadChannel" value="Awais Abbas" required 
+                            class="w-full bg-ytDarkHeader border border-ytDarkBorder rounded-lg p-2.5 text-sm text-gray-100 focus:outline-none focus:border-ytRed">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-semibold text-gray-300 uppercase mb-1">Thumbnail Image URL</label>
+                    <input type="url" id="uploadThumbnail" placeholder="https://images.unsplash.com/photo-..." 
+                        class="w-full bg-ytDarkHeader border border-ytDarkBorder rounded-lg p-2.5 text-sm text-gray-100 focus:outline-none focus:border-ytRed">
+                    <span class="text-[10px] text-gray-500">Leave empty for auto-generated tech thumbnail</span>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-semibold text-gray-300 uppercase mb-1">Video Stream URL (.mp4)</label>
+                    <input type="url" id="uploadVideoUrl" placeholder="https://commondatastorage.googleapis.com/..." 
+                        class="w-full bg-ytDarkHeader border border-ytDarkBorder rounded-lg p-2.5 text-sm text-gray-100 focus:outline-none focus:border-ytRed">
+                    <span class="text-[10px] text-gray-500">Leave empty for sample Big Buck Bunny video</span>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-semibold text-gray-300 uppercase mb-1">Description</label>
+                    <textarea id="uploadDescription" rows="3" placeholder="Enter video description..." 
+                        class="w-full bg-ytDarkHeader border border-ytDarkBorder rounded-lg p-2.5 text-sm text-gray-100 focus:outline-none focus:border-ytRed"></textarea>
+                </div>
+
+                <div class="pt-2 flex justify-end space-x-3">
+                    <button type="button" id="cancelUploadBtn" class="px-4 py-2 rounded-lg text-sm text-gray-400 hover:bg-ytDarkHover">Cancel</button>
+                    <button type="submit" class="bg-ytRed hover:bg-red-700 text-white font-medium px-6 py-2 rounded-lg text-sm transition">Publish Video</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- DOWNLOAD SOURCE CODE MODAL -->
+    <div id="downloadModal" class="fixed inset-0 z-50 bg-black/85 hidden items-center justify-center p-4 backdrop-blur-sm">
+        <div class="bg-ytDarkCard border border-ytDarkBorder w-full max-w-md rounded-2xl p-6 shadow-2xl relative text-center space-y-4">
+            <button id="closeDownloadModalBtn" class="absolute top-4 right-4 text-gray-400 hover:text-white">
+                <i data-lucide="x" class="w-6 h-6"></i>
+            </button>
+
+            <div class="w-16 h-16 bg-emerald-500/20 text-emerald-400 rounded-full flex items-center justify-center mx-auto">
+                <i data-lucide="code-2" class="w-8 h-8"></i>
+            </div>
+
+            <h2 class="text-2xl font-bold text-white">Download Source Code</h2>
+            <p class="text-xs text-gray-300 leading-relaxed">
+                You can download the full, single-file source code for this website (HTML + Tailwind CSS + Lucide Icons + JS logic).
+            </p>
+
+            <div class="p-3 bg-ytDarkHeader border border-ytDarkBorder rounded-xl text-left text-xs space-y-1">
+                <div class="text-gray-400">Developer Info:</div>
+                <div class="text-white font-bold">Awais Abbas</div>
+                <div class="text-emerald-400 font-mono">WhatsApp: 03254327451</div>
+            </div>
+
+            <button id="triggerDownloadBtn" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-3 rounded-xl transition flex items-center justify-center space-x-2">
+                <i data-lucide="download" class="w-5 h-5"></i>
+                <span>Download index.html File</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- FLOATING WHATSAPP BUTTON -->
+    <a href="https://wa.me/923254327451?text=Hi%20Awais%20Abbas!%20I%20am%20interested%20in%20your%20web%20services." 
+       target="_blank" 
+       class="fixed bottom-6 right-6 z-40 bg-green-500 hover:bg-green-600 text-white p-4 rounded-full shadow-2xl flex items-center justify-center transition-all transform hover:scale-110 group" 
+       title="Contact Awais Abbas on WhatsApp">
+        <i data-lucide="message-circle" class="w-7 h-7"></i>
+        <span class="max-w-0 overflow-hidden whitespace-nowrap group-hover:max-w-xs transition-all duration-300 ease-in-out font-bold text-sm ml-0 group-hover:ml-2">
+            WhatsApp: 03254327451
+        </span>
+    </a>
+
+    <!-- JAVASCRIPT APP LOGIC -->
+    <script>
+        // INITIAL SAMPLE VIDEO DATABASE
+        const initialVideos = [
+            {
+                id: "v1",
+                title: "Complete Web Development Tutorial 2026 - Modern Frontend",
+                category: "Coding",
+                channel: "Awais Abbas",
+                subscribers: "150K",
+                views: "342K",
+                timestamp: "3 days ago",
+                thumbnail: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=800&auto=format&fit=crop&q=60",
+                videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+                likes: "24.5K",
+                description: "Learn web development from scratch with Awais Abbas. Contact 03254327451 on WhatsApp for personalized coaching or custom projects.",
+                comments: [
+                    { name: "Ali Raza", time: "1 day ago", text: "Best tutorial ever! Thanks Awais Abbas bro." },
+                    { name: "Hamza Dev", time: "2 days ago", text: "Very clean YouTube clone design!" }
+                ]
+            },
+            {
+                id: "v2",
+                title: "Building High Performance Mobile Apps in React Native",
+                category: "Tech",
+                channel: "Tech Master PK",
+                subscribers: "89K",
+                views: "120K",
+                timestamp: "1 week ago",
+                thumbnail: "https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=800&auto=format&fit=crop&q=60",
+                videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4",
+                likes: "9.2K",
+                description: "Explore the newest frameworks for building cross-platform apps with fast render speeds.",
+                comments: [
+                    { name: "Zainab", time: "3 days ago", text: "Awesome explanation." }
+                ]
+            },
+            {
+                id: "v3",
+                title: "Lofi Hip Hop Radio - Beats to Relax/Study to",
+                category: "Music",
+                channel: "Chill Vibes",
+                subscribers: "2.4M",
+                views: "1.8M",
+                timestamp: "Streamed Live",
+                thumbnail: "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=800&auto=format&fit=crop&q=60",
+                videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
+                likes: "102K",
+                description: "Relaxing music for coding, reading, and concentrating.",
+                comments: [
+                    { name: "Usman", time: "5 mins ago", text: "Listening while coding!" }
+                ]
+            },
+            {
+                id: "v4",
+                title: "Cyberpunk 2077 Ultra Graphics Gameplay Benchmark",
+                category: "Gaming",
+                channel: "GameZone PK",
+                subscribers: "430K",
+                views: "890K",
+                timestamp: "2 weeks ago",
+                thumbnail: "https://images.unsplash.com/photo-1542751371-adc38448a05e?w=800&auto=format&fit=crop&q=60",
+                videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4",
+                likes: "54K",
+                description: "Testing maximum settings with modern GPU ray tracing.",
+                comments: []
+            },
+            {
+                id: "v5",
+                title: "How to Create YouTube Clone in HTML CSS JavaScript",
+                category: "Coding",
+                channel: "Awais Abbas",
+                subscribers: "150K",
+                views: "54K",
+                timestamp: "5 hours ago",
+                thumbnail: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=800&auto=format&fit=crop&q=60",
+                videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4",
+                likes: "4.8K",
+                description: "Step-by-step guide to building a responsive YouTube layout. Contact Awais Abbas on WhatsApp: 03254327451.",
+                comments: [
+                    { name: "Sufyan", time: "1 hour ago", text: "WhatsApp number saved!" }
+                ]
+            },
+            {
+                id: "v6",
+                title: "Top 10 Artificial Intelligence Tools for 2026",
+                category: "Tech",
+                channel: "Future Tech",
+                subscribers: "670K",
+                views: "410K",
+                timestamp: "4 days ago",
+                thumbnail: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=800&auto=format&fit=crop&q=60",
+                videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoylikes.mp4",
+                likes: "31K",
+                description: "Revolutionary AI tools that boost productivity for software engineers and designers.",
+                comments: []
+            }
+        ];
+
+        // APP STATE
+        let currentVideos = [...initialVideos];
+        let currentCategory = "All";
+        let activeVideo = null;
+
+        // DOM ELEMENTS
+        const videoGrid = document.getElementById('videoGrid');
+        const searchInput = document.getElementById('searchInput');
+        const searchBtn = document.getElementById('searchBtn');
+        const clearSearchBtn = document.getElementById('clearSearch');
+        const categoryChips = document.getElementById('categoryChips');
+        const noResults = document.getElementById('noResults');
+
+        // Modal Elements
+        const videoModal = document.getElementById('videoModal');
+        const closeVideoModalBtn = document.getElementById('closeVideoModal');
+        const mainVideoPlayer = document.getElementById('mainVideoPlayer');
+        const videoSource = document.getElementById('videoSource');
+        const modalVideoTitle = document.getElementById('modalVideoTitle');
+        const modalChannelName = document.getElementById('modalChannelName');
+        const modalSubCount = document.getElementById('modalSubCount');
+        const modalViews = document.getElementById('modalViews');
+        const modalDate = document.getElementById('modalDate');
+        const modalDescription = document.getElementById('modalDescription');
+        const modalVideoCategory = document.getElementById('modalVideoCategory');
+        const likeCount = document.getElementById('likeCount');
+        const commentsList = document.getElementById('commentsList');
+        const commentsCount = document.getElementById('commentsCount');
+        const relatedVideosList = document.getElementById('relatedVideosList');
+        const commentInput = document.getElementById('commentInput');
+        const submitCommentBtn = document.getElementById('submitCommentBtn');
+        const cancelCommentBtn = document.getElementById('cancelCommentBtn');
+
+        // Upload Modal
+        const uploadModal = document.getElementById('uploadModal');
+        const openUploadModalBtn = document.getElementById('openUploadModalBtn');
+        const closeUploadModalBtn = document.getElementById('closeUploadModalBtn');
+        const cancelUploadBtn = document.getElementById('cancelUploadBtn');
+        const uploadForm = document.getElementById('uploadForm');
+
+        // Download Modal
+        const downloadModal = document.getElementById('downloadModal');
+        const openDownloadModalBtn = document.getElementById('openDownloadModalBtn');
+        const closeDownloadModalBtn = document.getElementById('closeDownloadModalBtn');
+        const triggerDownloadBtn = document.getElementById('triggerDownloadBtn');
+
+        // Sidebar Toggle
+        const toggleSidebarBtn = document.getElementById('toggleSidebar');
+        const sidebar = document.getElementById('sidebar');
+
+        // INITIALIZE APP
+        window.addEventListener('DOMContentLoaded', () => {
+            lucide.createIcons();
+            renderVideos(currentVideos);
+            setupEventListeners();
+        });
+
+        // RENDER VIDEO GRID
+        function renderVideos(videosToRender) {
+            videoGrid.innerHTML = '';
+            
+            if (videosToRender.length === 0) {
+                videoGrid.classList.add('hidden');
+                noResults.classList.remove('hidden');
+                return;
+            } else {
+                videoGrid.classList.remove('hidden');
+                noResults.classList.add('hidden');
+            }
+
+            videosToRender.forEach(video => {
+                const card = document.createElement('div');
+                card.className = "flex flex-col space-y-3 cursor-pointer group";
+                card.onclick = () => openVideoModal(video);
+
+                card.innerHTML = `
+                    <div class="relative w-full aspect-video rounded-xl overflow-hidden bg-ytDarkCard border border-ytDarkBorder/40">
+                        <img src="${video.thumbnail}" alt="${video.title}" class="w-full h-full object-cover group-hover:scale-105 transition duration-300" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=800&auto=format&fit=crop&q=60'">
+                        <span class="absolute bottom-2 right-2 bg-black/80 text-white text-[11px] font-bold px-1.5 py-0.5 rounded">10:45</span>
+                    </div>
+                    <div class="flex space-x-3 items-start">
+                        <div class="w-9 h-9 rounded-full bg-gradient-to-tr from-red-600 to-amber-500 flex items-center justify-center font-bold text-white text-xs shrink-0">
+                            ${video.channel.substring(0, 2).toUpperCase()}
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <h3 class="text-sm font-semibold text-gray-100 line-clamp-2 group-hover:text-blue-400 transition leading-snug">${video.title}</h3>
+                            <div class="text-xs text-gray-400 mt-1 flex items-center space-x-1">
+                                <span>${video.channel}</span>
+                                <i data-lucide="check-circle" class="w-3 h-3 text-gray-400 fill-current"></i>
+                            </div>
+                            <div class="text-xs text-gray-400 flex items-center space-x-1 mt-0.5">
+                                <span>${video.views} views</span>
+                                <span>•</span>
+                                <span>${video.timestamp}</span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                videoGrid.appendChild(card);
+            });
+            lucide.createIcons();
+        }
+
+        // OPEN VIDEO MODAL
+        function openVideoModal(video) {
+            activeVideo = video;
+            modalVideoTitle.textContent = video.title;
+            modalChannelName.textContent = video.channel;
+            modalSubCount.textContent = `${video.subscribers} subscribers`;
+            modalViews.textContent = `${video.views} views`;
+            modalDate.textContent = video.timestamp;
+            modalDescription.textContent = video.description;
+            modalVideoCategory.textContent = video.category.toUpperCase();
+            likeCount.textContent = video.likes;
+
+            // Video Player Src
+            mainVideoPlayer.src = video.videoUrl;
+            mainVideoPlayer.play().catch(() => {}); // Play if permitted
+
+            // Comments
+            renderComments(video.comments);
+
+            // Related Videos
+            renderRelatedVideos(video.id);
+
+            videoModal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+            lucide.createIcons();
+        }
+
+        // CLOSE VIDEO MODAL
+        function closeVideoModal() {
+            videoModal.classList.add('hidden');
+            mainVideoPlayer.pause();
+            mainVideoPlayer.src = "";
+            document.body.style.overflow = 'auto';
+        }
+
+        // RENDER COMMENTS
+        function renderComments(comments) {
+            commentsList.innerHTML = '';
+            commentsCount.textContent = comments.length;
+
+            if(comments.length === 0) {
+                commentsList.innerHTML = '<p class="text-xs text-gray-500 italic">No comments yet. Be the first to comment!</p>';
+                return;
+            }
+
+            comments.forEach(c => {
+                const commentEl = document.createElement('div');
+                commentEl.className = "flex space-x-3 items-start text-xs";
+                commentEl.innerHTML = `
+                    <div class="w-8 h-8 rounded-full bg-ytDarkBorder flex items-center justify-center font-bold text-gray-300 shrink-0">
+                        ${c.name.substring(0, 1)}
+                    </div>
+                    <div class="space-y-1 flex-1">
+                        <div class="flex items-center space-x-2">
+                            <span class="font-bold text-gray-200">${c.name}</span>
+                            <span class="text-gray-500 text-[10px]">${c.time}</span>
+                        </div>
+                        <p class="text-gray-300 text-sm leading-normal">${c.text}</p>
+                    </div>
+                `;
+                commentsList.appendChild(commentEl);
+            });
+        }
+
+        // RENDER RELATED VIDEOS
+        function renderRelatedVideos(currentId) {
+            relatedVideosList.innerHTML = '';
+            const related = currentVideos.filter(v => v.id !== currentId);
+
+            related.forEach(v => {
+                const relCard = document.createElement('div');
+                relCard.className = "flex space-x-3 cursor-pointer group hover:bg-ytDarkHover p-1.5 rounded-xl transition";
+                relCard.onclick = () => openVideoModal(v);
+                relCard.innerHTML = `
+                    <div class="w-32 aspect-video rounded-lg overflow-hidden bg-ytDarkCard shrink-0">
+                        <img src="${v.thumbnail}" class="w-full h-full object-cover">
+                    </div>
+                    <div class="flex-1 min-w-0">
+                        <h4 class="text-xs font-semibold text-gray-200 line-clamp-2 leading-tight group-hover:text-blue-400">${v.title}</h4>
+                        <div class="text-[11px] text-gray-400 mt-1">${v.channel}</div>
+                        <div class="text-[10px] text-gray-500">${v.views} views</div>
+                    </div>
+                `;
+                relatedVideosList.appendChild(relCard);
+            });
+        }
+
+        // EVENT LISTENERS SETUP
+        function setupEventListeners() {
+            // Sidebar toggle
+            toggleSidebarBtn.addEventListener('click', () => {
+                sidebar.classList.toggle('hidden');
+            });
+
+            // Search input logic
+            searchInput.addEventListener('input', (e) => {
+                const val = e.target.value;
+                if(val.length > 0) clearSearchBtn.classList.remove('hidden');
+                else clearSearchBtn.classList.add('hidden');
+                filterVideos(val);
+            });
+
+            clearSearchBtn.addEventListener('click', () => {
+                searchInput.value = '';
+                clearSearchBtn.classList.add('hidden');
+                filterVideos('');
+            });
+
+            searchBtn.addEventListener('click', () => {
+                filterVideos(searchInput.value);
+            });
+
+            // Chips Filter
+            const chips = categoryChips.querySelectorAll('.chip');
+            chips.forEach(chip => {
+                chip.addEventListener('click', () => {
+                    chips.forEach(c => {
+                        c.classList.remove('bg-white', 'text-black', 'active');
+                        c.classList.add('bg-ytDarkCard', 'text-white');
+                    });
+                    chip.classList.remove('bg-ytDarkCard', 'text-white');
+                    chip.classList.add('bg-white', 'text-black', 'active');
+                    
+                    currentCategory = chip.textContent.trim();
+                    filterVideos(searchInput.value);
+                });
+            });
+
+            // Close Modal Events
+            closeVideoModalBtn.addEventListener('click', closeVideoModal);
+            
+            // Add Comment Event
+            submitCommentBtn.addEventListener('click', () => {
+                const text = commentInput.value.trim();
+                if(!text) return;
+                
+                if(activeVideo) {
+                    activeVideo.comments.unshift({
+                        name: "You (Awais Abbas User)",
+                        time: "Just now",
+                        text: text
+                    });
+                    renderComments(activeVideo.comments);
+                    commentInput.value = '';
+                }
+            });
+
+            cancelCommentBtn.addEventListener('click', () => {
+                commentInput.value = '';
+            });
+
+            // Upload Modal Triggers
+            openUploadModalBtn.addEventListener('click', () => uploadModal.classList.remove('hidden'));
+            closeUploadModalBtn.addEventListener('click', () => uploadModal.classList.add('hidden'));
+            cancelUploadBtn.addEventListener('click', () => uploadModal.classList.add('hidden'));
+
+            // Submit Video Upload
+            uploadForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const newVideo = {
+                    id: "v" + (currentVideos.length + 1),
+                    title: document.getElementById('uploadTitle').value,
+                    category: document.getElementById('uploadCategory').value,
+                    channel: document.getElementById('uploadChannel').value || "Awais Abbas",
+                    subscribers: "1K",
+                    views: "1 view",
+                    timestamp: "Just now",
+                    thumbnail: document.getElementById('uploadThumbnail').value || "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=800&auto=format&fit=crop&q=60",
+                    videoUrl: document.getElementById('uploadVideoUrl').value || "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+                    likes: "1",
+                    description: document.getElementById('uploadDescription').value || "Uploaded by Awais Abbas User. WhatsApp 03254327451.",
+                    comments: []
+                };
+
+                currentVideos.unshift(newVideo);
+                renderVideos(currentVideos);
+                uploadModal.classList.add('hidden');
+                uploadForm.reset();
+            });
+
+            // Download Modal Triggers
+            openDownloadModalBtn.addEventListener('click', () => downloadModal.classList.remove('hidden'));
+            closeDownloadModalBtn.addEventListener('click', () => downloadModal.classList.add('hidden'));
+            
+            triggerDownloadBtn.addEventListener('click', downloadSourceCode);
+        }
+
+        // FILTER VIDEOS BY CATEGORY AND SEARCH QUERY
+        function filterVideos(query) {
+            let filtered = currentVideos;
+
+            if (currentCategory !== "All") {
+                filtered = filtered.filter(v => v.category.toLowerCase() === currentCategory.toLowerCase());
+            }
+
+            if (query && query.trim() !== "") {
+                const q = query.toLowerCase().trim();
+                filtered = filtered.filter(v => 
+                    v.title.toLowerCase().includes(q) || 
+                    v.channel.toLowerCase().includes(q) || 
+                    v.category.toLowerCase().includes(q)
+                );
+            }
+
+            renderVideos(filtered);
+        }
+
+        // RESET TO HOME STATE
+        function resetToHome() {
+            searchInput.value = '';
+            clearSearchBtn.classList.add('hidden');
+            currentCategory = "All";
+            
+            const chips = categoryChips.querySelectorAll('.chip');
+            chips.forEach(c => {
+                c.classList.remove('bg-white', 'text-black', 'active');
+                c.classList.add('bg-ytDarkCard', 'text-white');
+            });
+            if(chips[0]) {
+                chips[0].classList.remove('bg-ytDarkCard', 'text-white');
+                chips[0].classList.add('bg-white', 'text-black', 'active');
+            }
+
+            renderVideos(currentVideos);
+        }
+
+        // SOURCE CODE DOWNLOAD FUNCTION
+        function downloadSourceCode() {
+            const htmlContent = "<!DOCTYPE html>\n" + document.documentElement.outerHTML;
+            const blob = new Blob([htmlContent], { type: 'text/html' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'youtube_clone_awais_abbas.html';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+    </script>
+</body>
+</html>
