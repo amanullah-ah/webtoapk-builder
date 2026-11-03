@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="ur" dir="rtl"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>میڈیا گیلری - Media Gallery</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        body {
+            background-color: #0f172a;
+            color: #f8fafc;
+            padding: 20px;
+        }
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: #1e293b;
+            border-radius: 12px;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+        }
+        h1 {
+            margin-bottom: 15px;
+            color: #38bdf8;
+            font-size: 28px;
+        }
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-top: 15px;
+        }
+        .btn {
+            background-color: #2563eb;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 15px;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2);
+        }
+        .btn:hover {
+            background-color: #1d4ed8;
+            transform: translateY(-2px);
+        }
+        .btn-success {
+            background-color: #10b981;
+        }
+        .btn-success:hover {
+            background-color: #059669;
+        }
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+        }
+        .gallery-item {
+            background: #1e293b;
+            border-radius: 10px;
+            overflow: hidden;
+            border: 1px solid #334155;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .gallery-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.4);
+        }
+        .media-container {
+            width: 100%;
+            height: 220px;
+            background-color: #000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+        .gallery-item img, .gallery-item video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .caption {
+            padding: 12px;
+            text-align: center;
+            font-size: 15px;
+            color: #cbd5e1;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>تصاویر اور ویڈیوز گیلری (Media Gallery)</h1>
+        <p>اپنی گیلری ویب سائٹ کا کوڈ ڈاؤن لوڈ کریں یا نئی میڈیا فائلز شامل کریں۔</p>
+        <div class="controls">
+            <button class="btn btn-success" onclick="downloadSourceCode()">سورس کوڈ ڈاؤن لوڈ کریں</button>
+        </div>
+    </header>
+
+    <div class="gallery" id="gallery">
+        <!-- Sample Image 1 -->
+        <div class="gallery-item">
+            <div class="media-container">
+                <img src="https://picsum.photos/500/350?random=1" alt="کوہ ہمالیہ">
+            </div>
+            <div class="caption">خوبصورت منظر 1</div>
+        </div>
+
+        <!-- Sample Image 2 -->
+        <div class="gallery-item">
+            <div class="media-container">
+                <img src="https://picsum.photos/500/350?random=2" alt="قدرتی منظر">
+            </div>
+            <div class="caption">خوبصورت منظر 2</div>
+        </div>
+
+        <!-- Sample Video 1 -->
+        <div class="gallery-item">
+            <div class="media-container">
+                <video controls="">
+                    <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
+                    آپ کا براؤزر ویڈیو ٹیگ کو سپورٹ نہیں کرتا۔
+                </video>
+            </div>
+            <div class="caption">نمونہ ویڈیو 1</div>
+        </div>
+
+        <!-- Sample Video 2 -->
+        <div class="gallery-item">
+            <div class="media-container">
+                <video controls="">
+                    <source src="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4" type="video/mp4">
+                    آپ کا براؤزر ویڈیو ٹیگ کو سپورٹ نہیں کرتا۔
+                </video>
+            </div>
+            <div class="caption">نمونہ ویڈیو 2</div>
+        </div>
+    </div>
+
+    <script>
+        function downloadSourceCode() {
+            const sourceCode = "<!DOCTYPE html>\n" + document.documentElement.outerHTML;
+            const blob = new Blob([sourceCode], { type: "text/html" });
+            const url = URL.createObjectURL(blob);
+            
+            const a = document.createElement("a");
+            a.href = url;
+            a.download = "gallery_website.html";
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+    </script>
+
+
+
+</body></html>
