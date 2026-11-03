@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="ur" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Awais Mobile Shop - اویس موبائل شاپ</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#ecfdf5',
+                            100: '#d1fae5',
+                            500: '#10b981',
+                            600: '#059669',
+                            700: '#047857',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu:wght@400;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', 'Noto Nastaliq Urdu', sans-serif;
+        }
+        .glass-card {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .whatsapp-float {
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+    </style>
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col selection:bg-brand-500 selection:text-white">
+
+    <!-- Header / Navbar -->
+    <header class="sticky top-0 z-40 bg-slate-900/90 backdrop-blur-md border-b border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <!-- Brand Logo & Name -->
+                <div class="flex items-center space-x-3 space-x-reverse">
+                    <div class="bg-gradient-to-tr from-brand-600 to-emerald-400 p-3 rounded-2xl shadow-lg shadow-brand-500/20">
+                        <i class="fa-solid font-bold fa-mobile-screen-button text-2xl text-white"></i>
+                    </div>
+                    <div>
+                        <h1 class="text-xl sm:text-2xl font-bold bg-gradient-to-r from-white via-slate-200 to-brand-500 bg-clip-text text-transparent">
+                            Awais Mobile Shop
+                        </h1>
+                        <p class="text-xs text-brand-500 font-medium tracking-wide">اویس موبائل شاپ • 03254327451</p>
+                    </div>
+                </div>
+
+                <!-- Header Buttons -->
+                <div class="flex items-center space-x-3 rtl:space-x-reverse">
+                    <button id="toggleAdminBtn" onclick="toggleAdminModal()" class="flex items-center gap-2 bg-gradient-to-r from-brand-600 to-emerald-600 hover:from-brand-500 hover:to-emerald-500 text-white font-medium px-4 py-2.5 rounded-xl shadow-lg shadow-brand-600/30 transition-all text-sm">
+                        <i class="fa-solid fa-plus"></i>
+                        <span class="hidden sm:inline">نیا موبائل اپلوڈ کریں</span>
+                    </button>
+                    <button onclick="downloadCode()" class="flex items-center gap-2 bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 font-medium px-4 py-2.5 rounded-xl transition-all text-sm" title="ایچ ٹی ایم ایل کوڈ ڈاؤن لوڈ کریں">
+                        <i class="fa-solid fa-download text-brand-500"></i>
+                        <span class="hidden md:inline">فائل ڈاؤن لوڈ کریں</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Banner -->
+    <section class="relative overflow-hidden py-12 bg-gradient-to-b from-slate-900 via-slate-950 to-slate-950 border-b border-slate-800/80">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+            <span class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-brand-500/10 text-brand-500 border border-brand-500/20 mb-4">
+                <i class="fa-solid fa-bolt text-yellow-400"></i> بہترین ریٹ اور جدید ترین موبائلز
+            </span>
+            <h2 class="text-3xl sm:text-5xl font-extrabold text-white tracking-tight mb-4">
+                اپنا پسندیدہ موبائل خریدیں
+            </h2>
+            <p class="text-slate-400 max-w-2xl mx-auto text-sm sm:text-base mb-6">
+                آرڈر کرنے کے لیے ڈائریکٹ واٹس ایپ پر رابطہ کریں۔ فوری جواب اور بہترین کوالٹی کی ضمانت!
+            </p>
+
+            <!-- Search and Filter Bar -->
+            <div class="max-w-3xl mx-auto flex flex-col md:flex-row gap-3 p-2 bg-slate-900 border border-slate-800 rounded-2xl shadow-xl">
+                <div class="relative flex-1">
+                    <i class="fa-solid fa-magnifying-glass absolute right-4 top-1/2 -translate-y-1/2 text-slate-500"></i>
+                    <input type="text" id="searchInput" onkeyup="filterProducts()" placeholder="موبائل تلاش کریں... (مثلاً iPhone, Samsung)" class="w-full bg-slate-950 text-white pl-4 pr-11 py-3 rounded-xl border border-slate-800 focus:outline-none focus:border-brand-500 text-sm">
+                </div>
+                <div class="flex gap-2">
+                    <select id="brandFilter" onchange="filterProducts()" class="bg-slate-950 text-slate-300 px-4 py-3 rounded-xl border border-slate-800 focus:outline-none focus:border-brand-500 text-sm">
+                        <option value="all">تمام برانڈز</option>
+                        <option value="iPhone">iPhone</option>
+                        <option value="Samsung">Samsung</option>
+                        <option value="Vivo">Vivo</option>
+                        <option value="Oppo">Oppo</option>
+                        <option value="Infinix">Infinix</option>
+                        <option value="Tecno">Tecno</option>
+                        <option value="Realme">Realme</option>
+                        <option value="Other">دیگر</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content / Products Display -->
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-10">
+        <div class="flex items-center justify-between mb-8">
+            <h3 class="text-xl font-bold text-white flex items-center gap-2">
+                <i class="fa-solid fa-store text-brand-500"></i> دستیا ب موبائلز 
+                <span id="productCount" class="text-xs bg-slate-800 text-brand-500 px-2.5 py-1 rounded-full font-mono">0</span>
+            </h3>
+        </div>
+
+        <!-- Mobile Grid -->
+        <div id="productsGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            <!-- Dynamic Content Will Be Loaded Here -->
+        </div>
+
+        <!-- Empty State -->
+        <div id="emptyState" class="hidden text-center py-16 bg-slate-900/50 rounded-3xl border border-slate-800">
+            <div class="w-20 h-20 bg-slate-800 rounded-full flex items-center justify-center mx-auto mb-4 text-slate-600">
+                <i class="fa-solid fa-box-open text-3xl"></i>
+            </div>
+            <h4 class="text-lg font-semibold text-slate-300 mb-1">کوئی موبائل نہیں ملا</h4>
+            <p class="text-slate-500 text-sm mb-4">آپ نیا موبائل ایڈ کرنے کے لیے اوپر دیے گئے بٹن کا استعمال کریں۔</p>
+            <button onclick="toggleAdminModal()" class="bg-brand-600 hover:bg-brand-500 text-white font-medium px-5 py-2.5 rounded-xl text-sm shadow-lg shadow-brand-600/20">
+                موبائل اپلوڈ کریں
+            </button>
+        </div>
+    </main>
+
+    <!-- Modal Form (Admin Panel for Uploading Products) -->
+    <div id="adminModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm hidden p-4">
+        <div class="bg-slate-900 border border-slate-800 rounded-3xl max-w-lg w-full overflow-hidden shadow-2xl transform transition-all">
+            <!-- Modal Header -->
+            <div class="flex items-center justify-between p-5 border-b border-slate-800 bg-slate-950">
+                <h3 class="text-lg font-bold text-white flex items-center gap-2">
+                    <i class="fa-solid fa-circle-plus text-brand-500"></i> نیا موبائل اپلوڈ کریں
+                </h3>
+                <button onclick="toggleAdminModal()" class="text-slate-400 hover:text-white p-2 rounded-lg transition-colors">
+                    <i class="fa-solid fa-xmark text-lg"></i>
+                </button>
+            </div>
+
+            <!-- Modal Form -->
+            <form id="productForm" onsubmit="saveProduct(event)" class="p-6 space-y-4">
+                <div>
+                    <label class="block text-xs font-semibold text-slate-400 mb-1">موبائل کا نام (Title)</label>
+                    <input type="text" id="pTitle" required placeholder="مثلاً: iPhone 13 Pro Max" class="w-full bg-slate-950 border border-slate-800 text-white rounded-xl px-4 py-2.5 focus:outline-none focus:border-brand-500 text-sm">
+                </div>
+
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-400 mb-1">قیمت (PKR)</label>
+                        <input type="number" id="pPrice" required placeholder="مثلاً: 185000" class="w-full bg-slate-950 border border-slate-800 text-white rounded-xl px-4 py-2.5 focus:outline-none focus:border-brand-500 text-sm">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-400 mb-1">برانڈ (Brand)</label>
+                        <select id="pBrand" required class="w-full bg-slate-950 border border-slate-800 text-white rounded-xl px-4 py-2.5 focus:outline-none focus:border-brand-500 text-sm">
+                            <option value="iPhone">iPhone</option>
+                            <option value="Samsung">Samsung</option>
+                            <option value="Vivo">Vivo</option>
+                            <option value="Oppo">Oppo</option>
+                            <option value="Infinix">Infinix</option>
+                            <option value="Tecno">Tecno</option>
+                            <option value="Realme">Realme</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-semibold text-slate-400 mb-1">تصویر منتخب کریں (Image)</label>
+                    <input type="file" id="pImage" accept="image/*" onchange="previewFileImage(event)" class="w-full text-xs text-slate-400 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-brand-500/10 file:text-brand-500 hover:file:bg-brand-500/20 border border-slate-800 rounded-xl bg-slate-950">
+                    <p class="text-[10px] text-slate-500 mt-1">یا ذیل میں تصویری لنک (Image URL) درج کریں۔</p>
+                </div>
+
+                <div>
+                    <input type="url" id="pImageUrl" placeholder="https://example.com/phone.jpg" class="w-full bg-slate-950 border border-slate-800 text-white rounded-xl px-4 py-2.5 focus:outline-none focus:border-brand-500 text-sm">
+                </div>
+
+                <!-- Preview Image -->
+                <div id="imagePreviewContainer" class="hidden">
+                    <img id="imagePreview" src="" alt="Preview" class="w-full h-32 object-cover rounded-xl border border-slate-800">
+                </div>
+
+                <div>
+                    <label class="block text-xs font-semibold text-slate-400 mb-1">تفصیلات (RAM/ROM/Condition)</label>
+                    <textarea id="pDetails" rows="3" placeholder="مثلاً: 8GB RAM, 128GB Storage, 10/10 Condition, PTA Approved" class="w-full bg-slate-950 border border-slate-800 text-white rounded-xl px-4 py-2.5 focus:outline-none focus:border-brand-500 text-sm"></textarea>
+                </div>
+
+                <!-- Submit Button -->
+                <button type="submit" class="w-full bg-gradient-to-r from-brand-600 to-emerald-600 hover:from-brand-500 hover:to-emerald-500 text-white font-semibold py-3 rounded-xl shadow-lg shadow-brand-600/30 transition-all text-sm mt-2">
+                    ویب سائٹ پر شائع کریں
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Floating Direct WhatsApp Button -->
+    <a href="https://wa.me/923254327451?text=سلام!%20میں%20اویس%20موبائل%20شاپ%20سے%20معلومات%20لینا%20چاہتا%20ہوں۔" target="_blank" class="whatsapp-float fixed bottom-6 right-6 z-40 bg-emerald-500 hover:bg-emerald-600 text-white p-4 rounded-full shadow-2xl flex items-center justify-center transition-all duration-300">
+        <i class="fa-brands fa-whatsapp text-3xl"></i>
+    </a>
+
+    <!-- Footer -->
+    <footer class="bg-slate-900 border-t border-slate-800 py-8 text-center text-xs text-slate-500">
+        <div class="max-w-7xl mx-auto px-4">
+            <p class="mb-2 text-slate-400 font-medium">Awais Mobile Shop • اویس موبائل شاپ</p>
+            <p class="mb-4">رابطہ نمبر / WhatsApp: <a href="https://wa.me/923254327451" class="text-brand-500 font-bold hover:underline">03254327451</a></p>
+            <p>© 2026 Awais Mobile Shop. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- JavaScript Logic -->
+    <script>
+        // Default Sample Products if none exist in localStorage
+        const defaultProducts = [
+            {
+                id: 1,
+                title: "iPhone 13 Pro Max",
+                price: "245000",
+                brand: "iPhone",
+                image: "https://images.unsplash.com/photo-1632661674596-df8be070a5c5?auto=format&fit=crop&w=600&q=80",
+                details: "128GB Storage, 87% Battery Health, Non PTA (GeSIM Available), 10/10 Condition"
+            },
+            {
+                id: 2,
+                title: "Samsung Galaxy S22 Ultra",
+                price: "195000",
+                brand: "Samsung",
+                image: "https://images.unsplash.com/photo-1610945265064-0e34e5519bbf?auto=format&fit=crop&w=600&q=80",
+                details: "12GB RAM, 256GB ROM, Official PTA Approved, Phantom Black Color"
+            },
+            {
+                id: 3,
+                title: "Vivo V29 5G",
+                price: "115000",
+                brand: "Vivo",
+                image: "https://images.unsplash.com/photo-1598327105666-5b89351aff97?auto=format&fit=crop&w=600&q=80",
+                details: "12GB RAM + 8GB Extended, 256GB ROM, Aura Light Camera, PTA Approved"
+            }
+        ];
+
+        let uploadedImageBase64 = '';
+
+        // Load Products from LocalStorage or Set Default
+        function getProducts() {
+            const data = localStorage.getItem('awais_mobiles');
+            if (!data) {
+                localStorage.setItem('awais_mobiles', JSON.stringify(defaultProducts));
+                return defaultProducts;
+            }
+            return JSON.parse(data);
+        }
+
+        // Render products to grid
+        function renderProducts() {
+            const products = getProducts();
+            const grid = document.getElementById('productsGrid');
+            const emptyState = document.getElementById('emptyState');
+            const countLabel = document.getElementById('productCount');
+            const searchVal = document.getElementById('searchInput').value.toLowerCase();
+            const brandVal = document.getElementById('brandFilter').value;
+
+            grid.innerHTML = '';
+
+            const filtered = products.filter(p => {
+                const matchesSearch = p.title.toLowerCase().includes(searchVal) || p.details.toLowerCase().includes(searchVal);
+                const matchesBrand = brandVal === 'all' || p.brand === brandVal;
+                return matchesSearch && matchesBrand;
+            });
+
+            countLabel.textContent = filtered.length;
+
+            if (filtered.length === 0) {
+                emptyState.classList.remove('hidden');
+            } else {
+                emptyState.classList.add('hidden');
+                filtered.forEach(p => {
+                    const waText = encodeURIComponent(`سلام! مجھے Awais Mobile Shop سے یہ موبائل خریدنا ہے:\n\n*موبائل:* ${p.title}\n*قیمت:* Rs. ${Number(p.price).toLocaleString()}\n*تفصیلات:* ${p.details}`);
+                    
+                    const cardHtml = `
+                        <div class="glass-card rounded-2xl overflow-hidden hover:border-brand-500/50 transition-all duration-300 flex flex-col group">
+                            <div class="relative h-56 bg-slate-900 overflow-hidden">
+                                <img src="${p.image}" alt="${p.title}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.src='https://placehold.co/600x400/1e293b/10b981?text=Awais+Mobile'">
+                                <span class="absolute top-3 left-3 bg-brand-600/90 text-white text-[10px] font-bold px-2.5 py-1 rounded-full backdrop-blur-md">
+                                    ${p.brand}
+                                </span>
+                                <button onclick="deleteProduct(${p.id})" title="حذف کریں" class="absolute top-3 right-3 bg-red-600/80 hover:bg-red-600 text-white w-8 h-8 rounded-full flex items-center justify-center backdrop-blur-md transition-colors opacity-0 group-hover:opacity-100">
+                                    <i class="fa-solid fa-trash text-xs"></i>
+                                </button>
+                            </div>
+                            <div class="p-5 flex flex-col flex-grow">
+                                <h4 class="font-bold text-white text-lg mb-1 line-clamp-1">${p.title}</h4>
+                                <p class="text-brand-500 font-extrabold text-xl mb-3">
+                                    Rs. ${Number(p.price).toLocaleString()}
+                                </p>
+                                <p class="text-slate-400 text-xs line-clamp-3 mb-5 flex-grow leading-relaxed">
+                                    ${p.details || 'کوئی اضافی تفصیل درج نہیں ہے۔'}
+                                </p>
+                                <a href="https://wa.me/923254327451?text=${waText}" target="_blank" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-medium py-2.5 rounded-xl flex items-center justify-center gap-2 text-sm shadow-lg shadow-emerald-600/20 transition-all">
+                                    <i class="fa-brands fa-whatsapp text-lg"></i>
+                                    واٹس ایپ پر خریدیں
+                                </a>
+                            </div>
+                        </div>
+                    `;
+                    grid.innerHTML += cardHtml;
+                });
+            }
+        }
+
+        // Handle Image File Upload Preview
+        function previewFileImage(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    uploadedImageBase64 = e.target.result;
+                    document.getElementById('imagePreview').src = uploadedImageBase64;
+                    document.getElementById('imagePreviewContainer').classList.remove('hidden');
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        // Toggle Upload Modal
+        function toggleAdminModal() {
+            const modal = document.getElementById('adminModal');
+            modal.classList.toggle('hidden');
+        }
+
+        // Save New Product
+        function saveProduct(e) {
+            e.preventDefault();
+            const title = document.getElementById('pTitle').value;
+            const price = document.getElementById('pPrice').value;
+            const brand = document.getElementById('pBrand').value;
+            const imageUrlInput = document.getElementById('pImageUrl').value;
+            const details = document.getElementById('pDetails').value;
+
+            let finalImage = uploadedImageBase64 || imageUrlInput;
+            if (!finalImage) {
+                finalImage = 'https://placehold.co/600x400/1e293b/10b981?text=' + encodeURIComponent(title);
+            }
+
+            const newProd = {
+                id: Date.now(),
+                title: title,
+                price: price,
+                brand: brand,
+                image: finalImage,
+                details: details
+            };
+
+            const products = getProducts();
+            products.unshift(newProd);
+            localStorage.setItem('awais_mobiles', JSON.stringify(products));
+
+            // Reset form
+            document.getElementById('productForm').reset();
+            document.getElementById('imagePreviewContainer').classList.add('hidden');
+            uploadedImageBase64 = '';
+
+            toggleAdminModal();
+            renderProducts();
+        }
+
+        // Delete Product
+        function deleteProduct(id) {
+            if (confirm("کیا آپ واقعی اس موبائل کو لسٹ سے ختم کرنا چاہتے ہیں؟")) {
+                let products = getProducts();
+                products = products.filter(p => p.id !== id);
+                localStorage.setItem('awais_mobiles', JSON.stringify(products));
+                renderProducts();
+            }
+        }
+
+        // Filter Function
+        function filterProducts() {
+            renderProducts();
+        }
+
+        // Code Downloader (Generates static downloadable .html file)
+        function downloadCode() {
+            const htmlContent = "<!DOCTYPE html>\n" + document.documentElement.outerHTML;
+            const blob = new Blob([htmlContent], { type: 'text/html' });
+            const a = document.createElement('a');
+            a.href = URL.createObjectURL(blob);
+            a.download = 'awais_mobile_shop.html';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+        }
+
+        // Initial Load
+        window.onload = function() {
+            renderProducts();
+        }
+    </script>
+</body>
+</html>
