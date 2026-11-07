@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="ur" dir="rtl" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Awais Ghani Poetry Studio | اردو، پنجابی، انگلش شاعری</title>
+
+    <!-- App Manifest for PWA / Mobile WebApp -->
+    <meta name="theme-color" content="#0f172a">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#f0fdf4',
+                            100: '#dcfce7',
+                            500: '#10b981',
+                            600: '#059669',
+                            700: '#047857',
+                            800: '#065f46',
+                            900: '#064e3b',
+                            accent: '#f59e0b'
+                        }
+                    },
+                    fontFamily: {
+                        urdu: [''Noto Nastaliq Urdu'', ''Amiri'', ''serif''],
+                        english: [''Inter'', ''sans-serif'']
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600;700&family=Noto+Nastaliq+Urdu:wght@400;600;700&display=display" rel="stylesheet">
+    
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        * {
+            -webkit-tap-highlight-color: transparent;
+            user-select: none;
+        }
+        .selectable {
+            user-select: text;
+        }
+        .font-urdu {
+            font-family: 'Noto Nastaliq Urdu', 'Amiri', serif;
+            line-height: 2.2;
+        }
+        .font-english {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+        }
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0f172a;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #059669;
+            border-radius: 10px;
+        }
+        @keyframes toastUp {
+            0% { opacity: 0; transform: translate(-50%, 20px); }
+            15% { opacity: 1; transform: translate(-50%, 0); }
+            85% { opacity: 1; transform: translate(-50%, 0); }
+            100% { opacity: 0; transform: translate(-50%, 20px); }
+        }
+        .animate-toast {
+            animation: toastUp 3s ease-in-out forwards;
+        }
+    </style>
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col font-urdu selection:bg-brand-500 selection:text-white transition-colors duration-300">
+
+    <!-- Top Navigation Header -->
+    <header class="sticky top-0 z-40 backdrop-blur-xl bg-slate-900/85 border-b border-slate-800 shadow-xl">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                
+                <!-- Brand & Logo -->
+                <div class="flex items-center gap-3">
+                    <div class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-brand-600 via-teal-500 to-emerald-400 flex items-center justify-center shadow-lg shadow-brand-500/25">
+                        <i class="fa-solid fa-feather-pointed text-2xl text-white"></i>
+                    </div>
+                    <div>
+                        <h1 class="text-xl sm:text-2xl font-bold tracking-tight text-white flex items-center gap-2">
+                            Awais Ghani <span class="text-xs px-2 py-0.5 rounded-full bg-brand-500/20 text-brand-400 font-normal border border-brand-500/30 font-english">Studio</span>
+                        </h1>
+                        <p class="text-xs text-slate-400 font-english">Urdu • Punjabi • English Poetry Portal</p>
+                    </div>
+                </div>
+
+                <!-- Action Controls -->
+                <div class="flex items-center gap-2 sm:gap-3">
+                    <!-- Owner WhatsApp Direct Contact -->
+                    <a href="https://wa.me/923254327451?text=اسلام%20علیکم%20اویس%20غنی!%20میں%20پوٹری%20ایپ%20کے%20حوالے%20سے%20رابطہ%20کرنا%20چاہتا%20ہوں۔" target="_blank" class="flex items-center gap-2 bg-emerald-600 hover:bg-emerald-500 text-white px-3.5 py-2.5 rounded-xl font-sans text-xs sm:text-sm font-semibold shadow-lg shadow-emerald-600/30 transition hover:scale-105 active:scale-95">
+                        <i class="fa-brands fa-whatsapp text-lg"></i>
+                        <span class="hidden md:inline font-english">Contact Admin</span>
+                    </a>
+
+                    <!-- Theme Toggle -->
+                    <button id="themeToggleBtn" class="p-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700 text-amber-400 transition active:scale-95" title="تھیم تبدیل کریں">
+                        <i class="fa-solid fa-sun text-lg"></i>
+                    </button>
+
+                    <!-- Source Code Download -->
+                    <button onclick="exportSourceCode()" class="p-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700 text-brand-400 transition active:scale-95" title="ویب سائٹ سورس کوڈ ڈاؤن لوڈ کریں">
+                        <i class="fa-solid fa-download text-lg"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Mobile-First Container -->
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6">
+
+        <!-- Welcome Banner -->
+        <div class="bg-gradient-to-r from-slate-900 via-brand-950 to-slate-900 border border-slate-800 rounded-3xl p-6 mb-8 text-center relative overflow-hidden shadow-2xl">
+            <div class="absolute -right-10 -top-10 w-32 h-32 bg-brand-500/10 rounded-full blur-3xl pointer-events-none"></div>
+            <h2 class="text-2xl sm:text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-teal-200 to-amber-200 mb-2">
+                اویس غنی پوٹری اسٹوڈیو میں خوش آمدید
+            </h2>
+            <p class="text-slate-300 text-sm max-w-2xl mx-auto">
+                اردو، پنجابی اور انگریزی شاعری کا خوبصورت ترین انتخاب۔ اپنا پسندیدہ کلام کاپی کریں یا ایک کلک پر واٹس ایپ پر شیئر کریں۔
+            </p>
+            <div class="mt-4 flex flex-wrap justify-center gap-3">
+                <button onclick="openPoetryModal()" class="bg-brand-600 hover:bg-brand-500 text-white px-5 py-2.5 rounded-xl text-sm font-semibold shadow-lg shadow-brand-600/30 transition hover:scale-105 active:scale-95 flex items-center gap-2">
+                    <i class="fa-solid fa-pen-nib"></i>
+                    <span>نئی شاعری شامل کریں</span>
+                </button>
+                <a href="https://wa.me/923254327451" target="_blank" class="bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 px-5 py-2.5 rounded-xl text-sm font-semibold transition flex items-center gap-2">
+                    <i class="fa-solid fa-paper-plane text-emerald-400"></i>
+                    <span>شاعری واٹس ایپ بھیجیں (03254327451)</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- Filter & Search Control Panel -->
+        <div class="flex flex-col md:flex-row items-center justify-between gap-4 mb-8">
+            
+            <!-- 3-Language Tabs -->
+            <div class="flex p-1.5 bg-slate-900 border border-slate-800 rounded-2xl w-full md:w-auto overflow-x-auto">
+                <button onclick="setActiveCategory('all')" id="tab-all" class="cat-btn flex-1 md:flex-none px-5 py-2.5 rounded-xl text-sm font-bold transition bg-brand-600 text-white shadow-md">
+                    تمام کلام
+                </button>
+                <button onclick="setActiveCategory('urdu')" id="tab-urdu" class="cat-btn flex-1 md:flex-none px-5 py-2.5 rounded-xl text-sm font-bold text-slate-400 hover:text-white transition">
+                    اردو
+                </button>
+                <button onclick="setActiveCategory('punjabi')" id="tab-punjabi" class="cat-btn flex-1 md:flex-none px-5 py-2.5 rounded-xl text-sm font-bold text-slate-400 hover:text-white transition">
+                    پنجابی
+                </button>
+                <button onclick="setActiveCategory('english')" id="tab-english" class="cat-btn flex-1 md:flex-none px-5 py-2.5 rounded-xl text-sm font-bold font-english text-slate-400 hover:text-white transition">
+                    English
+                </button>
+            </div>
+
+            <!-- Search Input -->
+            <div class="relative w-full md:w-80">
+                <input type="text" id="searchInput" oninput="filterPoetryCards()" placeholder="شاعر، بول یا کی ورڈ تلاش کریں..." class="w-full bg-slate-900 border border-slate-800 text-slate-100 placeholder-slate-500 rounded-2xl py-3 px-4 pr-10 focus:outline-none focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 text-sm">
+                <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-3.5 text-slate-500 text-sm"></i>
+            </div>
+        </div>
+
+        <!-- Dynamic Poetry Card Grid -->
+        <div id="poetryGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Rendered JS Poetry Cards -->
+        </div>
+
+        <!-- No Results Fallback -->
+        <div id="emptyState" class="hidden text-center py-20 bg-slate-900/50 border border-slate-800 rounded-3xl mt-4">
+            <i class="fa-solid fa-scroll text-6xl text-slate-700 mb-4"></i>
+            <h3 class="text-xl font-bold text-slate-400">کوئی شاعری نہیں ملی</h3>
+            <p class="text-slate-500 text-sm mt-1">تلاش کی گئی کیوری یا کیٹیگری میں نیا کلام شامل کرنے کی کوشش کریں۔</p>
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-slate-950 border-t border-slate-900 py-8 mt-16 text-center text-slate-400 text-sm">
+        <div class="max-w-7xl mx-auto px-4 flex flex-col md:flex-row items-center justify-between gap-4">
+            <div class="text-right sm:text-center md:text-right">
+                <h4 class="font-bold text-white text-base">Awais Ghani Poetry Studio</h4>
+                <p class="text-xs text-slate-500 font-english mt-0.5">© 2026 Awais Ghani • Play Store App Ready Website</p>
+            </div>
+            
+            <div class="flex items-center gap-4 text-xs font-english">
+                <a href="https://wa.me/923254327451" target="_blank" class="text-emerald-400 hover:underline flex items-center gap-1.5">
+                    <i class="fa-brands fa-whatsapp"></i> WhatsApp: 03254327451
+                </a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Add Poetry Modal Dialog -->
+    <div id="poetryModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-md z-50 flex items-center justify-center hidden p-4">
+        <div class="bg-slate-900 border border-slate-800 w-full max-w-lg rounded-3xl p-6 shadow-2xl relative transform transition-all">
+            
+            <!-- Close Modal -->
+            <button onclick="closePoetryModal()" class="absolute left-4 top-4 text-slate-400 hover:text-white p-2 rounded-full hover:bg-slate-800 transition">
+                <i class="fa-solid fa-xmark text-xl"></i>
+            </button>
+
+            <h3 class="text-xl font-bold text-brand-400 mb-4 flex items-center gap-2">
+                <i class="fa-solid fa-pen-to-square"></i>
+                نیا کلام شامل کریں
+            </h3>
+
+            <form id="addForm" onsubmit="savePoetryEntry(event)" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-bold text-slate-300 mb-1">زبان منتخب کریں (Select Language)</label>
+                    <select id="modalLang" class="w-full bg-slate-800 border border-slate-700 text-slate-100 rounded-xl p-3 focus:outline-none focus:border-brand-500 text-sm">
+                        <option value="urdu">اردو (Urdu)</option>
+                        <option value="punjabi">پنجابی (Punjabi)</option>
+                        <option value="english">English</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-bold text-slate-300 mb-1">شاعر کا نام (Poet Name)</label>
+                    <input type="text" id="modalPoet" required placeholder="مثلاً: اویس غنی، اقبال، بلھے شاہ..." class="w-full bg-slate-800 border border-slate-700 text-slate-100 rounded-xl p-3 focus:outline-none focus:border-brand-500 text-sm">
+                </div>
+
+                <div>
+                    <label class="block text-xs font-bold text-slate-300 mb-1">شاعری یا اشعار (Poetry Content)</label>
+                    <textarea id="modalContent" rows="5" required placeholder="یہاں اشعار درج کریں..." class="w-full bg-slate-800 border border-slate-700 text-slate-100 rounded-xl p-3 focus:outline-none focus:border-brand-500 text-sm"></textarea>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-bold text-slate-300 mb-1">ٹیگز (comma separated tags)</label>
+                    <input type="text" id="modalTags" placeholder="محبت, غم, صوفیانہ, Awais" class="w-full bg-slate-800 border border-slate-700 text-slate-100 rounded-xl p-3 focus:outline-none focus:border-brand-500 text-sm">
+                </div>
+
+                <div class="flex justify-end gap-3 pt-3">
+                    <button type="button" onclick="closePoetryModal()" class="px-4 py-2.5 rounded-xl bg-slate-800 text-slate-300 text-sm">منسوخ کریں</button>
+                    <button type="submit" class="px-6 py-2.5 rounded-xl bg-brand-600 hover:bg-brand-500 text-white font-semibold text-sm shadow-lg shadow-brand-600/30">شامل کریں</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Notification Toast -->
+    <div id="toast" class="fixed bottom-6 left-1/2 transform -translate-x-1/2 bg-slate-800 border border-brand-500 text-brand-400 px-6 py-3 rounded-2xl shadow-2xl z-50 flex items-center gap-3 hidden">
+        <i class="fa-solid fa-circle-check text-lg"></i>
+        <span id="toastMessage" class="text-sm font-semibold">پلاٹ ڈیٹا کامیابی سے اپڈیٹ ہوا!</span>
+    </div>
+
+    <!-- Application Script -->
+    <script>
+        // Initial Poetry Collection Customized for Awais Ghani Studio
+        const initialPoetryList = [
+            {
+                id: 1,
+                lang: 'urdu',
+                poet: 'اویس غنی',
+                lines: `وفاؤں کی طلب میں ہم نے خود کو ہی مٹا ڈالا\nکسی کے اک تبسم پر نیا دل بھی لٹا ڈالا`,
+                likes: 89,
+                tags: ['اویس غنی', 'محبت', 'غزل']
+            },
+            {
+                id: 2,
+                lang: 'urdu',
+                poet: 'علامہ محمد اقبال',
+                lines: `دیارِ عشق میں اپنا مقام پیدا کر\nنیا زمانہ، نئے صبح و شام پیدا کر`,
+                likes: 120,
+                tags: ['اقبال', 'خودداری', 'شاعری']
+            },
+            {
+                id: 3,
+                lang: 'punjabi',
+                poet: 'بابا بلھے شاہ',
+                lines: `بلھیا لوک متے دیندے توں جا بہہ مسجداں اندر\nکیہہ فائدہ مسجد جانے دا جے دل نہ نمازاں اندر`,
+                likes: 95,
+                tags: ['بلھے شاہ', 'پنجابی', 'تصوف']
+            },
+            {
+                id: 4,
+                lang: 'punjabi',
+                poet: 'سلطان باہو',
+                lines: `دل کالے کولوں منہ کالا چنگا، جیہڑا اندروں داغ نہ ہووے ہُو\nعشقے دی باجھوں باہوؒ، بیڑا پار نہ ہووے ہُو`,
+                likes: 74,
+                tags: ['سلطان باہو', 'پنجابی', 'ابیات']
+            },
+            {
+                id: 5,
+                lang: 'english',
+                poet: 'Awais Ghani',
+                lines: `In the silence of the night, words begin to flow,\nA soul searching for answers only quiet hearts know.`,
+                likes: 62,
+                tags: ['Awais Ghani', 'Solitude', 'Modern']
+            },
+            {
+                id: 6,
+                lang: 'english',
+                poet: 'William Shakespeare',
+                lines: `Love looks not with the eyes, but with the mind,\nAnd therefore is winged Cupid painted blind.`,
+                likes: 45,
+                tags: ['Classic', 'Love', 'Shakespeare']
+            }
+        ];
+
+        // State Management
+        let items = JSON.parse(localStorage.getItem('ag_poetry_items')) || initialPoetryList;
+        let currentCat = 'all';
+
+        function saveState() {
+            localStorage.setItem('ag_poetry_items', JSON.stringify(items));
+        }
+
+        // Render Cards
+        function renderCards() {
+            const grid = document.getElementById('poetryGrid');
+            const empty = document.getElementById('emptyState');
+            const searchVal = document.getElementById('searchInput').value.toLowerCase().trim();
+
+            grid.innerHTML = '';
+
+            const filtered = items.filter(item => {
+                const matchesCat = (currentCat === 'all') || (item.lang === currentCat);
+                const matchesSearch = item.poet.toLowerCase().includes(searchVal) ||
+                                      item.lines.toLowerCase().includes(searchVal) ||
+                                      item.tags.some(t => t.toLowerCase().includes(searchVal));
+                return matchesCat && matchesSearch;
+            });
+
+            if (filtered.length === 0) {
+                empty.classList.remove('hidden');
+            } else {
+                empty.classList.add('hidden');
+            }
+
+            filtered.forEach(item => {
+                const isEng = item.lang === 'english';
+                const card = document.createElement('div');
+
+                card.className = "bg-slate-900/80 border border-slate-800 hover:border-brand-500/50 rounded-3xl p-6 shadow-xl backdrop-blur-sm flex flex-col justify-between transition-all duration-300 hover:-translate-y-1";
+
+                const dir = isEng ? 'dir="ltr"' : 'dir="rtl"';
+                const fontStyle = isEng ? 'font-english text-lg' : 'font-urdu text-xl font-medium';
+                const badgeColor = item.lang === 'urdu' ? 'bg-amber-500/10 text-amber-400 border-amber-500/20' :
+                                   item.lang === 'punjabi' ? 'bg-teal-500/10 text-teal-400 border-teal-500/20' :
+                                   'bg-blue-500/10 text-blue-400 border-blue-500/20';
+
+                const langTitle = item.lang === 'urdu' ? 'اردو' : item.lang === 'punjabi' ? 'پنجابی' : 'English';
+
+                card.innerHTML = `
+                    <div>
+                        <!-- Tag & Language Header -->
+                        <div class="flex items-center justify-between gap-2 mb-4">
+                            <span class="text-xs px-3 py-1 rounded-full font-semibold border ${badgeColor}">
+                                ${langTitle}
+                            </span>
+                            <div class="flex flex-wrap gap-1">
+                                ${item.tags.map(t => `<span class="text-xs bg-slate-800 text-slate-400 px-2 py-0.5 rounded-md">#${sanitize(t)}</span>`).join('')}
+                            </div>
+                        </div>
+
+                        <!-- Poetry Content -->
+                        <div ${dir} class="${fontStyle} text-slate-100 text-center my-4 leading-relaxed whitespace-pre-line border-y border-slate-800/80 py-4 selectable">
+                            ${sanitize(item.lines)}
+                        </div>
+
+                        <!-- Poet Name -->
+                        <p ${dir} class="text-center text-brand-400 text-sm font-semibold mb-6">
+                            — ${sanitize(item.poet)}
+                        </p>
+                    </div>
+
+                    <!-- Actions Bar -->
+                    <div class="flex items-center justify-between pt-4 border-t border-slate-800/80">
+                        <!-- Like Button -->
+                        <button onclick="likePoetry(${item.id})" class="flex items-center gap-1.5 text-slate-400 hover:text-red-400 transition group">
+                            <i class="fa-solid fa-heart text-base group-hover:scale-125 transition"></i>
+                            <span class="text-xs font-english">${item.likes}</span>
+                        </button>
+
+                        <div class="flex items-center gap-2">
+                            <!-- Copy Button -->
+                            <button onclick="copyToClipboard(\`${escapeAttr(item.lines)}\\n— ${escapeAttr(item.poet)}\`)" class="p-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 transition" title="کاپی کریں">
+                                <i class="fa-regular fa-copy text-sm"></i>
+                            </button>
+
+                            <!-- WhatsApp Direct Share -->
+                            <button onclick="shareOnWhatsApp(\`${escapeAttr(item.lines)}\\n— ${escapeAttr(item.poet)}\`)" class="p-2.5 rounded-xl bg-emerald-600/20 hover:bg-emerald-600 text-emerald-400 hover:text-white transition" title="واٹس ایپ شیئر">
+                                <i class="fa-brands fa-whatsapp text-sm"></i>
+                            </button>
+                        </div>
+                    </div>
+                `;
+
+                grid.appendChild(card);
+            });
+        }
+
+        // Sanitization Helper
+        function sanitize(str) {
+            return str.replace(/[&<>'"]/g, tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag] || tag));
+        }
+
+        function escapeAttr(str) {
+            return str.replace(/`/g, '\\`').replace(/"/g, '&quot;').replace(/\n/g, '\\n');
+        }
+
+        // Category Selection
+        function setActiveCategory(cat) {
+            currentCat = cat;
+            document.querySelectorAll('.cat-btn').forEach(b => {
+                b.classList.remove('bg-brand-600', 'text-white', 'shadow-md');
+                b.classList.add('text-slate-400');
+            });
+
+            const activeBtn = document.getElementById(`tab-${cat}`);
+            if (activeBtn) {
+                activeBtn.classList.add('bg-brand-600', 'text-white', 'shadow-md');
+                activeBtn.classList.remove('text-slate-400');
+            }
+
+            renderCards();
+        }
+
+        function filterPoetryCards() {
+            renderCards();
+        }
+
+        // Like Counter
+        function likePoetry(id) {
+            const target = items.find(i => i.id === id);
+            if (target) {
+                target.likes += 1;
+                saveState();
+                renderCards();
+            }
+        }
+
+        // Clipboard Copy
+        function copyToClipboard(text) {
+            const cleanText = text.replace(/\\n/g, '\n');
+            const textarea = document.createElement("textarea");
+            textarea.value = cleanText;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand("copy");
+            document.body.removeChild(textarea);
+
+            showToastNotification("شاعری کاپی ہو گئی ہے!");
+        }
+
+        // WhatsApp Share
+        function shareOnWhatsApp(text) {
+            const cleanText = text.replace(/\\n/g, '\n');
+            const msg = encodeURIComponent(cleanText + "\n\n— Awais Ghani Poetry Studio سے شیئر کی گئی");
+            window.open(`https://api.whatsapp.com/send?text=${msg}`, '_blank');
+        }
+
+        // Toast Messages
+        function showToastNotification(msg) {
+            const toast = document.getElementById('toast');
+            const toastMsg = document.getElementById('toastMessage');
+            toastMsg.innerText = msg;
+            toast.classList.remove('hidden');
+            toast.classList.add('animate-toast');
+
+            setTimeout(() => {
+                toast.classList.add('hidden');
+                toast.classList.remove('animate-toast');
+            }, 3000);
+        }
+
+        // Modal Form Actions
+        function openPoetryModal() {
+            document.getElementById('poetryModal').classList.remove('hidden');
+        }
+
+        function closePoetryModal() {
+            document.getElementById('poetryModal').classList.add('hidden');
+            document.getElementById('addForm').reset();
+        }
+
+        function savePoetryEntry(e) {
+            e.preventDefault();
+            const lang = document.getElementById('modalLang').value;
+            const poet = document.getElementById('modalPoet').value.trim();
+            const lines = document.getElementById('modalContent').value.trim();
+            const rawTags = document.getElementById('modalTags').value.trim();
+
+            const tags = rawTags ? rawTags.split(/[,،]/).map(t => t.trim()).filter(Boolean) : ['AwaisGhani'];
+
+            const newEntry = {
+                id: Date.now(),
+                lang,
+                poet,
+                lines,
+                likes: 0,
+                tags
+            };
+
+            items.unshift(newEntry);
+            saveState();
+            renderCards();
+            closePoetryModal();
+            showToastNotification("نیا کلام کامیابی سے لائیو ہو گیا ہے!");
+        }
+
+        // Export Entire Web Application HTML Source File
+        function exportSourceCode() {
+            const fullContent = "<!DOCTYPE html>\n" + document.documentElement.outerHTML;
+            const blob = new Blob([fullContent], { type: 'text/html' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = 'AwaisGhani_Poetry_Studio.html';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            showToastNotification("سورس کوڈ فائل ڈاؤن لوڈ ہو گئی ہے!");
+        }
+
+        // Theme Toggle
+        const themeBtn = document.getElementById('themeToggleBtn');
+        themeBtn.addEventListener('click', () => {
+            document.documentElement.classList.toggle('dark');
+            const isDark = document.documentElement.classList.contains('dark');
+            themeBtn.innerHTML = isDark ? '<i class="fa-solid fa-sun text-lg"></i>' : '<i class="fa-solid fa-moon text-lg text-slate-800"></i>';
+            
+            if(!isDark) {
+                document.body.classList.remove('bg-slate-950', 'text-slate-100');
+                document.body.classList.add('bg-slate-50', 'text-slate-900');
+            } else {
+                document.body.classList.add('bg-slate-950', 'text-slate-100');
+                document.body.classList.remove('bg-slate-50', 'text-slate-900');
+            }
+        });
+
+        // Initialize App
+        window.onload = function() {
+            renderCards();
+        };
+    </script>
+</body>
+</html>
