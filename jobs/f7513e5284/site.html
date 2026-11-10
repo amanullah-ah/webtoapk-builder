@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AwaisGhani Video Player Pro - Official App & APK Hub</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#6366f1',
+                        accent: '#8b5cf6',
+                        darkBg: '#0b0f19',
+                        cardBg: '#151c2c',
+                        borderBg: '#232d42'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'Noto Nastaliq Urdu', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace']
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Noto+Nastaliq+Urdu:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .font-urdu { font-family: 'Noto Nastaliq Urdu', serif; }
+        
+        /* Custom scrollbar styling */
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: #0b0f19; }
+        ::-webkit-scrollbar-thumb { background: #232d42; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #6366f1; }
+
+        /* Range slider styling */
+        input[type="range"] {
+            -webkit-appearance: none;
+            appearance: none;
+            background: #232d42;
+            border-radius: 4px;
+            outline: none;
+        }
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: #6366f1;
+            cursor: pointer;
+            transition: all 0.2s ease-in-out;
+        }
+        input[type="range"]::-webkit-slider-thumb:hover {
+            transform: scale(1.25);
+            background: #8b5cf6;
+        }
+
+        /* Glassmorphism utility */
+        .glass-panel {
+            background: rgba(21, 28, 44, 0.75);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+    </style>
+</head>
+<body class="bg-darkBg text-slate-100 min-h-screen flex flex-col selection:bg-indigo-600 selection:text-white">
+
+    <!-- Header Navigation -->
+    <header class="sticky top-0 z-50 glass-panel border-b border-borderBg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <!-- Brand Logo & Title -->
+            <div class="flex items-center space-x-3">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-600 via-purple-600 to-pink-500 flex items-center justify-center shadow-lg shadow-indigo-500/25">
+                    <i class="fa-solid fa-play text-white text-lg"></i>
+                </div>
+                <div>
+                    <div class="flex items-center space-x-2">
+                        <span class="font-extrabold text-base tracking-tight text-white">AwaisGhani Video Player</span>
+                        <span class="bg-indigo-500/20 text-indigo-400 border border-indigo-500/30 text-[10px] font-bold px-1.5 py-0.5 rounded">PRO</span>
+                    </div>
+                    <span class="text-xs text-slate-400 font-urdu block">اویس غنی ویڈیو پلیئر پرو</span>
+                </div>
+            </div>
+
+            <!-- Quick Download APK Action -->
+            <div class="flex items-center space-x-3">
+                <button onclick="scrollToSection('apk-hub')" class="flex items-center space-x-2 bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 text-white px-4 py-2 rounded-xl text-xs font-semibold shadow-lg shadow-indigo-600/25 transition">
+                    <i class="fa-brands fa-android text-sm"></i>
+                    <span>Download APK</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-10">
+
+        <!-- SECTION 1: PRO VIDEO PLAYER EXPERIENCE -->
+        <section class="space-y-6">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                <div>
+                    <h1 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
+                        AwaisGhani Pro Web Player Preview
+                    </h1>
+                    <p class="text-xs sm:text-sm text-slate-400 mt-1">
+                        Experience 4K ultra-smooth video playback with real-time controls and DSP audio equalization.
+                    </p>
+                </div>
+                
+                <button onclick="document.getElementById('localVideoPicker').click()" class="self-start md:self-auto bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold px-4 py-2.5 rounded-xl transition flex items-center space-x-2 shadow-lg shadow-indigo-600/20">
+                    <i class="fa-solid fa-folder-open"></i>
+                    <span>Open Local Video File</span>
+                </button>
+                <input type="file" id="localVideoPicker" accept="video/*" class="hidden" onchange="loadLocalVideo(event)">
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                
+                <!-- Left: Video Player Screen (8 cols) -->
+                <div class="lg:col-span-8 space-y-4">
+                    <div class="bg-cardBg border border-borderBg rounded-2xl overflow-hidden shadow-2xl relative group">
+                        
+                        <!-- Video Display Container -->
+                        <div class="relative aspect-video bg-black flex items-center justify-center overflow-hidden">
+                            <video id="mainVideo" class="w-full h-full object-contain" poster="https://placehold.co/1280x720/0f172a/6366f1?text=AwaisGhani+Video+Player+Pro">
+                                <source src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4" type="video/mp4">
+                                Your browser does not support HTML5 video.
+                            </video>
+
+                            <!-- Toast Notification Inside Screen -->
+                            <div id="videoToast" class="absolute top-4 right-4 bg-slate-900/90 border border-slate-700 text-white text-xs px-3 py-1.5 rounded-lg opacity-0 transition-opacity duration-300 pointer-events-none flex items-center space-x-2">
+                                <i class="fa-solid fa-circle-info text-indigo-400"></i>
+                                <span id="toastMsg">Notification</span>
+                            </div>
+
+                            <!-- Controls Overlay -->
+                            <div id="playerOverlay" class="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-transparent to-slate-950/40 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-between p-4">
+                                
+                                <!-- Overlay Top Bar -->
+                                <div class="flex items-center justify-between text-xs">
+                                    <div class="flex items-center space-x-2">
+                                        <span class="w-2 h-2 rounded-full bg-indigo-500 animate-pulse"></span>
+                                        <span class="font-semibold text-slate-200 truncate max-w-[200px] sm:max-w-xs" id="videoTitleDisplay">BigBuckBunny.mp4</span>
+                                    </div>
+                                    <div class="flex items-center space-x-3 text-slate-300">
+                                        <button onclick="togglePip()" title="Picture in Picture" class="hover:text-indigo-400 transition">
+                                            <i class="fa-solid fa-clone text-sm"></i>
+                                        </button>
+                                        <button onclick="toggleAspectRatio()" title="Aspect Ratio" class="hover:text-indigo-400 transition font-mono text-[11px] bg-slate-800/80 px-1.5 py-0.5 rounded border border-slate-700" id="aspectRatioBtn">
+                                            FIT
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <!-- Overlay Center Play Buttons -->
+                                <div class="flex items-center justify-center space-x-6">
+                                    <button onclick="skipTime(-10)" class="w-10 h-10 rounded-full bg-slate-900/60 hover:bg-indigo-600/80 text-white flex items-center justify-center transition backdrop-blur">
+                                        <i class="fa-solid fa-backward-step"></i>
+                                    </button>
+                                    <button onclick="togglePlay()" id="centerPlayBtn" class="w-14 h-14 rounded-full bg-indigo-600 hover:bg-indigo-500 text-white flex items-center justify-center shadow-xl transition transform hover:scale-110">
+                                        <i class="fa-solid fa-play text-xl ml-1" id="centerPlayIcon"></i>
+                                    </button>
+                                    <button onclick="skipTime(10)" class="w-10 h-10 rounded-full bg-slate-900/60 hover:bg-indigo-600/80 text-white flex items-center justify-center transition backdrop-blur">
+                                        <i class="fa-solid fa-forward-step"></i>
+                                    </button>
+                                </div>
+
+                                <!-- Overlay Bottom Bar -->
+                                <div class="space-y-2">
+                                    <!-- Time Seek Bar -->
+                                    <div class="flex items-center space-x-3">
+                                        <span id="currentTime" class="text-[11px] font-mono text-slate-300">00:00</span>
+                                        <input type="range" id="seekBar" value="0" min="0" max="100" class="w-full h-1.5 cursor-pointer accent-indigo-500" oninput="seekVideo(this.value)">
+                                        <span id="durationTime" class="text-[11px] font-mono text-slate-400">00:00</span>
+                                    </div>
+
+                                    <!-- Action Buttons -->
+                                    <div class="flex items-center justify-between text-xs pt-1">
+                                        <div class="flex items-center space-x-4">
+                                            <button onclick="togglePlay()" class="text-slate-200 hover:text-indigo-400 transition">
+                                                <i class="fa-solid fa-play" id="bottomPlayIcon"></i>
+                                            </button>
+                                            
+                                            <!-- Volume Slider -->
+                                            <div class="flex items-center space-x-2">
+                                                <button onclick="toggleMute()" class="text-slate-300 hover:text-indigo-400 transition">
+                                                    <i class="fa-solid fa-volume-high" id="volumeIcon"></i>
+                                                </button>
+                                                <input type="range" id="volumeSlider" min="0" max="1" step="0.05" value="1" class="w-16 h-1 cursor-pointer" oninput="setVolume(this.value)">
+                                            </div>
+                                        </div>
+
+                                        <div class="flex items-center space-x-3 text-slate-300">
+                                            <!-- Playback Speed -->
+                                            <select id="speedSelector" onchange="changeSpeed(this.value)" class="bg-slate-900/90 text-slate-200 text-[11px] border border-slate-700 rounded px-2 py-0.5 focus:outline-none focus:border-indigo-500">
+                                                <option value="0.5">0.5x</option>
+                                                <option value="1.0" selected>1.0x</option>
+                                                <option value="1.25">1.25x</option>
+                                                <option value="1.5">1.5x</option>
+                                                <option value="2.0">2.0x</option>
+                                            </select>
+
+                                            <!-- Fullscreen -->
+                                            <button onclick="toggleFullscreen()" class="hover:text-indigo-400 transition">
+                                                <i class="fa-solid fa-expand"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- Right: Audio Equalizer & Sound Enhancements (4 cols) -->
+                <div class="lg:col-span-4 space-y-4">
+                    
+                    <div class="bg-cardBg border border-borderBg p-5 rounded-2xl space-y-4 shadow-xl">
+                        <div class="flex items-center justify-between border-b border-borderBg pb-3">
+                            <div class="flex items-center space-x-2">
+                                <i class="fa-solid fa-sliders text-indigo-400"></i>
+                                <span class="font-bold text-sm text-slate-200">Audio Equalizer &amp; Effects</span>
+                            </div>
+                            <span class="text-[10px] font-mono text-indigo-400 bg-indigo-500/10 border border-indigo-500/20 px-2 py-0.5 rounded">DSP ENGINE</span>
+                        </div>
+
+                        <!-- Equalizer Toggles -->
+                        <div class="space-y-3">
+                            <div class="flex items-center justify-between bg-slate-900/60 p-2.5 rounded-xl border border-slate-800">
+                                <div class="flex items-center space-x-2">
+                                    <i class="fa-solid fa-drum text-xs text-indigo-400"></i>
+                                    <span class="text-xs font-medium">Bass Boost</span>
+                                </div>
+                                <label class="relative inline-flex items-center cursor-pointer">
+                                    <input type="checkbox" id="bassBoostToggle" onchange="triggerEffect('Bass Boost')" class="sr-only peer">
+                                    <div class="w-9 h-5 bg-slate-800 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-indigo-600"></div>
+                                </label>
+                            </div>
+
+                            <div class="flex items-center justify-between bg-slate-900/60 p-2.5 rounded-xl border border-slate-800">
+                                <div class="flex items-center space-x-2">
+                                    <i class="fa-solid fa-headphones text-xs text-purple-400"></i>
+                                    <span class="text-xs font-medium">3D Virtual Surround</span>
+                                </div>
+                                <label class="relative inline-flex items-center cursor-pointer">
+                                    <input type="checkbox" id="surroundToggle" onchange="triggerEffect('3D Surround')" class="sr-only peer" checked>
+                                    <div class="w-9 h-5 bg-slate-800 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-indigo-600"></div>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Frequency Equalizer Faders -->
+                        <div class="space-y-2 pt-2">
+                            <span class="text-[11px] text-slate-400 font-medium block">Custom Frequencies</span>
+                            <div class="grid grid-cols-5 gap-2 text-center">
+                                <div>
+                                    <input type="range" min="-10" max="10" value="4" class="h-20 [writing-mode:vertical-lr] mx-auto mb-1">
+                                    <span class="text-[10px] text-slate-500 block">60Hz</span>
+                                </div>
+                                <div>
+                                    <input type="range" min="-10" max="10" value="2" class="h-20 [writing-mode:vertical-lr] mx-auto mb-1">
+                                    <span class="text-[10px] text-slate-500 block">230Hz</span>
+                                </div>
+                                <div>
+                                    <input type="range" min="-10" max="10" value="0" class="h-20 [writing-mode:vertical-lr] mx-auto mb-1">
+                                    <span class="text-[10px] text-slate-500 block">910Hz</span>
+                                </div>
+                                <div>
+                                    <input type="range" min="-10" max="10" value="3" class="h-20 [writing-mode:vertical-lr] mx-auto mb-1">
+                                    <span class="text-[10px] text-slate-500 block">4kHz</span>
+                                </div>
+                                <div>
+                                    <input type="range" min="-10" max="10" value="5" class="h-20 [writing-mode:vertical-lr] mx-auto mb-1">
+                                    <span class="text-[10px] text-slate-500 block">14kHz</span>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="bg-gradient-to-br from-indigo-950/40 via-cardBg to-purple-950/30 border border-borderBg p-4 rounded-2xl space-y-2">
+                        <div class="flex items-center space-x-2 text-indigo-400">
+                            <i class="fa-solid fa-shield-halved text-sm"></i>
+                            <span class="text-xs font-bold uppercase tracking-wider">AwaisGhani Engine</span>
+                        </div>
+                        <p class="text-xs text-slate-300 leading-relaxed">
+                            Includes HW+ hardware acceleration, low-latency rendering, background playback capability, and gesture controls.
+                        </p>
+                    </div>
+
+                </div>
+
+            </div>
+        </section>
+
+        <!-- SECTION 2: OFFICIAL APK DOWNLOAD HUB -->
+        <section id="apk-hub" class="space-y-6 pt-4">
+            <div class="bg-gradient-to-br from-cardBg via-slate-900 to-indigo-950/40 border border-borderBg p-8 rounded-3xl shadow-2xl relative overflow-hidden">
+                <div class="absolute -right-10 -bottom-10 w-64 h-64 bg-indigo-600/10 rounded-full blur-3xl pointer-events-none"></div>
+
+                <div class="flex flex-col md:flex-row items-center justify-between gap-8 relative z-10">
+                    <div class="space-y-4 text-center md:text-left">
+                        <div class="inline-flex items-center space-x-2 bg-emerald-500/10 border border-emerald-500/20 px-3 py-1 rounded-full text-emerald-400 text-xs font-semibold">
+                            <i class="fa-solid fa-shield-check"></i>
+                            <span>Official Signed Android Package</span>
+                        </div>
+                        
+                        <h2 class="text-3xl font-extrabold text-white tracking-tight">
+                            Download AwaisGhani Player Pro APK
+                        </h2>
+                        <p class="text-slate-400 text-sm max-w-lg">
+                            Get the full native Android app for your smartphone, TV, or tablet. Enjoy ad-free 4K video playback with gesture controls.
+                        </p>
+
+                        <!-- Release Specifications -->
+                        <div class="flex flex-wrap gap-2 justify-center md:justify-start text-xs font-mono">
+                            <span class="bg-slate-800 text-slate-300 px-3 py-1 rounded-lg border border-slate-700">v1.0.0 Pro</span>
+                            <span class="bg-slate-800 text-slate-300 px-3 py-1 rounded-lg border border-slate-700">Size: 18.4 MB</span>
+                            <span class="bg-slate-800 text-slate-300 px-3 py-1 rounded-lg border border-slate-700">Android 8.0+</span>
+                            <span class="bg-slate-800 text-slate-300 px-3 py-1 rounded-lg border border-slate-700">No Ads</span>
+                        </div>
+                    </div>
+
+                    <!-- Download Trigger Box -->
+                    <div class="w-full md:w-auto bg-slate-950/80 p-6 rounded-2xl border border-slate-800 text-center space-y-4 min-w-[300px]">
+                        <button onclick="startApkBuild()" id="buildApkBtn" class="w-full bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 text-white font-bold py-4 px-6 rounded-xl shadow-lg shadow-indigo-600/30 transition flex items-center justify-center space-x-3 group">
+                            <i class="fa-brands fa-android text-2xl group-hover:scale-110 transition"></i>
+                            <div class="text-left">
+                                <div class="text-[10px] text-indigo-200 uppercase font-semibold">Download Original APK</div>
+                                <div class="text-base font-bold">AwaisGhani Player Pro</div>
+                            </div>
+                        </button>
+
+                        <!-- Dynamic Progress Bar -->
+                        <div id="apkProgressBox" class="hidden space-y-2 text-left">
+                            <div class="flex justify-between text-xs font-mono">
+                                <span id="apkStatusText" class="text-indigo-400">Preparing APK...</span>
+                                <span id="apkPercentText" class="text-slate-300">0%</span>
+                            </div>
+                            <div class="w-full bg-slate-800 rounded-full h-2 overflow-hidden">
+                                <div id="apkProgressBar" class="bg-gradient-to-r from-indigo-500 to-emerald-400 h-full w-0 transition-all duration-200"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 3: PRO FEATURES SHOWCASE -->
+        <section class="space-y-6 pt-4">
+            <div class="text-center max-w-2xl mx-auto space-y-2">
+                <h2 class="text-2xl font-extrabold text-white">App Premium Features</h2>
+                <p class="text-xs sm:text-sm text-slate-400">
+                    Engineered for maximum video format compatibility and high audio performance.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                
+                <div class="bg-cardBg border border-borderBg p-6 rounded-2xl space-y-3 hover:border-indigo-500/50 transition">
+                    <div class="w-10 h-10 rounded-xl bg-indigo-500/10 text-indigo-400 flex items-center justify-center text-lg">
+                        <i class="fa-solid fa-bolt"></i>
+                    </div>
+                    <h3 class="font-bold text-base text-slate-200">Hardware Acceleration HW+</h3>
+                    <p class="text-xs text-slate-400 leading-relaxed">
+                        High-speed decoder acceleration for 4K Ultra HD and 8K videos without lag or frame drops.
+                    </p>
+                </div>
+
+                <div class="bg-cardBg border border-borderBg p-6 rounded-2xl space-y-3 hover:border-indigo-500/50 transition">
+                    <div class="w-10 h-10 rounded-xl bg-indigo-500/10 text-indigo-400 flex items-center justify-center text-lg">
+                        <i class="fa-solid fa-hand-pointer"></i>
+                    </div>
+                    <h3 class="font-bold text-base text-slate-200">Smart Gesture Controls</h3>
+                    <p class="text-xs text-slate-400 leading-relaxed">
+                        Swipe left/right for fast forward, up/down on left for brightness, up/down on right for volume.
+                    </p>
+                </div>
+
+                <div class="bg-cardBg border border-borderBg p-6 rounded-2xl space-y-3 hover:border-indigo-500/50 transition">
+                    <div class="w-10 h-10 rounded-xl bg-indigo-500/10 text-indigo-400 flex items-center justify-center text-lg">
+                        <i class="fa-solid fa-closed-captioning"></i>
+                    </div>
+                    <h3 class="font-bold text-base text-slate-200">Subtitle & Urdu Text Support</h3>
+                    <p class="text-xs text-slate-400 leading-relaxed">
+                        Full SRT, ASS, and VTT subtitle formatting with font scaling and right-to-left language alignment.
+                    </p>
+                </div>
+
+                <div class="bg-cardBg border border-borderBg p-6 rounded-2xl space-y-3 hover:border-indigo-500/50 transition">
+                    <div class="w-10 h-10 rounded-xl bg-indigo-500/10 text-indigo-400 flex items-center justify-center text-lg">
+                        <i class="fa-solid fa-music"></i>
+                    </div>
+                    <h3 class="font-bold text-base text-slate-200">Background Audio Playback</h3>
+                    <p class="text-xs text-slate-400 leading-relaxed">
+                        Keep playing video audio in the background or pop up in Picture-in-Picture window mode.
+                    </p>
+                </div>
+
+                <div class="bg-cardBg border border-borderBg p-6 rounded-2xl space-y-3 hover:border-indigo-500/50 transition">
+                    <div class="w-10 h-10 rounded-xl bg-indigo-500/10 text-indigo-400 flex items-center justify-center text-lg">
+                        <i class="fa-solid fa-lock"></i>
+                    </div>
+                    <h3 class="font-bold text-base text-slate-200">Kids Screen Lock</h3>
+                    <p class="text-xs text-slate-400 leading-relaxed">
+                        Lock touch controls on screen while children watch videos without accidental interruptions.
+                    </p>
+                </div>
+
+                <div class="bg-cardBg border border-borderBg p-6 rounded-2xl space-y-3 hover:border-indigo-500/50 transition">
+                    <div class="w-10 h-10 rounded-xl bg-indigo-500/10 text-indigo-400 flex items-center justify-center text-lg">
+                        <i class="fa-solid fa-file-video"></i>
+                    </div>
+                    <h3 class="font-bold text-base text-slate-200">All Formats Supported</h3>
+                    <p class="text-xs text-slate-400 leading-relaxed">
+                        Plays MP4, MKV, AVI, MOV, FLV, TS, 3GP, and WebM seamlessly without external codecs.
+                    </p>
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-borderBg bg-cardBg/30 py-6 mt-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div class="flex items-center space-x-2">
+                <span class="font-bold text-xs text-slate-300">AwaisGhani Video Player Pro</span>
+                <span class="text-slate-600">•</span>
+                <span class="text-xs text-slate-400 font-urdu">اویس غنی آفیشل پرو ایپ</span>
+            </div>
+            <p class="text-xs text-slate-500">
+                &copy; 2026 Awais Ghani. All rights reserved.
+            </p>
+        </div>
+    </footer>
+
+    <!-- Interactive JavaScript Engine -->
+    <script>
+        const video = document.getElementById('mainVideo');
+
+        function scrollToSection(id) {
+            document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Video Player Controls Logic
+        function togglePlay() {
+            if (video.paused) {
+                video.play();
+                updatePlayIcons(true);
+                showToast('Playing');
+            } else {
+                video.pause();
+                updatePlayIcons(false);
+                showToast('Paused');
+            }
+        }
+
+        function updatePlayIcons(isPlaying) {
+            const centerIcon = document.getElementById('centerPlayIcon');
+            const bottomIcon = document.getElementById('bottomPlayIcon');
+            if (isPlaying) {
+                centerIcon.className = 'fa-solid fa-pause text-xl';
+                bottomIcon.className = 'fa-solid fa-pause';
+            } else {
+                centerIcon.className = 'fa-solid fa-play text-xl ml-1';
+                bottomIcon.className = 'fa-solid fa-play';
+            }
+        }
+
+        function skipTime(seconds) {
+            video.currentTime += seconds;
+            showToast(`${seconds > 0 ? '+' : ''}${seconds}s`);
+        }
+
+        function seekVideo(val) {
+            const targetTime = (val / 100) * video.duration;
+            video.currentTime = targetTime;
+        }
+
+        function setVolume(val) {
+            video.volume = val;
+            const volIcon = document.getElementById('volumeIcon');
+            if (val == 0) {
+                volIcon.className = 'fa-solid fa-volume-xmark';
+            } else if (val < 0.5) {
+                volIcon.className = 'fa-solid fa-volume-low';
+            } else {
+                volIcon.className = 'fa-solid fa-volume-high';
+            }
+        }
+
+        function toggleMute() {
+            video.muted = !video.muted;
+            showToast(video.muted ? 'Muted' : 'Unmuted');
+        }
+
+        function changeSpeed(val) {
+            video.playbackRate = parseFloat(val);
+            showToast(`Speed: ${val}x`);
+        }
+
+        function toggleAspectRatio() {
+            const btn = document.getElementById('aspectRatioBtn');
+            if (video.classList.contains('object-contain')) {
+                video.classList.remove('object-contain');
+                video.classList.add('object-cover');
+                btn.textContent = 'COVER';
+                showToast('Aspect Ratio: Cover');
+            } else {
+                video.classList.remove('object-cover');
+                video.classList.add('object-contain');
+                btn.textContent = 'FIT';
+                showToast('Aspect Ratio: Fit');
+            }
+        }
+
+        function toggleFullscreen() {
+            if (!document.fullscreenElement) {
+                video.requestFullscreen().catch(() => {
+                    showToast('Fullscreen unavailable');
+                });
+            } else {
+                document.exitFullscreen();
+            }
+        }
+
+        async function togglePip() {
+            try {
+                if (document.pictureInPictureElement) {
+                    await document.exitPictureInPicture();
+                } else {
+                    await video.requestPictureInPicture();
+                }
+            } catch (err) {
+                showToast('PiP unavailable');
+            }
+        }
+
+        // Local Media Loader
+        function loadLocalVideo(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const fileURL = URL.createObjectURL(file);
+                video.src = fileURL;
+                document.getElementById('videoTitleDisplay').textContent = file.name;
+                video.play();
+                updatePlayIcons(true);
+                showToast(`Loaded: ${file.name}`);
+            }
+        }
+
+        // Time Updates
+        video.addEventListener('timeupdate', () => {
+            if (!isNaN(video.duration)) {
+                const progress = (video.currentTime / video.duration) * 100;
+                document.getElementById('seekBar').value = progress;
+                document.getElementById('currentTime').textContent = formatTime(video.currentTime);
+                document.getElementById('durationTime').textContent = formatTime(video.duration);
+            }
+        });
+
+        function formatTime(seconds) {
+            const mins = Math.floor(seconds / 60);
+            const secs = Math.floor(seconds % 60);
+            return `${mins < 10 ? '0' : ''}${mins}:${secs < 10 ? '0' : ''}${secs}`;
+        }
+
+        function showToast(msg) {
+            const toast = document.getElementById('videoToast');
+            document.getElementById('toastMsg').textContent = msg;
+            toast.classList.remove('opacity-0');
+            setTimeout(() => toast.classList.add('opacity-0'), 1500);
+        }
+
+        function triggerEffect(name) {
+            showToast(`${name} Toggled`);
+        }
+
+        // Simulated APK Downloader
+        function startApkBuild() {
+            const btn = document.getElementById('buildApkBtn');
+            const progressBox = document.getElementById('apkProgressBox');
+            const progressBar = document.getElementById('apkProgressBar');
+            const statusText = document.getElementById('apkStatusText');
+            const percentText = document.getElementById('apkPercentText');
+
+            btn.disabled = true;
+            btn.classList.add('opacity-50', 'cursor-not-allowed');
+            progressBox.classList.remove('hidden');
+
+            let progress = 0;
+            const interval = setInterval(() => {
+                progress += Math.floor(Math.random() * 15) + 10;
+                if (progress >= 100) {
+                    progress = 100;
+                    clearInterval(interval);
+                    statusText.textContent = 'APK Ready! Starting download...';
+                    percentText.textContent = '100%';
+                    progressBar.style.width = '100%';
+
+                    setTimeout(() => {
+                        const dummyApkContent = "AwaisGhani Video Player Pro APK Output File";
+                        const blob = new Blob([dummyApkContent], { type: 'application/vnd.android.package-archive' });
+                        const url = URL.createObjectURL(blob);
+                        const a = document.createElement('a');
+                        a.href = url;
+                        a.download = 'AwaisGhani_Video_Player_v1.0.0.apk';
+                        document.body.appendChild(a);
+                        a.click();
+                        document.body.removeChild(a);
+                        URL.revokeObjectURL(url);
+
+                        btn.disabled = false;
+                        btn.classList.remove('opacity-50', 'cursor-not-allowed');
+                    }, 600);
+                } else {
+                    progressBar.style.width = progress + '%';
+                    percentText.textContent = progress + '%';
+                    if (progress > 60) statusText.textContent = 'Verifying signature...';
+                    else if (progress > 30) statusText.textContent = 'Packing resources...';
+                }
+            }, 250);
+        }
+    </script>
+</body>
+</html>
