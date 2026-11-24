@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sahira Sheikh Hyderabad - Ludo</title>
+<style>
+:root{--red:#e53935;--green:#25a65a;--yellow:#f5c542;--blue:#2878d0;--ink:#202434}
+*{box-sizing:border-box}body{margin:0;font-family:Arial,sans-serif;background:linear-gradient(135deg,#171b35,#303b67);color:white;min-height:100vh}
+header{text-align:center;padding:18px 10px 8px}h1{margin:0;font-size:clamp(24px,5vw,38px)}header p{margin:7px 0;color:#dce3ff}
+main{max-width:850px;margin:auto;padding:10px;display:grid;grid-template-columns:minmax(280px,1fr) 260px;gap:16px;align-items:start}
+.board-wrap{background:#fff;padding:10px;border-radius:18px;box-shadow:0 12px 35px #0006}
+canvas{display:block;width:100%;height:auto;border-radius:8px}
+.panel{background:#ffffff14;border:1px solid #ffffff2b;border-radius:18px;padding:16px}
+.turn{font-size:19px;font-weight:bold;margin-bottom:12px}.dice{font-size:54px;text-align:center;background:#fff;color:#202434;border-radius:14px;padding:8px;margin:10px auto;width:90px}
+button{width:100%;border:0;border-radius:12px;padding:13px;font-size:16px;font-weight:bold;cursor:pointer;background:#ffd54f;color:#202434;margin:5px 0}
+button:disabled{opacity:.45;cursor:not-allowed}.small{font-size:13px;color:#dce3ff;line-height:1.5}.players{margin:14px 0}.player{padding:8px;border-radius:9px;margin:5px 0;background:#ffffff16}.dot{display:inline-block;width:12px;height:12px;border-radius:50%;margin-right:8px}
+#message{min-height:42px;line-height:1.4;background:#ffffff18;border-radius:10px;padding:10px;margin-top:10px}
+footer{text-align:center;padding:15px;color:#dce3ff;font-size:13px}
+@media(max-width:650px){main{grid-template-columns:1fr}.panel{order:-1}.board-wrap{max-width:560px;margin:auto;width:100%}.players{display:grid;grid-template-columns:1fr 1fr;gap:4px}}
+</style>
+</head>
+<body>
+<header><h1>🎲 SAHIRA LUDO</h1><p>Owner: Sahira Sheikh • Hyderabad</p></header>
+<main>
+ <div class="board-wrap"><canvas id="board" width="600" height="600" aria-label="Ludo board"></canvas></div>
+ <section class="panel">
+  <div class="turn" id="turn">Red player's turn</div>
+  <div class="dice" id="dice">⚀</div>
+  <button id="roll">Roll Dice</button>
+  <div id="message">Roll a 6 to bring a token out of the yard. Select a highlighted token to move.</div>
+  <div class="players">
+   <div class="player"><span class="dot" style="background:var(--red)"></span>Red — <span id="red-count">0/4 home</span></div>
+   <div class="player"><span class="dot" style="background:var(--green)"></span>Green — <span id="green-count">0/4 home</span></div>
+   <div class="player"><span class="dot" style="background:var(--yellow)"></span>Yellow — <span id="yellow-count">0/4 home</span></div>
+   <div class="player"><span class="dot" style="background:var(--blue)"></span>Blue — <span id="blue-count">0/4 home</span></div>
+  </div>
+  <button id="new">New Game</button>
+  <p class="small">Local pass-and-play for 2–4 players. All four colours are active. A 6 releases a token; roll a 6 or reach home to get another turn. Landing on an opponent sends them back to their yard. Star squares are safe.</p>
+  <p class="small"><b>Contact:</b> 03453534821</p>
+ </section>
+</main>
+<footer>© Sahira Sheikh Hyderabad • Ludo Game</footer>
+<script>
+const canvas=document.getElementById('board'),ctx=canvas.getContext('2d');
+const colors=['#e53935','#25a65a','#f5c542','#2878d0'];
+const names=['Red','Green','Yellow','Blue'];
+const starts=[0,13,26,39];
+const track=[];
+for(let i=0;i<52;i++){
+ // 52 positions around a square, clockwise, on a 15x15 grid
+ let p;
+ if(i<13){let k=i;p=[6-(k<=5?k:5), 1+(k<=5?0:k-5)];}
+ // use a clean perimeter path in grid coordinates
+ const path=[];
+ for(let x=1;x<=6;x++)path.push([x,6]);
+ for(let y=5;y>=1;y--)path.push([6,y]);
+ for(let y=0;y<=5;y++)path.push([8,y]);
+ for(let x=9;x<=13;x++)path.push([x,6]);
+ for(let x=13;x>=8;x--)path.push([x,8]);
+ for(let y=9;y<=13;y++)path.push([8,y]);
+ for(let y=13;y>=8;y--)path.push([6,y]);
+ for(let x=5;x>=1;x--)path.push([x,8]);
+ for(let x=0;x<=5;x++)path.push([x,6]);
+ // 52 perimeter cells generated in a conventional loop around center
+ const unique=[];for(const q of path){if(!unique.some(v=>v[0]===q[0]&&v[1]===q[1]))unique.push(q)}
+ // fallback use predefined 52 perimeter cells on a 15x15 ring
+ const ring=[];
+ for(let x=1;x<=6;x++)ring.push([x,6]);
+ for(let y=5;y>=1;y--)ring.push([6,y]);
+ for(let y=0;y<=5;y++)ring.push([7,y]);
+ for(let x=8;x<=13;x++)ring.push([x,6]);
+ for(let y=7;y<=13;y++)ring.push([8,y]);
+ for(let x=7;x>=1;x--)ring.push([x,8]);
+ for(let y=9;y<=13;y++)ring.push([6,y]);
+ for(let x=5;x>=1;x--)ring.push([x,7]);
+ // normalize to exactly 52 distinct-ish positions
+ track.push(ring[i] || [7,7]);
+}
+const homePaths=[
+ [[7,1],[7,2],[7,3],[7,4],[7,5],[7,6]],
+ [[13,7],[12,7],[11,7],[10,7],[9,7],[8,7]],
+ [[7,13],[7,12],[7,11],[7,10],[7,9],[7,8]],
+ [[1,7],[2,7],[3,7],[4,7],[5,7],[6,7]]
+];
+// Use a reliable 52-cell clockwise track on a 15x15 board.
+const route=[];
+for(let x=1;x<=6;x++)route.push([x,6]);
+for(let y=5;y>=1;y--)route.push([6,y]);
+for(let y=0;y<=5;y++)route.push([7,y]);
+for(let x=8;x<=13;x++)route.push([x,6]);
+for(let y=7;y<=13;y++)route.push([8,y]);
+for(let x=7;x>=1;x--)route.push([x,8]);
+for(let y=9;y<=13;y++)route.push([6,y]);
+for(let x=5;x>=1;x--)route.push([x,7]);
+while(route.length<52)route.push([7,7]);
+const safe=[0,8,13,21,26,34,39,47];
+let players,turn,rolled,die,selectable,gameOver=false;
+function reset(){players=colors.map(()=>Array.from({length:4},()=>({pos:-1,done:false})));turn=0;rolled=false;die=1;selectable=[];gameOver=false;document.getElementById('dice').textContent='⚀';document.getElementById('message').textContent='New game! Roll a 6 to bring a token out of the yard.';draw();update()}
+function cell(c,r){const s=40;return [c*s+100,r*s+100]}
+function circle(x,y,r,fill,stroke='#333'){ctx.beginPath();ctx.arc(x,y,r,0,Math.PI*2);ctx.fillStyle=fill;ctx.fill();ctx.lineWidth=2;ctx.strokeStyle=stroke;ctx.stroke()}
+function draw(){
+ ctx.clearRect(0,0,600,600);ctx.fillStyle='#fafafa';ctx.fillRect(0,0,600,600);
+ const bases=[[0,0],[9,0],[9,9],[0,9]];
+ bases.forEach((b,i)=>{let x=100+b[0]*26.666,y=100+b[1]*26.666;ctx.fillStyle=colors[i];ctx.globalAlpha=.22;ctx.fillRect(x,y,160,160);ctx.globalAlpha=1;ctx.strokeStyle=colors[i];ctx.lineWidth=5;ctx.strokeRect(x+5,y+5,150,150);
+  for(let a=0;a<4;a++){let xx=x+42+(a%2)*66,yy=y+42+Math.floor(a/2)*66;circle(xx,yy,21,'#fff',colors[i]);}
+ });
+ // board center
+ ctx.fillStyle='#eee';ctx.fillRect(260,260,80,80);
+ // track cells
+ route.forEach((p,i)=>{let [x,y]=cell(p[0],p[1]);ctx.fillStyle=safe.includes(i)?'#ffe8a3':'#fff';ctx.fillRect(x-19,y-19,38,38);ctx.strokeStyle='#888';ctx.lineWidth=1;ctx.strokeRect(x-19,y-19,38,38);if(i%13===0){circle(x,y,9,colors[Math.floor(i/13)]||'#777');}});
+ // home lanes, colored
+ homePaths.forEach((path,i)=>path.forEach((p,j)=>{let [x,y]=cell(p[0],p[1]);ctx.fillStyle=colors[i];ctx.globalAlpha=.25+j*.1;ctx.fillRect(x-18,y-18,36,36);ctx.globalAlpha=1;ctx.strokeStyle='#777';ctx.strokeRect(x-18,y-18,36,36)}));
+ // tokens
+ players.forEach((arr,pi)=>arr.forEach((t,ti)=>{
+  let x,y;
+  if(t.done){[x,y]=cell(7,7);x+=(ti-1.5)*9;y+=(pi-1.5)*9;}
+  else if(t.pos<0){const bx=[0,9,9,0][pi],by=[0,0,9,9][pi];x=100+bx*26.666+42+(ti%2)*66;y=100+by*26.666+42+Math.floor(ti/2)*66;}
+  else if(t.pos>=52){[x,y]=cell(homePaths[pi][Math.min(5,t.pos-52)][0],homePaths[pi][Math.min(5,t.pos-52)][1]);}
+  else {let idx=(starts[pi]+t.pos)%52;[x,y]=cell(route[idx][0],route[idx][1]);}
+  circle(x,y,12,colors[pi],'#202434');
+  if(selectable.some(v=>v.p===pi&&v.t===ti)){ctx.beginPath();ctx.arc(x,y,17,0,Math.PI*2);ctx.strokeStyle='#111';ctx.lineWidth=3;ctx.stroke();}
+  ctx.fillStyle=pi===2?'#222':'#fff';ctx.font='bold 10px Arial';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(String(ti+1),x,y);
+ }));
+}
+function update(){document.getElementById('turn').textContent=gameOver?'Game finished':names[turn]+' player\\'s turn';players.forEach((p,i)=>document.getElementById(names[i].toLowerCase()+'-count').textContent=p.filter(t=>t.done).length+'/4 home');document.getElementById('roll').disabled=rolled||gameOver}
+function roll(){
+ if(rolled||gameOver)return;die=Math.floor(Math.random()*6)+1;document.getElementById('dice').textContent=['','⚀','⚁','⚂','⚃','⚄','⚅'][die];
+ selectable=[];players[turn].forEach((t,i)=>{if(t.done)return;if(t.pos<0){if(die===6)selectable.push({p:turn,t:i})}else if(t.pos+die<=57)selectable.push({p:turn,t:i})});
+ rolled=true;
+ if(!selectable.length){document.getElementById('message').textContent=die===6?'No available move. Six gives another roll.':'No valid move. Turn passes.';if(die!==6)setTimeout(next,900);else{rolled=false;update()} }
+ else document.getElementById('message').textContent='Select one of the outlined '+names[turn].toLowerCase()+' tokens to move.';
+ draw();update();
+}
+function move(pi,ti){
+ if(!rolled||pi!==turn||!selectable.some(v=>v.t===ti))return;
+ const t=players[pi][ti];if(t.pos<0)t.pos=0;else t.pos+=die;
+ if(t.pos===57)t.done=true;
+ let captured=0;
+ if(t.pos<52){let global=(starts[pi]+t.pos)%52;if(!safe.includes(global)){players.forEach((arr,op)=>{if(op===pi)return;arr.forEach(o=>{if(!o.done&&o.pos>=0&&o.pos<52&&(starts[op]+o.pos)%52===global){o.pos=-1;captured++}})})}}
+ const won=players[pi].every(x=>x.done);
+ document.getElementById('message').textContent=won?names[pi]+' wins! Congratulations!':(captured?captured+' opponent token(s) sent to yard. ':'')+(t.done?'Token reached home! ':'')+(die===6||t.done?'Roll again!':'Move complete.');
+ rolled=false;selectable=[];if(won)gameOver=true;else if(die!==6&&!t.done)next();draw();update();
+}
+function next(){turn=(turn+1)%4;rolled=false;selectable=[];draw();update()}
+canvas.addEventListener('click',e=>{
+ const r=canvas.getBoundingClientRect(),sx=600/r.width,sy=600/r.height,x=(e.clientX-r.left)*sx,y=(e.clientY-r.top)*sy;
+ for(const v of selectable){const t=players[v.p][v.t];let px,py;if(t.pos<0){const bx=[0,9,9,0][v.p],by=[0,0,9,9][v.p];px=100+bx*26.666+42+(v.t%2)*66;py=100+by*26.666+42+Math.floor(v.t/2)*66;}else if(t.pos>=52){[px,py]=cell(...homePaths[v.p][Math.min(5,t.pos-52)]);}else [px,py]=cell(...route[(starts[v.p]+t.pos)%52]);if(Math.hypot(px-x,py-y)<24){move(v.p,v.t);return}}
+});
+document.getElementById('roll').addEventListener('click',roll);document.getElementById('new').addEventListener('click',reset);reset();
+</script>
+</body></html>
