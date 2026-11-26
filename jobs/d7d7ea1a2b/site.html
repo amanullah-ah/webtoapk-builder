@@ -1,0 +1,1694 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="google-site-verification" content="pfxFenYa8zaxxNtmfwF59YdqR870jAh2zzg0RRwgedo" />
+<meta name="theme-color" content="#00ff41">
+<meta name="author" content="AHAD">
+<meta name="description" content="Turn any website link or HTML file into an Android APK in a few minutes. Free Web to APK converter by AHAD with icon editor and build history.">
+<meta name="keywords" content="web to apk, website to apk, html to apk, url to apk, apk builder, android app maker, AHAD">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<link rel="canonical" href="https://aman-webtoapk46.vercel.app/">
+
+<!-- Favicon -->
+<link rel="icon" type="image/png" sizes="32x32" href="/icons/favicon-32.png">
+<link rel="icon" type="image/png" sizes="64x64" href="/icons/favicon-64.png">
+<link rel="shortcut icon" href="/favicon.ico">
+<link rel="apple-touch-icon" href="/icons/apple-touch-icon.png">
+
+<!-- PWA -->
+<link rel="manifest" href="/manifest.webmanifest">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Web to APK">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+<!-- Open Graph -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Web to APK by AHAD">
+<meta property="og:title" content="Web to APK: Website to Android App | AHAD">
+<meta property="og:description" content="Turn any website link or HTML file into an Android APK in a few minutes. Free Web to APK converter by AHAD with icon editor and build history.">
+<meta property="og:url" content="https://aman-webtoapk46.vercel.app/">
+<meta property="og:image" content="https://aman-webtoapk46.vercel.app/icons/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Web to APK logo">
+<meta property="og:locale" content="en_US">
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Web to APK: Website to Android App | AHAD">
+<meta name="twitter:description" content="Turn any website link or HTML file into an Android APK in a few minutes. Free Web to APK converter by AHAD with icon editor and build history.">
+<meta name="twitter:image" content="https://aman-webtoapk46.vercel.app/icons/og-image.png">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Web to APK",
+  "url": "https://aman-webtoapk46.vercel.app/",
+  "description": "Turn any website link or HTML file into an Android APK in a few minutes. Free Web to APK converter by AHAD with icon editor and build history.",
+  "image": "https://aman-webtoapk46.vercel.app/icons/icon-512.png",
+  "applicationCategory": "DeveloperApplication",
+  "operatingSystem": "Any",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+  "author": { "@type": "Person", "name": "AHAD" }
+}
+</script>
+<title>𝐖𝐄𝐁 𝐓𝐎 𝐀𝐏𝐊: Website to Android App | AHAD</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Audiowide&family=JetBrains+Mono:wght@400;500;700&family=Manrope:wght@400;500;600;700;800&family=Nova+Square&family=Poppins:wght@900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+
+<style>
+/* ==========================================================================
+   WEB TO APK — MATRIX EDITION  |  All-in-one CSS
+   ========================================================================== */
+
+:root{
+  --bg:        #050807;
+  --bg-2:      #0a0f0d;
+  --panel:     #0c1411;
+  --panel-2:   #101a16;
+  --line:      #1a2b25;
+  --line-2:    #24473a;
+
+  --green:     #00ff41;
+  --green-2:   #39ff6b;
+  --green-dim: #14b85a;
+  --green-glow: 0 0 12px rgba(0,255,65,.55), 0 0 32px rgba(0,255,65,.25);
+
+  --teal:      #14b8a6;
+  --coral:     #ff6f61;
+
+  --text:      #d7ffe3;
+  --text-dim:  #7fa892;
+  --text-mute: #4d6b5c;
+
+  --radius:    14px;
+  --radius-sm: 10px;
+  --radius-lg: 22px;
+
+  --font-mono: 'JetBrains Mono', 'Share Tech Mono', ui-monospace, monospace;
+  --font-ui:   'Manrope', system-ui, -apple-system, sans-serif;
+  --font-dis:  'Audiowide', 'Nova Square', sans-serif;
+
+  --shadow:    0 18px 48px rgba(0,0,0,.65);
+  --glow-soft: 0 0 0 1px var(--line-2), 0 0 24px rgba(0,255,65,.08);
+}
+
+*{box-sizing:border-box}
+
+html,body{
+  margin:0;
+  padding:0;
+  background:var(--bg);
+  color:var(--text);
+  font-family:var(--font-ui);
+  font-size:16px;
+  line-height:1.55;
+  -webkit-font-smoothing:antialiased;
+  min-height:100vh;
+}
+
+/* Matrix background */
+body::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  background:
+    radial-gradient(ellipse at 20% 0%, rgba(0,255,65,.10), transparent 55%),
+    radial-gradient(ellipse at 80% 100%, rgba(20,184,166,.08), transparent 55%),
+    repeating-linear-gradient(0deg,
+      rgba(0,255,65,.03) 0px,
+      rgba(0,255,65,.03) 1px,
+      transparent 1px,
+      transparent 3px);
+  pointer-events:none;
+  z-index:0;
+}
+
+body::after{
+  content:"";
+  position:fixed;
+  inset:0;
+  background:linear-gradient(180deg, transparent 0%, rgba(0,255,65,.02) 50%, transparent 100%);
+  animation:scan 8s linear infinite;
+  pointer-events:none;
+  z-index:0;
+}
+
+@keyframes scan{
+  0%{transform:translateY(-100%)}
+  100%{transform:translateY(100%)}
+}
+
+::selection{background:var(--green);color:#050807}
+
+a{color:var(--green);text-decoration:none;transition:color .2s}
+a:hover{color:var(--green-2)}
+
+/* ======================= NAV ======================= */
+.nav{
+  position:sticky;
+  top:0;
+  z-index:50;
+  background:rgba(5,8,7,.82);
+  backdrop-filter:blur(14px) saturate(140%);
+  -webkit-backdrop-filter:blur(14px) saturate(140%);
+  border-bottom:1px solid var(--line);
+}
+
+.nav-in{
+  max-width:1180px;
+  margin:0 auto;
+  padding:12px 20px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:20px;
+  position:relative;
+}
+
+.brand{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  color:var(--text);
+  font-family:var(--font-dis);
+  letter-spacing:.06em;
+  text-transform:uppercase;
+}
+
+.brand-mark{
+  position:relative;
+  display:grid;
+  place-items:center;
+  width:44px;height:44px;
+  border-radius:12px;
+  background:linear-gradient(145deg, var(--panel-2), var(--bg-2));
+  border:1px solid var(--line-2);
+  color:var(--green);
+  box-shadow:inset 0 0 12px rgba(0,255,65,.15), var(--glow-soft);
+}
+
+.brand-mark svg{width:22px;height:22px}
+.brand-mark img{position:absolute;inset:0;width:100%;height:100%;border-radius:12px;object-fit:cover}
+
+.brand-name{
+  display:block;
+  font-size:15px;
+  color:var(--green);
+  text-shadow:0 0 8px rgba(0,255,65,.5);
+}
+
+.brand-by{
+  display:block;
+  font-family:var(--font-mono);
+  font-size:9.5px;
+  letter-spacing:.28em;
+  color:var(--text-mute);
+  margin-top:2px;
+}
+
+.nav-links{
+  display:flex;
+  align-items:center;
+  gap:6px;
+  list-style:none;
+  margin:0;padding:0;
+}
+
+.nav-links a,
+.nav-install{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  padding:8px 14px;
+  border-radius:10px;
+  font-family:var(--font-mono);
+  font-size:12.5px;
+  letter-spacing:.04em;
+  color:var(--text-dim);
+  background:transparent;
+  border:1px solid transparent;
+  cursor:pointer;
+  transition:all .18s;
+}
+
+.nav-links a:hover,
+.nav-install:hover{
+  color:var(--green);
+  background:rgba(0,255,65,.06);
+  border-color:var(--line-2);
+}
+
+.nav-install svg{width:14px;height:14px}
+
+.nav-links .more{
+  color:var(--green);
+  border:1px solid var(--line-2);
+}
+
+.nav-toggle{
+  display:none;
+  width:42px;height:42px;
+  border-radius:10px;
+  border:1px solid var(--line-2);
+  background:var(--panel);
+  color:var(--green);
+  cursor:pointer;
+  padding:0;
+}
+.nav-toggle svg{width:22px;height:22px;margin:auto}
+.nav-toggle .i-close{display:none}
+.nav-toggle[aria-expanded="true"] .i-menu{display:none}
+.nav-toggle[aria-expanded="true"] .i-close{display:block}
+
+/* ======================= LAYOUT ======================= */
+.shell{
+  position:relative;
+  z-index:1;
+  max-width:1180px;
+  margin:0 auto;
+  padding:32px 20px 64px;
+}
+
+.layout{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);
+  gap:32px;
+  align-items:start;
+}
+
+@media (max-width:920px){
+  .layout{grid-template-columns:1fr}
+}
+
+/* ======================= STAGE ======================= */
+.stage{
+  position:sticky;
+  top:88px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:18px;
+  padding:28px 20px;
+  background:linear-gradient(160deg, var(--panel) 0%, var(--bg-2) 100%);
+  border:1px solid var(--line);
+  border-radius:var(--radius-lg);
+  box-shadow:var(--shadow), inset 0 0 0 1px rgba(0,255,65,.03);
+}
+
+@media (max-width:920px){
+  .stage{position:static}
+}
+
+.phone{
+  position:relative;
+  width:280px;
+  height:560px;
+  border-radius:38px;
+  padding:10px;
+  background:linear-gradient(160deg, #101915, #050807);
+  border:1px solid var(--line-2);
+  box-shadow:
+    0 0 0 2px rgba(0,255,65,.06),
+    0 24px 60px rgba(0,0,0,.7),
+    inset 0 0 24px rgba(0,255,65,.06);
+}
+
+.phone::before{
+  content:"";
+  position:absolute;
+  top:16px;left:50%;
+  transform:translateX(-50%);
+  width:100px;height:24px;
+  background:#050807;
+  border-radius:0 0 14px 14px;
+  z-index:5;
+}
+
+.screen{
+  position:relative;
+  width:100%;height:100%;
+  border-radius:30px;
+  overflow:hidden;
+  background:
+    radial-gradient(circle at 30% 20%, rgba(0,255,65,.10), transparent 50%),
+    radial-gradient(circle at 70% 80%, rgba(20,184,166,.10), transparent 50%),
+    #060b09;
+  display:flex;
+  flex-direction:column;
+}
+
+.sb{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:14px 22px 6px;
+  font-family:var(--font-mono);
+  font-size:11px;
+  color:var(--text-dim);
+  position:relative;
+  z-index:3;
+}
+
+.sb-notch{display:none}
+.sb-icons{display:flex;gap:6px}
+.sb-icons svg{width:14px;height:14px;color:var(--text-dim)}
+
+.grid{
+  flex:1;
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:18px 12px;
+  padding:18px 16px;
+  align-content:start;
+}
+
+.app{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:6px;
+  font-size:9.5px;
+  color:var(--text-dim);
+  font-family:var(--font-mono);
+}
+
+.app.ghost .app-icon{
+  width:44px;height:44px;
+  border-radius:12px;
+  background:linear-gradient(145deg, rgba(0,255,65,.06), rgba(0,255,65,.02));
+  border:1px solid var(--line);
+}
+
+.app.ghost .app-label{
+  width:28px;height:5px;
+  border-radius:3px;
+  background:var(--line);
+}
+
+.app.you{position:relative;cursor:pointer}
+
+.app.you .app-icon{
+  position:relative;
+  width:52px;height:52px;
+  border-radius:14px;
+  display:grid;
+  place-items:center;
+  background:linear-gradient(145deg, var(--panel-2), var(--bg-2));
+  border:1px solid var(--line-2);
+  overflow:hidden;
+  box-shadow:0 0 12px rgba(0,255,65,.25);
+}
+
+.app.you .app-icon img{
+  position:absolute;
+  inset:0;
+  width:100%;height:100%;
+  object-fit:cover;
+  display:none;
+}
+
+.app.you .app-icon img[src]:not([src=""]){display:block}
+
+.app.you .initial{
+  font-family:var(--font-dis);
+  font-size:22px;
+  color:var(--green);
+  text-shadow:0 0 10px rgba(0,255,65,.7);
+}
+
+.app.you .app-label{
+  color:var(--text);
+  font-weight:600;
+  text-shadow:0 1px 2px rgba(0,0,0,.6);
+  max-width:64px;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+
+.app.you .ring{
+  position:absolute;
+  inset:-4px;
+  border-radius:16px;
+  border:1px solid transparent;
+  pointer-events:none;
+  background:conic-gradient(from 0deg, var(--green), transparent 40%, var(--green)) border-box;
+  -webkit-mask:linear-gradient(#000 0 0) padding-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite:xor;
+          mask-composite:exclude;
+  opacity:0;
+  transition:opacity .3s;
+}
+
+.app.you[data-state="busy"] .ring{opacity:1;animation:spin 2.4s linear infinite}
+.app.you[data-state="done"] .ring{opacity:1;background:var(--green)}
+
+@keyframes spin{to{transform:rotate(360deg)}}
+
+.app.you .badge{
+  position:absolute;
+  top:-2px;right:-2px;
+  width:18px;height:18px;
+  border-radius:50%;
+  background:var(--green);
+  color:#050807;
+  display:grid;
+  place-items:center;
+  box-shadow:0 0 8px rgba(0,255,65,.8);
+  transform:scale(0);
+  transition:transform .3s cubic-bezier(.34,1.56,.64,1);
+}
+
+.app.you .badge svg{width:11px;height:11px}
+.app.you[data-state="done"] .badge{transform:scale(1)}
+
+.dock{
+  display:flex;
+  justify-content:center;
+  gap:14px;
+  padding:12px 16px 18px;
+  background:rgba(0,255,65,.04);
+  border-top:1px solid var(--line);
+}
+
+.dock .app-icon{
+  border-radius:12px;
+  background:linear-gradient(145deg, rgba(0,255,65,.08), rgba(0,255,65,.02));
+  border:1px solid var(--line);
+}
+
+/* Launch overlay */
+.launch{
+  position:absolute;
+  inset:0;
+  background:#050807;
+  z-index:10;
+  opacity:0;
+  pointer-events:none;
+  transition:opacity .3s;
+}
+.launch.on{opacity:1;pointer-events:auto}
+
+.splash{
+  position:absolute;
+  inset:0;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:18px;
+  background:radial-gradient(circle at 50% 40%, rgba(0,255,65,.12), #050807 70%);
+  animation:splash 2.4s ease forwards;
+}
+
+@keyframes splash{
+  0%{opacity:1}
+  70%{opacity:1}
+  100%{opacity:0;visibility:hidden}
+}
+
+.l-icon{
+  width:84px;height:84px;
+  border-radius:22px;
+  display:grid;
+  place-items:center;
+  background:linear-gradient(145deg, var(--panel-2), var(--bg-2));
+  border:1px solid var(--line-2);
+  overflow:hidden;
+  position:relative;
+  box-shadow:0 0 32px rgba(0,255,65,.3);
+}
+
+.l-icon img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.l-icon span{font-family:var(--font-dis);font-size:38px;color:var(--green)}
+
+.l-name{
+  margin:0;
+  font-family:var(--font-dis);
+  font-size:15px;
+  letter-spacing:.08em;
+  color:var(--text);
+  text-transform:uppercase;
+}
+
+.l-bar{
+  width:120px;
+  height:3px;
+  border-radius:2px;
+  background:rgba(0,255,65,.15);
+  overflow:hidden;
+}
+
+.l-bar i{
+  display:block;
+  width:40%;
+  height:100%;
+  background:var(--green);
+  box-shadow:0 0 8px var(--green);
+  animation:load 1.2s ease infinite;
+}
+
+@keyframes load{
+  0%{transform:translateX(-100%)}
+  100%{transform:translateX(350%)}
+}
+
+.l-app{
+  position:absolute;
+  inset:0;
+  padding:60px 22px 22px;
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+  opacity:0;
+  animation:appIn .4s ease 2s forwards;
+}
+
+@keyframes appIn{to{opacity:1}}
+
+.l-top{
+  font-family:var(--font-mono);
+  font-size:12px;
+  color:var(--green);
+  padding:8px 12px;
+  background:rgba(0,255,65,.06);
+  border:1px solid var(--line-2);
+  border-radius:8px;
+  margin-bottom:8px;
+}
+
+.sk{
+  display:block;
+  height:12px;
+  border-radius:6px;
+  background:linear-gradient(90deg, var(--line) 0%, var(--line-2) 50%, var(--line) 100%);
+  background-size:200% 100%;
+  animation:shimmer 1.6s linear infinite;
+}
+.sk.hero{height:80px;border-radius:12px}
+.sk.w60{width:60%}
+.sk.w80{width:80%}
+
+@keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
+
+.l-hint{
+  margin-top:auto;
+  text-align:center;
+  font-family:var(--font-mono);
+  font-size:11px;
+  color:var(--text-mute);
+}
+
+.l-home{
+  position:absolute;
+  bottom:12px;left:50%;
+  transform:translateX(-50%);
+  width:90px;height:3px;
+  border-radius:2px;
+  background:var(--text-mute);
+}
+
+.facts{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:10px;
+  width:100%;
+  max-width:280px;
+  margin:0;
+}
+
+.facts > div{
+  display:flex;
+  flex-direction:column;
+  gap:2px;
+  padding:10px;
+  background:var(--bg-2);
+  border:1px solid var(--line);
+  border-radius:10px;
+  text-align:center;
+}
+
+.facts dt{
+  font-family:var(--font-mono);
+  font-size:9.5px;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+  color:var(--text-mute);
+}
+
+.facts dd{
+  margin:0;
+  font-family:var(--font-mono);
+  font-size:11px;
+  color:var(--green);
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+
+/* ======================= PANEL ======================= */
+.panel{
+  padding:32px;
+  background:linear-gradient(160deg, var(--panel) 0%, var(--bg-2) 100%);
+  border:1px solid var(--line);
+  border-radius:var(--radius-lg);
+  box-shadow:var(--shadow);
+}
+
+h1{
+  margin:0 0 8px;
+  font-family:var(--font-dis);
+  font-size:clamp(22px, 3vw, 28px);
+  letter-spacing:.04em;
+  line-height:1.2;
+  color:var(--green);
+  text-shadow:0 0 18px rgba(0,255,65,.35);
+  text-transform:uppercase;
+}
+
+.lede{
+  margin:0 0 26px;
+  font-size:14.5px;
+  color:var(--text-dim);
+}
+
+/* Segmented */
+.seg{
+  display:flex;
+  padding:4px;
+  background:var(--bg);
+  border:1px solid var(--line);
+  border-radius:12px;
+  margin-bottom:22px;
+  gap:4px;
+}
+
+.seg button{
+  flex:1;
+  padding:10px 12px;
+  border:none;
+  background:transparent;
+  color:var(--text-dim);
+  font-family:var(--font-mono);
+  font-size:12.5px;
+  letter-spacing:.06em;
+  text-transform:uppercase;
+  border-radius:8px;
+  cursor:pointer;
+  transition:all .18s;
+}
+
+.seg button[aria-checked="true"]{
+  background:linear-gradient(145deg, rgba(0,255,65,.16), rgba(0,255,65,.06));
+  color:var(--green);
+  border:1px solid var(--line-2);
+  box-shadow:0 0 16px rgba(0,255,65,.15), inset 0 0 12px rgba(0,255,65,.05);
+  text-shadow:0 0 8px rgba(0,255,65,.5);
+}
+
+.seg button:hover:not([aria-checked="true"]){color:var(--text)}
+
+/* Fields */
+.field{margin-bottom:18px;display:flex;flex-direction:column;gap:6px}
+.field label,
+.label{
+  font-family:var(--font-mono);
+  font-size:11px;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+  color:var(--text-dim);
+}
+
+.field label .opt{color:var(--text-mute);text-transform:none;letter-spacing:0}
+
+.inp{
+  position:relative;
+  display:flex;
+  align-items:center;
+  background:var(--bg);
+  border:1px solid var(--line);
+  border-radius:12px;
+  padding:0 14px;
+  transition:all .18s;
+}
+
+.inp:focus-within{
+  border-color:var(--green);
+  box-shadow:0 0 0 3px rgba(0,255,65,.12), 0 0 24px rgba(0,255,65,.15);
+}
+
+.inp input{
+  flex:1;
+  min-width:0;
+  padding:13px 0;
+  background:transparent;
+  border:none;
+  outline:none;
+  color:var(--text);
+  font-family:var(--font-mono);
+  font-size:14px;
+}
+
+.inp input::placeholder{color:var(--text-mute);opacity:.7}
+
+.inp .lead{
+  width:18px;height:18px;
+  color:var(--text-mute);
+  flex-shrink:0;
+}
+
+.lead-pad .lead{margin-right:10px}
+
+.inp.has-tail .inp-btn{
+  margin-left:8px;
+  padding:6px 12px;
+  border-radius:8px;
+  background:rgba(0,255,65,.08);
+  border:1px solid var(--line-2);
+  color:var(--green);
+  font-family:var(--font-mono);
+  font-size:11px;
+  letter-spacing:.06em;
+  cursor:pointer;
+  transition:all .15s;
+}
+.inp.has-tail .inp-btn:hover{background:rgba(0,255,65,.16);box-shadow:0 0 12px rgba(0,255,65,.2)}
+
+.count{
+  font-family:var(--font-mono);
+  font-size:10.5px;
+  color:var(--text-mute);
+  margin-left:8px;
+  padding:3px 6px;
+  border-radius:6px;
+  background:var(--bg-2);
+  border:1px solid var(--line);
+}
+
+.hint{
+  font-size:11.5px;
+  color:var(--text-mute);
+  font-family:var(--font-mono);
+  letter-spacing:.02em;
+}
+.hint.warn{color:var(--coral)}
+
+/* File drop */
+.file-drop{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:18px;
+  background:var(--bg);
+  border:1px dashed var(--line-2);
+  border-radius:12px;
+  color:var(--text-dim);
+  font-family:var(--font-mono);
+  font-size:13px;
+  cursor:pointer;
+  transition:all .18s;
+  text-align:left;
+  width:100%;
+}
+
+.file-drop:hover{
+  border-color:var(--green);
+  color:var(--green);
+  background:rgba(0,255,65,.04);
+}
+
+.file-drop svg{width:22px;height:22px;color:var(--green);flex-shrink:0}
+
+/* Icon picker */
+.icon-row{
+  display:flex;
+  align-items:center;
+  gap:14px;
+  margin-bottom:18px;
+  padding:14px;
+  background:var(--bg);
+  border:1px solid var(--line);
+  border-radius:12px;
+}
+
+.icon-btn{
+  position:relative;
+  width:64px;height:64px;
+  border-radius:16px;
+  background:linear-gradient(145deg, var(--panel-2), var(--bg-2));
+  border:1px solid var(--line-2);
+  cursor:pointer;
+  display:grid;
+  place-items:center;
+  overflow:hidden;
+  flex-shrink:0;
+  transition:all .2s;
+}
+
+.icon-btn:hover{
+  border-color:var(--green);
+  box-shadow:0 0 16px rgba(0,255,65,.25);
+}
+
+.icon-btn svg{width:26px;height:26px;color:var(--green)}
+.icon-btn img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:none}
+.icon-btn img[src]:not([src=""]){display:block}
+.icon-btn:has(img[src]:not([src=""])) svg{display:none}
+
+.icon-text{display:flex;flex-direction:column;gap:4px;min-width:0}
+.file-name{
+  font-family:var(--font-mono);
+  font-size:11px;
+  color:var(--green);
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+
+/* Icon tools */
+.icon-tools{
+  margin-bottom:18px;
+  padding:16px;
+  background:var(--bg);
+  border:1px solid var(--line);
+  border-radius:12px;
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+}
+
+.it-row{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.it-row > .label{flex:0 0 90px}
+
+input[type="range"]{
+  flex:1;
+  min-width:120px;
+  height:4px;
+  -webkit-appearance:none;
+  appearance:none;
+  background:var(--line-2);
+  border-radius:2px;
+  outline:none;
+}
+input[type="range"]::-webkit-slider-thumb{
+  -webkit-appearance:none;
+  width:16px;height:16px;
+  border-radius:50%;
+  background:var(--green);
+  cursor:pointer;
+  box-shadow:0 0 10px var(--green);
+}
+input[type="range"]::-moz-range-thumb{
+  width:16px;height:16px;
+  border-radius:50%;
+  background:var(--green);
+  cursor:pointer;
+  border:none;
+  box-shadow:0 0 10px var(--green);
+}
+
+output{
+  font-family:var(--font-mono);
+  font-size:11.5px;
+  color:var(--green);
+  min-width:48px;
+  text-align:right;
+}
+
+.it-group{display:flex;gap:8px;flex-wrap:wrap}
+
+.sw{
+  width:26px;height:26px;
+  border-radius:50%;
+  border:2px solid var(--line-2);
+  cursor:pointer;
+  padding:0;
+  background:var(--c, var(--bg-2));
+  transition:all .15s;
+}
+.sw[aria-checked="true"]{border-color:var(--green);box-shadow:0 0 0 2px rgba(0,255,65,.3), 0 0 12px rgba(0,255,65,.4)}
+.sw.clear{
+  background:repeating-conic-gradient(var(--line-2) 0% 25%, var(--bg) 0% 50%) 50%/8px 8px;
+}
+
+.pick{position:relative;overflow:hidden;display:grid;place-items:center}
+.pick input{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
+.pick::after{
+  content:"";
+  width:12px;height:12px;
+  border-radius:50%;
+  background:conic-gradient(red, yellow, lime, cyan, blue, magenta, red);
+}
+
+.shp{
+  padding:7px 12px;
+  border-radius:8px;
+  background:var(--bg-2);
+  border:1px solid var(--line-2);
+  color:var(--text-dim);
+  font-family:var(--font-mono);
+  font-size:11px;
+  letter-spacing:.04em;
+  cursor:pointer;
+  transition:all .15s;
+}
+.shp[aria-checked="true"]{
+  color:var(--green);
+  border-color:var(--green);
+  background:rgba(0,255,65,.08);
+  box-shadow:0 0 10px rgba(0,255,65,.2);
+}
+.shp:hover:not([aria-checked="true"]){color:var(--text);border-color:var(--line-2)}
+
+/* Pair */
+.pair{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:14px;
+}
+@media (max-width:560px){.pair{grid-template-columns:1fr}}
+
+/* Ready chips */
+.ready{
+  display:flex;
+  flex-wrap:wrap;
+  align-items:center;
+  gap:8px;
+  margin:22px 0 16px;
+  padding:12px;
+  background:var(--bg);
+  border:1px solid var(--line);
+  border-radius:12px;
+}
+
+.chip{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  padding:6px 10px;
+  border-radius:999px;
+  background:var(--bg-2);
+  border:1px solid var(--line);
+  color:var(--text-mute);
+  font-family:var(--font-mono);
+  font-size:11px;
+  letter-spacing:.04em;
+  transition:all .2s;
+}
+
+.chip i{
+  width:7px;height:7px;
+  border-radius:50%;
+  background:var(--text-mute);
+  transition:all .2s;
+}
+
+.chip.on{
+  color:var(--green);
+  border-color:var(--green-dim);
+  background:rgba(0,255,65,.08);
+}
+.chip.on i{background:var(--green);box-shadow:0 0 8px var(--green)}
+
+.restart{
+  margin-left:auto;
+  padding:6px 10px;
+  background:transparent;
+  border:1px solid var(--line);
+  border-radius:8px;
+  color:var(--text-mute);
+  font-family:var(--font-mono);
+  font-size:11px;
+  cursor:pointer;
+  transition:all .15s;
+}
+.restart:hover{color:var(--coral);border-color:var(--coral)}
+
+/* Buttons */
+.btn{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  width:100%;
+  padding:15px 22px;
+  border-radius:12px;
+  border:none;
+  background:linear-gradient(145deg, var(--green), var(--green-dim));
+  color:#050807;
+  font-family:var(--font-dis);
+  font-size:14px;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+  cursor:pointer;
+  transition:all .18s;
+  box-shadow:0 0 24px rgba(0,255,65,.35), inset 0 0 0 1px rgba(255,255,255,.1);
+  text-decoration:none;
+}
+
+.btn:hover{
+  transform:translateY(-1px);
+  box-shadow:0 0 36px rgba(0,255,65,.5), inset 0 0 0 1px rgba(255,255,255,.2);
+}
+
+.btn:active{transform:translateY(0)}
+
+.btn:disabled,
+.btn[aria-disabled="true"]{
+  opacity:.5;
+  cursor:not-allowed;
+  transform:none;
+}
+
+.btn-teal{
+  background:linear-gradient(145deg, var(--teal), #0d8a7c);
+  box-shadow:0 0 24px rgba(20,184,166,.35);
+}
+
+.ghostbtn{
+  padding:10px 18px;
+  background:transparent;
+  border:1px solid var(--line-2);
+  border-radius:10px;
+  color:var(--green);
+  font-family:var(--font-mono);
+  font-size:11.5px;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  cursor:pointer;
+  transition:all .15s;
+}
+.ghostbtn:hover{background:rgba(0,255,65,.08);border-color:var(--green);box-shadow:0 0 16px rgba(0,255,65,.2)}
+
+.install-main{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding:11px 18px;
+  background:linear-gradient(145deg, rgba(0,255,65,.15), rgba(0,255,65,.05));
+  border:1px solid var(--green-dim);
+  border-radius:10px;
+  color:var(--green);
+  font-family:var(--font-dis);
+  font-size:12px;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+  cursor:pointer;
+  transition:all .18s;
+}
+.install-main:hover{box-shadow:0 0 20px rgba(0,255,65,.3);transform:translateY(-1px)}
+.install-main svg{width:16px;height:16px}
+
+.sbtn{
+  padding:9px 14px;
+  background:var(--bg);
+  border:1px solid var(--line-2);
+  border-radius:9px;
+  color:var(--text-dim);
+  font-family:var(--font-mono);
+  font-size:11.5px;
+  letter-spacing:.04em;
+  cursor:pointer;
+  transition:all .15s;
+}
+.sbtn:hover{color:var(--green);border-color:var(--green)}
+
+.linkbtn{
+  padding:0;
+  background:transparent;
+  border:none;
+  color:var(--coral);
+  font-family:var(--font-mono);
+  font-size:11.5px;
+  cursor:pointer;
+}
+.linkbtn:hover{text-decoration:underline}
+
+/* Build status */
+.build-status{
+  margin-top:18px;
+  padding:18px;
+  background:var(--bg);
+  border:1px solid var(--line);
+  border-radius:14px;
+  display:none;
+}
+
+.build-status[data-step]:not([data-step="0"]){display:block}
+
+.steps{
+  display:flex;
+  justify-content:space-between;
+  gap:8px;
+  list-style:none;
+  margin:0 0 14px;
+  padding:0;
+  counter-reset:step;
+}
+
+.steps li{
+  flex:1;
+  text-align:center;
+  padding:8px 4px;
+  font-family:var(--font-mono);
+  font-size:10px;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  color:var(--text-mute);
+  border-bottom:2px solid var(--line);
+  position:relative;
+}
+
+.steps li::before{
+  counter-increment:step;
+  content:counter(step);
+  display:inline-block;
+  width:16px;height:16px;
+  line-height:16px;
+  border-radius:50%;
+  background:var(--line);
+  color:var(--text-mute);
+  margin-right:4px;
+  font-size:9px;
+}
+
+.build-status[data-step="1"] .steps li:nth-child(1),
+.build-status[data-step="2"] .steps li:nth-child(1),
+.build-status[data-step="2"] .steps li:nth-child(2),
+.build-status[data-step="3"] .steps li{
+  color:var(--green);
+  border-color:var(--green);
+  text-shadow:0 0 6px rgba(0,255,65,.5);
+}
+.build-status[data-step="1"] .steps li:nth-child(1)::before,
+.build-status[data-step="2"] .steps li:nth-child(1)::before,
+.build-status[data-step="2"] .steps li:nth-child(2)::before,
+.build-status[data-step="3"] .steps li::before{
+  background:var(--green);
+  color:#050807;
+}
+
+.bs-msg{
+  margin:0 0 4px;
+  font-size:14px;
+  color:var(--text);
+}
+
+.bs-sub{
+  margin:0 0 12px;
+  font-size:12px;
+  color:var(--text-dim);
+  font-family:var(--font-mono);
+}
+
+.bs-bar{
+  height:6px;
+  border-radius:3px;
+  background:var(--line);
+  overflow:hidden;
+  margin-bottom:10px;
+}
+
+.bs-bar i{
+  display:block;
+  height:100%;
+  width:0%;
+  background:linear-gradient(90deg, var(--green-dim), var(--green));
+  box-shadow:0 0 12px var(--green);
+  transition:width .3s ease;
+}
+
+.bs-meta{
+  display:flex;
+  justify-content:space-between;
+  margin:0 0 14px;
+  font-family:var(--font-mono);
+  font-size:11px;
+  color:var(--text-mute);
+}
+
+.dl{margin-top:6px}
+.dl[href="#"]{display:none}
+
+.after{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  margin-top:12px;
+}
+
+.log-wrap{margin-top:14px}
+.log-wrap summary{
+  cursor:pointer;
+  font-family:var(--font-mono);
+  font-size:11px;
+  letter-spacing:.06em;
+  text-transform:uppercase;
+  color:var(--text-mute);
+  padding:6px 0;
+}
+.log-wrap summary:hover{color:var(--green)}
+
+.log{
+  margin:8px 0 0;
+  padding:12px;
+  background:#000;
+  border:1px solid var(--line);
+  border-radius:8px;
+  list-style:none;
+  font-family:var(--font-mono);
+  font-size:11px;
+  color:var(--green-dim);
+  max-height:180px;
+  overflow-y:auto;
+  line-height:1.7;
+}
+
+.log li::before{content:"› ";color:var(--text-mute)}
+
+/* History */
+.history{
+  margin-top:42px;
+  padding:24px;
+  background:linear-gradient(160deg, var(--panel), var(--bg-2));
+  border:1px solid var(--line);
+  border-radius:var(--radius-lg);
+}
+
+.hs-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:16px;
+}
+
+.hs-head h2{
+  margin:0;
+  font-family:var(--font-dis);
+  font-size:16px;
+  letter-spacing:.08em;
+  color:var(--green);
+  text-transform:uppercase;
+}
+
+.hs-list{
+  list-style:none;
+  margin:0 0 12px;
+  padding:0;
+  display:grid;
+  gap:10px;
+}
+
+.hs-list li{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:12px;
+  background:var(--bg);
+  border:1px solid var(--line);
+  border-radius:10px;
+}
+
+/* Footer */
+.foot{
+  margin-top:48px;
+  padding-top:20px;
+  border-top:1px solid var(--line);
+  text-align:center;
+  font-family:var(--font-mono);
+  font-size:11px;
+  letter-spacing:.08em;
+  color:var(--text-mute);
+  text-transform:uppercase;
+}
+.foot b{color:var(--text-dim);font-weight:500}
+.foot .sig{color:var(--green);text-shadow:0 0 8px rgba(0,255,65,.5)}
+
+/* Drop veil */
+.dropveil{
+  position:fixed;
+  inset:0;
+  z-index:100;
+  background:rgba(5,8,7,.92);
+  backdrop-filter:blur(6px);
+  display:grid;
+  place-items:center;
+  font-family:var(--font-dis);
+  font-size:22px;
+  color:var(--green);
+  text-transform:uppercase;
+  letter-spacing:.1em;
+  opacity:0;
+  pointer-events:none;
+  transition:opacity .2s;
+}
+.dropveil.on{opacity:1;pointer-events:auto}
+.dropveil small{
+  display:block;
+  margin-top:10px;
+  font-family:var(--font-mono);
+  font-size:12px;
+  letter-spacing:.04em;
+  color:var(--text-dim);
+  text-transform:none;
+  text-align:center;
+  max-width:360px;
+  margin-left:auto;
+  margin-right:auto;
+}
+
+/* Dialog */
+.sheet{
+  max-width:420px;
+  width:calc(100% - 40px);
+  padding:26px;
+  background:linear-gradient(160deg, var(--panel), var(--bg-2));
+  border:1px solid var(--line-2);
+  border-radius:var(--radius-lg);
+  color:var(--text);
+  box-shadow:var(--shadow);
+}
+.sheet::backdrop{background:rgba(0,0,0,.7);backdrop-filter:blur(4px)}
+.sheet h2{margin:0 0 16px;font-family:var(--font-dis);color:var(--green);font-size:16px;letter-spacing:.08em;text-transform:uppercase}
+.sheet ol{margin:0 0 18px;padding-left:20px;line-height:1.8;font-size:14px;color:var(--text-dim)}
+.sheet ol b{color:var(--green)}
+
+/* Toast */
+.toast{
+  position:fixed;
+  bottom:24px;
+  left:50%;
+  transform:translate(-50%, 100px);
+  padding:12px 22px;
+  background:var(--green);
+  color:#050807;
+  font-family:var(--font-mono);
+  font-size:12.5px;
+  font-weight:600;
+  letter-spacing:.06em;
+  border-radius:10px;
+  box-shadow:0 0 32px rgba(0,255,65,.6);
+  z-index:200;
+  transition:transform .3s cubic-bezier(.34,1.56,.64,1);
+  opacity:0;
+}
+.toast.on{transform:translate(-50%, 0);opacity:1}
+
+/* Hidden util */
+[hidden]{display:none !important}
+
+/* Mobile nav */
+@media (max-width:760px){
+  .nav-toggle{display:grid;place-items:center}
+  .nav-links{
+    position:absolute;
+    top:100%;left:0;right:0;
+    flex-direction:column;
+    padding:14px 20px;
+    background:rgba(5,8,7,.98);
+    border-bottom:1px solid var(--line);
+    transform:translateY(-10px);
+    opacity:0;
+    pointer-events:none;
+    transition:all .2s;
+  }
+  .nav-links.open{transform:translateY(0);opacity:1;pointer-events:auto}
+  .nav-links a, .nav-install{width:100%;justify-content:center}
+}
+
+@media (max-width:520px){
+  .shell{padding:20px 14px 48px}
+  .panel{padding:22px}
+  .stage{padding:20px 14px}
+  .phone{width:250px;height:500px}
+  h1{font-size:20px}
+  .facts{max-width:250px}
+}
+</style>
+</head>
+<body>
+
+<nav class="nav" id="nav" aria-label="Main">
+  <div class="nav-in">
+    <a class="brand" href="#top" aria-label="Web to APK, back to top">
+      <span class="brand-mark" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v11M7.5 10 12 14.5 16.5 10"/><path d="M4 15v3a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-3"/></svg>
+        <img src="/icons/icon-192.png" alt="" width="40" height="40" decoding="async" loading="lazy" onerror="this.remove()">
+      </span>
+      <span>
+        <span class="brand-name">WEB TO APK</span>
+        <span class="brand-by">DEVELOPED BY AHAD</span>
+      </span>
+    </a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#preview" data-sec="preview">Preview</a></li>
+      <li><a href="#build" data-sec="build">Build</a></li>
+      <li id="navHist" hidden><a href="#history" data-sec="history">Recent builds</a></li>
+      <li id="navInstall" hidden><button type="button" class="nav-install" id="installBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v11M7.5 10 12 14.5 16.5 10"/><path d="M4 15v3a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-3"/></svg>Install app</button></li>
+      <li><a class="more" href="https://aman-tools46.vercel.app" rel="noopener">More tools</a></li>
+    </ul>
+    <button type="button" class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="navLinks" aria-label="Open menu">
+      <svg class="i-menu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      <svg class="i-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg>
+    </button>
+  </div>
+</nav>
+
+<div class="shell">
+
+  <div class="layout">
+
+    <!-- Live preview -->
+    <section class="stage" id="preview" aria-label="Live preview of your app">
+      <div class="phone" aria-hidden="true">
+        <div class="screen">
+          <div class="sb">
+            <span id="pvClock">9:41</span>
+            <span class="sb-notch"></span>
+            <span class="sb-icons">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M2 20h3V14H2v6zm5 0h3V10H7v10zm5 0h3V6h-3v14zm5 0h3V2h-3v18z"/></svg>
+              <svg viewBox="0 0 24 24" fill="currentColor"><rect x="2" y="7" width="17" height="10" rx="2.5" fill="none" stroke="currentColor" stroke-width="2"/><rect x="4.5" y="9.5" width="9" height="5" rx="1"/><rect x="20" y="10" width="2" height="4" rx="1"/></svg>
+            </span>
+          </div>
+          <div class="grid">
+        <div class="app ghost"><i class="app-icon"></i><span class="app-label"></span></div>
+        <div class="app ghost"><i class="app-icon"></i><span class="app-label"></span></div>
+        <div class="app ghost"><i class="app-icon"></i><span class="app-label"></span></div>
+        <div class="app ghost"><i class="app-icon"></i><span class="app-label"></span></div>
+        <div class="app ghost"><i class="app-icon"></i><span class="app-label"></span></div>
+        <div class="app ghost"><i class="app-icon"></i><span class="app-label"></span></div>
+        <div class="app you" id="pvApp" data-state="" style="--p:0">
+              <div class="app-icon">
+                <span class="initial" id="pvInitial">+</span>
+                <img id="pvIcon" alt="" loading="lazy">
+              </div>
+              <span class="ring"></span>
+              <span class="badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7"/></svg></span>
+              <span class="app-label" id="pvName">Your app</span>
+            </div>
+        <div class="app ghost"><i class="app-icon"></i><span class="app-label"></span></div>
+        <div class="app ghost"><i class="app-icon"></i><span class="app-label"></span></div>
+        <div class="app ghost"><i class="app-icon"></i><span class="app-label"></span></div>
+        <div class="app ghost"><i class="app-icon"></i><span class="app-label"></span></div>
+        <div class="app ghost"><i class="app-icon"></i><span class="app-label"></span></div>
+        <div class="app ghost"><i class="app-icon"></i><span class="app-label"></span></div>
+        <div class="app ghost"><i class="app-icon"></i><span class="app-label"></span></div>
+        <div class="app ghost"><i class="app-icon"></i><span class="app-label"></span></div>
+        <div class="app ghost"><i class="app-icon"></i><span class="app-label"></span></div>
+        <div class="app ghost"><i class="app-icon"></i><span class="app-label"></span></div>
+        <div class="app ghost"><i class="app-icon"></i><span class="app-label"></span></div>
+        <div class="app ghost"><i class="app-icon"></i><span class="app-label"></span></div>
+        <div class="app ghost"><i class="app-icon"></i><span class="app-label"></span></div>
+        </div>
+          <div class="launch" id="launch">
+            <div class="splash">
+              <div class="l-icon"><img id="lIcon" alt="" loading="lazy" onerror="this.style.display='none'"><span id="lInitial">+</span></div>
+              <p class="l-name" id="lName">Your app</p>
+              <span class="l-bar"><i></i></span>
+            </div>
+            <div class="l-app">
+              <div class="l-top"><span id="lHost">yourwebsite.com</span></div>
+              <i class="sk hero"></i><i class="sk w60"></i><i class="sk"></i><i class="sk w80"></i><i class="sk"></i>
+              <p class="l-hint">Tap to go back</p>
+              <span class="l-home"></span>
+            </div>
+          </div>
+          <div class="dock">
+            <i class="app-icon" style="width:42px;height:42px"></i><i class="app-icon" style="width:42px;height:42px"></i><i class="app-icon" style="width:42px;height:42px"></i><i class="app-icon" style="width:42px;height:42px"></i>
+          </div>
+        </div>
+      </div>
+      <dl class="facts">
+        <div><dt>Opens</dt><dd id="pvHost">yourwebsite.com</dd></div>
+        <div><dt>Package</dt><dd id="pvPkg">com.ahad.app</dd></div>
+        <div><dt>Version</dt><dd id="pvVer">1.0.0</dd></div>
+      </dl>
+      <button type="button" class="ghostbtn" id="launchBtn">Preview launch</button>
+      <button type="button" class="install-main" id="installMain"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v11M7.5 10 12 14.5 16.5 10"/><path d="M4 15v3a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-3"/></svg>INSTALL APK</button>
+    </section>
+
+    <!-- Form -->
+    <section class="panel" id="build">
+      <h1>Turn your website into an Android app</h1>
+      <p class="lede">Use a website link or your own HTML file. Your APK is ready in a few minutes.</p>
+
+      <div class="seg" role="radiogroup" aria-label="Build from">
+        <button type="button" role="radio" aria-checked="true" data-mode="url">Website link</button>
+        <button type="button" role="radio" aria-checked="false" data-mode="html">HTML file</button>
+      </div>
+
+      <div class="field" id="urlField">
+        <label for="websiteUrl">Website URL</label>
+        <div class="inp lead-pad has-tail">
+          <svg class="lead" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 14a4.5 4.5 0 0 0 6.4 0l3-3a4.5 4.5 0 0 0-6.4-6.4l-1 1"/><path d="M14 10a4.5 4.5 0 0 0-6.4 0l-3 3a4.5 4.5 0 0 0 6.4 6.4l1-1"/></svg>
+          <input type="url" id="websiteUrl" placeholder="https://yourwebsite.com" inputmode="url" autocapitalize="off" autocomplete="off" spellcheck="false">
+          <button type="button" class="inp-btn" id="pasteBtn">Paste</button>
+        </div>
+        <span class="hint" id="urlHint">Include http:// or https://</span>
+      </div>
+
+      <div class="field" id="htmlField" hidden>
+        <span class="label" id="siteLabel">HTML file</span>
+        <input type="file" id="siteInput" accept=".html,.htm,.zip,text/html,application/zip" hidden>
+        <button type="button" class="file-drop" id="siteBtn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V4M12 4 7.5 8.5M12 4l4.5 4.5"/><path d="M4 16v3a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-3"/></svg>
+          <span id="siteBtnText">Choose a .html or .zip file</span>
+        </button>
+        <span class="hint">One .html file, or a .zip with index.html inside. Up to 3MB. It runs offline inside the app.</span>
+      </div>
+
+      <div class="field">
+        <label for="appName">App name</label>
+        <div class="inp lead-pad has-count">
+          <svg class="lead" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="7" height="7" rx="2"/><rect x="13" y="4" width="7" height="7" rx="2"/><rect x="4" y="13" width="7" height="7" rx="2"/><rect x="13" y="13" width="7" height="7" rx="2"/></svg>
+          <input type="text" id="appName" placeholder="My Awesome App" maxlength="30" autocomplete="off">
+          <span class="count" id="nameCount">0/30</span>
+        </div>
+        <span class="hint">Shown under the icon on the home screen.</span>
+      </div>
+
+      <div class="icon-row">
+        <input type="file" id="iconInput" accept="image/png, image/jpeg, image/webp" hidden>
+        <button type="button" class="icon-btn" id="iconStage" aria-label="Choose an app icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>
+          <img id="iconPreview" alt="" loading="lazy">
+        </button>
+        <div class="icon-text">
+          <span class="label">App icon</span>
+          <span class="hint">PNG, JPG or WEBP, up to 5MB. A square image works best.</span>
+          <span class="file-name" id="iconInfo"></span>
+          <span class="hint warn" id="iconWarn" hidden>This image is small, so the icon may look blurry.</span>
+        </div>
+      </div>
+
+      <div class="icon-tools" id="iconTools" hidden>
+        <div class="it-row">
+          <label class="label" for="icZoom">Zoom</label>
+          <input type="range" id="icZoom" min="50" max="200" value="100" step="1">
+          <output id="icZoomOut" for="icZoom">100%</output>
+        </div>
+        <div class="it-row">
+          <span class="label" id="icBgLabel">Background</span>
+          <div class="it-group" id="icBg" role="radiogroup" aria-labelledby="icBgLabel">
+            <button type="button" class="sw clear" role="radio" aria-checked="true" data-bg="transparent" aria-label="Transparent"></button>
+            <button type="button" class="sw" role="radio" aria-checked="false" data-bg="#FFFFFF" style="--c:#FFFFFF" aria-label="White"></button>
+            <button type="button" class="sw" role="radio" aria-checked="false" data-bg="#0B1112" style="--c:#0B1112" aria-label="Black"></button>
+            <button type="button" class="sw" role="radio" aria-checked="false" data-bg="#FF6F61" style="--c:#FF6F61" aria-label="Coral"></button>
+            <button type="button" class="sw" role="radio" aria-checked="false" data-bg="#14B8A6" style="--c:#14B8A6" aria-label="Teal"></button>
+            <label class="sw pick" id="icPick" title="Custom colour"><input type="color" id="icBgCustom" value="#7894FF" aria-label="Custom background colour"></label>
+          </div>
+        </div>
+        <div class="it-row">
+          <span class="label" id="icShapeLabel">Shape</span>
+          <div class="it-group" id="icShape" role="radiogroup" aria-labelledby="icShapeLabel">
+            <button type="button" class="shp" role="radio" aria-checked="true" data-shape="circle">Circle</button>
+            <button type="button" class="shp" role="radio" aria-checked="false" data-shape="squircle">Rounded</button>
+            <button type="button" class="shp" role="radio" aria-checked="false" data-shape="square">Square</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="pair">
+        <div class="field">
+          <label for="packageName">Package name <span class="opt">(optional)</span></label>
+          <div class="inp has-tail sm">
+            <input type="text" id="packageName" placeholder="com.example.app" autocapitalize="off" autocomplete="off" spellcheck="false">
+            <button type="button" class="inp-btn" id="autoPkg" title="Fill in a package name from the app name">Auto</button>
+          </div>
+          <span class="hint">Left blank, it is generated for you.</span>
+        </div>
+        <div class="field">
+          <label for="version">Version</label>
+          <input type="text" id="version" placeholder="1.0.0" inputmode="decimal" autocomplete="off">
+          <span class="hint" id="verHint" hidden></span>
+        </div>
+      </div>
+
+      <div class="ready" id="ready" aria-label="What is still needed">
+        <span class="chip" data-k="src"><i></i>Source</span>
+        <span class="chip" data-k="name"><i></i>App name</span>
+        <span class="chip" data-k="icon"><i></i>Icon</span>
+        <button type="button" class="restart" id="restart">Start over</button>
+      </div>
+
+      <button class="btn" id="buildBtn" type="button">Build APK</button>
+
+      <div class="build-status" id="buildStatus" data-step="0" role="status" aria-live="polite">
+        <ol class="steps"><li>Sent</li><li>Building</li><li>Ready</li></ol>
+        <p class="bs-msg" id="bsMsg"></p>
+        <p class="bs-sub" id="bsSub"></p>
+        <div class="bs-bar" aria-hidden="true"><i id="barFill"></i></div>
+        <p class="bs-meta"><span><span id="elapsed">0:00</span> elapsed</span><span id="pct">0%</span></p>
+        <a class="btn btn-teal dl" id="dlBtn" href="#" rel="noopener">Download APK</a>
+        <div class="after" id="afterRow" hidden>
+          <button type="button" class="sbtn" id="copyLink">Copy link</button>
+          <button type="button" class="sbtn" id="shareBtn">Share</button>
+          <button type="button" class="sbtn" id="another">Build another</button>
+        </div>
+        <details class="log-wrap" id="logWrap">
+          <summary>Build log</summary>
+          <ol class="log" id="log"></ol>
+        </details>
+      </div>
+    </section>
+  </div>
+
+  <section class="history" id="history" aria-label="Your recent builds" hidden>
+    <div class="hs-head"><h2>Recent builds</h2><button type="button" class="linkbtn" id="hsClear">Clear all</button></div>
+    <ol class="hs-list" id="hsList"></ol>
+    <p class="hint">Saved on this device only. Use again fills the form with a higher version number.</p>
+  </section>
+
+  <footer class="foot">
+    <b>© ALL TOOLS DEVELOPED BY</b> <span class="sig">AHAD</span>
+  </footer>
+</div>
+
+<div class="dropveil" id="dropveil" aria-hidden="true"><div>Drop it here<small>An image becomes the app icon. A .html or .zip file becomes the app.</small></div></div>
+
+<dialog class="sheet" id="iosHelp" aria-labelledby="iosTitle">
+  <h2 id="iosTitle">Install this app</h2>
+  <ol id="helpIos" hidden>
+    <li>Open this page in <b>Safari</b>.</li>
+    <li>Tap the <b>Share</b> button at the bottom.</li>
+    <li>Choose <b>Add to Home Screen</b>, then tap <b>Add</b>.</li>
+  </ol>
+  <ol id="helpOther" hidden>
+    <li>Open this page in <b>Chrome</b>. Installing does not work inside WhatsApp, Facebook or Instagram.</li>
+    <li>Tap the <b>menu</b> (three dots) at the top right.</li>
+    <li>Choose <b>Install app</b> or <b>Add to Home screen</b>, then tap <b>Install</b>.</li>
+  </ol>
+  <button type="button" class="sbtn" id="iosClose">Got it</button>
+</dialog>
+
+<div class="toast" id="toast" role="status">Done</div>
+
+<script src="/script.js" defer></script>
+</body>
+</html>
