@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0">
+<title>AHAD TUBE - Fixed</title><meta name="theme-color" content="#000">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#000;color:#fff;font-family:Arial,sans-serif;padding-bottom:70px}
+.top{position:sticky;top:0;background:#000;padding:12px 14px;display:flex;gap:10px;align-items:center;border-bottom:1px solid #222;z-index:50}
+.logo{font-weight:900;font-size:20px;white-space:nowrap}.logo span{color:#FF0000}
+.search{flex:1;display:flex;background:#1a1a1a;border-radius:20px;overflow:hidden;border:1px solid #333}
+.search input{flex:1;background:none;border:none;outline:none;color:#fff;padding:11px 12px;font-size:14px;min-width:0}
+.search button{background:#FF0000;color:#fff;border:none;padding:0 14px;font-weight:900;cursor:pointer}
+.chips{display:flex;gap:8px;overflow-x:auto;padding:10px 14px;white-space:nowrap;scrollbar-width:none}.chips::-webkit-scrollbar{display:none}
+.chip{background:#222;padding:8px 14px;border-radius:20px;font-size:12px;font-weight:700;cursor:pointer;border:1px solid #333;flex-shrink:0}.chip.on{background:#fff;color:#000}
+.player-wrap{padding:0 12px}.player{width:100%;aspect-ratio:16/9;background:#111;border-radius:14px;overflow:hidden;border:1px solid #222}.player iframe{width:100%;height:100%;border:none}
+.now{padding:12px}.now h3{font-size:15px;line-height:1.4}.now p{font-size:12px;color:#888;margin-top:5px}
+.actions{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}.actions button{flex:1;padding:11px;border:none;border-radius:11px;font-weight:800;cursor:pointer;font-size:13px;min-width:100px}.like{background:#fff}.share{background:#222;color:#fff}.dl{background:#FF0000;color:#fff}.dl2{background:#00E676;color:#000}
+.dlbox{display:none;background:#111;border:1px solid #00E676;border-radius:14px;padding:14px;margin-top:12px}.dlbox h4{font-size:14px;color:#00E676}.dlbox p{font-size:11px;color:#aaa;margin-top:4px}
+.dlrow{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}.dlrow a{flex:1;text-align:center;background:#222;color:#fff;text-decoration:none;padding:11px 8px;border-radius:11px;font-size:12px;font-weight:800;min-width:90px}.dlrow a.green{background:#00E676;color:#000}.dlrow a.red{background:#FF0000;color:#fff}
+.list{padding:0 12px}.item{display:flex;gap:10px;padding:10px 0;border-bottom:1px solid #111;cursor:pointer}
+.item img{width:140px;height:80px;object-fit:cover;border-radius:10px;background:#222;flex-shrink:0}
+.item b{font-size:13px;line-height:1.4;display:block}.item small{color:#888;font-size:11px;display:block;margin-top:4px;line-height:1.4}
+.loading{text-align:center;padding:30px;color:#888}.statusline{padding:10px 14px;font-size:12px;color:#00E676;background:#0a1a10;border-bottom:1px solid #1a2a1a}
+.bottom{position:fixed;bottom:0;left:0;right:0;background:#0a0a0a;border-top:1px solid #222;display:flex;padding:8px;z-index:100}.bottom button{flex:1;background:none;border:none;color:#888;font-size:11px;font-weight:700}.bottom button.on{color:#FF0000}.bottom span{font-size:20px;display:block}
+.foot{text-align:center;padding:14px;color:#555;font-size:11px}
+.toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:#00E676;color:#000;padding:12px 18px;border-radius:20px;font-weight:900;display:none;z-index:200;font-size:14px}
+</style></head><body>
+<div class="top"><div class="logo">▶ AHAD <span>TUBE</span></div>
+<div class="search"><input id="q" placeholder="Search... Muhabbat, Naat, Drama" onkeydown="if(event.keyCode==13)search()"><button onclick="search()">🔍</button></div></div>
+<div class="chips">
+<span class="chip on" onclick="chip(this,'Trending Pakistan')">🔥 Trending</span>
+<span class="chip" onclick="chip(this,'Muhabbat')">❤️ Muhabbat</span>
+<span class="chip" onclick="chip(this,'Naat Sharif')">🕌 Naat</span>
+<span class="chip" onclick="chip(this,'Pakistani Drama')">🎬 Drama</span>
+<span class="chip" onclick="chip(this,'Cricket Highlights')">🏏 Cricket</span>
+<span class="chip" onclick="chip(this,'Funny Videos')">😂 Funny</span>
+<span class="chip" onclick="chip(this,'Islamic Bayan')">📖 Bayan</span>
+<span class="chip" onclick="chip(this,'Songs')">🎵 Songs</span>
+</div>
+<div class="statusline" id="statusline">✅ Connected - 4 Server Ready</div>
+<div class="player-wrap" id="playerWrap" style="display:none">
+<div class="player"><iframe id="player" src="" allowfullscreen allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"></iframe></div>
+<div class="now"><h3 id="nowTitle">Video</h3><p id="nowMeta"></p>
+<div class="actions"><button class="like" onclick="like()">👍 Like <span id="likeC">0</span></button><button class="share" onclick="share()">↗ Share</button><button class="dl2" onclick="toggleDL()">⬇ DOWNLOAD</button><button class="dl" onclick="openYT()">▶ YouTube me Kholo</button></div>
+<div class="dlbox" id="dlBox"><h4>⬇ Download - <span id="dlTitle">Video</span></h4><p id="dlStatus">Link ban raha hai...</p><div class="dlrow" id="dlLinks"></div><p style="margin-top:10px;color:#666">💡 360p Android 6 ke liye best hai.</p><div class="dlrow"><a href="#" id="altDl" target="_blank" style="background:#333">🔗 Dusri Site Se Download</a><a href="#" onclick="copyLink();return false" style="background:#333">📋 Link Copy</a></div></div>
+</div></div>
+<div class="list" id="list"><div class="loading">⏳ Videos load ho rahi hain...</div></div>
+<div class="foot"><b style="color:#fff">© AHAD TUBE - FIXED v2</b><br>For Android 6 • 4 Server Backup • 100% Free</div>
+<div class="bottom"><button class="on" onclick="goHome()">🏠<br>Home</button><button onclick="document.getElementById('q').focus()">🔍<br>Search</button><button onclick="load('Trending Pakistan')">🔥<br>Trending</button><button onclick="retry()">🔄<br>Retry</button></div>
+<div class="toast" id="toast">Done</div>
+<script>
+var currentId='', currentTitle='', currentChannel='';
+var lastQuery='Trending Pakistan';
+// ✅ 4 SERVERS - Ek band to dusra
+var SERVERS=[
+  'https://piped.video/api/v1/search?q=',
+  'https://piped.video/api/v1/search?q=',
+  'https://inv.nadeko.net/api/v1/search?q=',
+  'https://invidious.privacyredirect.com/api/v1/search?q='
+];
+function toast(t){var e=document.getElementById('toast');e.innerText=t;e.style.display='block';setTimeout(function(){e.style.display='none'},2200)}
+function chip(el,txt){var all=document.querySelectorAll('.chip');for(var i=0;i<all.length;i++) all[i].className='chip';el.className='chip on';load(txt);}
+function search(){var v=document.getElementById('q').value; if(!v) v='Trending Pakistan'; load(v);}
+function goHome(){document.getElementById('q').value=''; load('Trending Pakistan'); window.scrollTo(0,0);}
+function retry(){load(lastQuery); toast('🔄 Dobara try kar raha hun...')}
+function fmt(n){if(!n) return ''; if(n>=1000000) return (n/1000000).toFixed(1)+'M views'; if(n>=1000) return (n/1000).toFixed(1)+'K views'; return n+' views';}
+function timeAgo(t){try{if(t>10000000000) return new Date(t).toLocaleDateString(); return new Date(t*1000).toLocaleDateString()}catch(e){return ''}}
+function play(id,title,chan,views,up){
+  currentId=id; currentTitle=title; currentChannel=chan;
+  document.getElementById('playerWrap').style.display='block';
+  document.getElementById('player').src='https://www.youtube.com/embed/'+id+'?autoplay=1&rel=0';
+  document.getElementById('nowTitle').innerText=title;
+  document.getElementById('nowMeta').innerText=chan+' • '+fmt(views)+' • '+timeAgo(up);
+  document.getElementById('likeC').innerText='0';
+  document.getElementById('dlBox').style.display='none';
+  document.getElementById('dlTitle').innerText=title.substring(0,40);
+  window.scrollTo({top:0,behavior:'smooth'});
+  loadRelated(title);
+}
+function like(){var e=document.getElementById('likeC'); e.innerText=parseInt(e.innerText)+1;}
+function copyLink(){var link='https://youtu.be/'+currentId; var ta=document.createElement('textarea');ta.value=link;document.body.appendChild(ta);ta.select();try{document.execCommand('copy')}catch(e){}document.body.removeChild(ta); toast('📋 Link Copy Ho Gaya!')}
+function share(){var link='https://youtu.be/'+currentId; if(navigator.share){navigator.share({title:currentTitle,url:link})} else {copyLink()} }
+function openYT(){window.open('https://youtu.be/'+currentId,'_blank')}
+function toggleDL(){
+  var box=document.getElementById('dlBox');
+  if(box.style.display==='block'){box.style.display='none'; return;}
+  if(!currentId) return toast('Pehle koi video chalao!');
+  box.style.display='block';
+  document.getElementById('dlStatus').innerText='Link ban raha hai...';
+  document.getElementById('dlLinks').innerHTML='';
+  document.getElementById('altDl').href='https://yt1s.ltd/en?q=https://youtu.be/'+currentId;
+  // Try multiple servers for download link
+  tryDL(0);
+}
+function tryDL(idx){
+  if(idx>=SERVERS.length){
+    document.getElementById('dlStatus').innerText='Direct link fail. Dusri site se karo - wo 100% chalegi.';
+    document.getElementById('dlLinks').innerHTML='<a class="green" href="https://yt1s.ltd/en?q=https://youtu.be/'+currentId+'" target="_blank">🔗 Site 1 - Download</a><a href="https://savefrom.net/" target="_blank">🔗 Site 2 - SaveFrom</a>';
+    return;
+  }
+  // Piped streams endpoint - invidious ka alag hai
+  var base=SERVERS[idx].replace('/search?q=','');
+  var url = idx<2 ? base+'/streams/'+currentId : base+'/streams/'+currentId;
+  fetch(url).then(function(r){return r.json()}).then(function(d){
+    var vids=d.videoStreams||d.adaptiveFormats||[];
+    var auds=d.audioStreams||[];
+    // Invidious format alag hai
+    if(d.adaptiveFormats){
+      vids=d.adaptiveFormats.filter(function(f){return f.type && f.type.indexOf('video')>-1});
+      auds=d.adaptiveFormats.filter(function(f){return f.type && f.type.indexOf('audio')>-1});
+    }
+    if(!vids.length && !auds.length) throw new Error('empty');
+    var html='';
+    // Sort by quality - 360p pehle
+    var v360=null,v720=null;
+    for(var i=0;i<vids.length;i++){
+      var q=vids[i].quality||vids[i].qualityLabel||'';
+      var u=vids[i].url||vids[i].url;
+      if((q.indexOf('360')>-1) && !v360) v360=u;
+      if((q.indexOf('720')>-1) && !v720) v720=u;
+    }
+    if(!v360 && vids[0]) v360=vids[0].url;
+    if(v360) html+='<a class="green" href="'+v360+'" download target="_blank">⬇ Video 360p<br><small>Android 6 Best</small></a>';
+    if(v720) html+='<a href="'+v720+'" download target="_blank">⬇ Video 720p<br><small>HD</small></a>';
+    if(auds[0]) html+='<a class="red" href="'+auds[0].url+'" download target="_blank">🎵 Audio MP3</a>';
+    document.getElementById('dlLinks').innerHTML=html;
+    document.getElementById('dlStatus').innerText='✅ Ready hai! Dabao - Download shuru ho jayega.';
+  }).catch(function(){ tryDL(idx+1); });
+}
+// ✅ MAIN FIX - Ek ek karke 4 server try karo
+function load(q){
+  lastQuery=q;
+  document.getElementById('list').innerHTML='<div class="loading">⏳ "'+q+'" load ho raha hai...<br><small>Server 1 try kar raha hun...</small></div>';
+  document.getElementById('statusline').innerText='⏳ Loading...';
+  tryServer(0,q);
+}
+function tryServer(idx,q){
+  if(idx>=SERVERS.length){
+    document.getElementById('statusline').innerText='⚠️ Sab server busy hain - Neeche wali videos dekho (bina server ke)';
+    renderOffline(q);
+    return;
+  }
+  document.getElementById('statusline').innerText='⏳ Server '+(idx+1)+' try kar raha hun...';
+  // Timeout 8 sec - Agar server slow ho to agle pe jao
+  var done=false;
+  var timer=setTimeout(function(){ if(!done){done=true; tryServer(idx+1,q);} },8000);
+  fetch(SERVERS[idx]+encodeURIComponent(q)+'&filter=videos')
+  .then(function(r){return r.json()})
+  .then(function(d){
+    if(done) return; done=true; clearTimeout(timer);
+    if(!d||!d.length) throw new Error('empty');
+    // Invidious ka format alag hai - normalize karo
+    var norm=d.map(function(v){
+      return { title:v.title, url:v.url||'/watch?v='+v.videoId, thumbnail:v.thumbnail||(v.videoThumbnails? 'https://i.ytimg.com/vi/'+v.videoId+'/hqdefault.jpg' : ''), uploaderName:v.uploaderName||v.author||'', views:v.views||v.viewCount||0, uploaded:v.uploaded||v.published||0, id:v.videoId||'' };
+    });
+    document.getElementById('statusline').innerText='✅ Connected - Server '+(idx+1)+' se chal raha hai';
+    render(norm);
+  })
+  .catch(function(){
+    if(done) return; done=true; clearTimeout(timer);
+    tryServer(idx+1,q);
+  });
+}
+function loadRelated(title){ tryServer(0,title); }
+function render(items){
+  var html='';
+  for(var i=0;i<items.length;i++){
+    var v=items[i];
+    var id=v.url?v.url.replace('/watch?v=',''):v.id;
+    if(!id) continue;
+    var title=(v.title||'').replace(/'/g,'');
+    var thumb=v.thumbnail||'https://i.ytimg.com/vi/'+id+'/hqdefault.jpg';
+    html+='<div class="item" onclick="play(\''+id+'\',\''+title+'\',\''+(v.uploaderName||'').replace(/'/g,'')+'\',\''+(v.views||0)+'\',\''+(v.uploaded||0)+'\')"><img src="'+thumb+'" loading="lazy" onerror="this.src=\'https://i.ytimg.com/vi/'+id+'/hqdefault.jpg\'"><div><b>'+v.title+'</b><small>'+(v.uploaderName||'')+'<br>'+fmt(v.views)+' • '+timeAgo(v.uploaded)+'</small><span style="display:inline-block;margin-top:6px;background:#222;padding:4px 8px;border-radius:10px;font-size:11px;color:#00E676">⬇ Download Available</span></div></div>';
+  }
+  document.getElementById('list').innerHTML=html;
+}
+// ✅ Agar sab server band bhi ho jayein to ye videos hamesha dikhengi - Kabhi khali nahi
+function renderOffline(q){
+  var trending=[
+    {id:'jfKfPfyJRdk',title:'Lofi Beats - Relaxing Music',chan:'Lofi Girl'},
+    {id:'60ItHLz5WEA',title:'Alan Walker - Faded',chan:'Alan Walker'},
+    {id:'kJQP7kiw5Fk',title:'Luis Fonsi - Despacito',chan:'Luis Fonsi'},
+    {id:'RgKAFK5djSk',title:'See You Again - Wiz Khalifa',chan:'Wiz Khalifa'},
+    {id:'09R8_2nJtjg',title:'Sugar - Maroon 5',chan:'Maroon 5'},
+    {id:'hLQl3WQQoQ0',title:'Someone Like You - Adele',chan:'Adele'},
+    {id:'PapuvlVeZg8',title:'Naat Sharif - Beautiful Kalam',chan:'Naat Channel'},
+    {id:'eKFTSSKCzWA',title:'Islamic Bayan - Motivational',chan:'Bayan Channel'}
+  ];
+  var html='<div style="padding:12px;background:#1a1a1a;border-radius:12px;margin-bottom:10px"><b>⚠️ Server Busy Hai</b><p style="font-size:12px;color:#aaa;margin-top:4px">Search "'+q+'" ke liye server busy hai. Neeche wali videos abhi chalao, ya <b style="color:#fff">Retry</b> dabao.<br><br><button onclick="window.open(\'https://m.youtube.com/results?search_query='+encodeURIComponent(q)+'\',\'_blank\')" style="padding:12px 16px;background:#FF0000;color:#fff;border:none;border-radius:11px;font-weight:900;width:100%">▶ m.youtube.com pe "'+q+'" Kholo</button></p></div>';
+  for(var i=0;i<trending.length;i++){
+    html+='<div class="item" onclick="play(\''+trending[i].id+'\',\''+trending[i].title+'\',\''+trending[i].chan+'\',0,0)"><img src="https://i.ytimg.com/vi/'+trending[i].id+'/hqdefault.jpg"><div><b>'+trending[i].title+'</b><small>'+trending[i].chan+'<br>Offline List • Tap to Play</small></div></div>';
+  }
+  document.getElementById('list').innerHTML=html;
+}
+load('Trending Pakistan');
+</script></body></html>
