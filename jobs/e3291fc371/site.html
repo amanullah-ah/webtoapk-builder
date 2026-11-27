@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<title>WEB TO APK - AHAD | Website to Android App</title>
+<meta name="description" content="Turn any website into Android App in 1 minute. By AHAD.">
+<meta name="theme-color" content="#000000">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+:root{--green:#00E676;--green2:#00C853;--bg:#000;--card:#111;--card2:#1A1A1A;--line:#262626;--muted:#9A9A9A}
+body{background:var(--bg);color:#fff;font-family:system-ui,-apple-system,Arial,sans-serif;padding-bottom:80px;overflow-x:hidden}
+button,input{font-family:inherit}
+.topbar{position:sticky;top:0;z-index:50;background:rgba(0,0,0,.85);backdrop-filter:blur(12px);padding:12px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line)}
+.logo{display:flex;gap:10px;align-items:center}
+.logo-icon{width:38px;height:38px;background:var(--green);border-radius:11px;display:grid;place-items:center;font-size:20px;font-weight:900;color:#000}
+.logo b{font-size:16px;letter-spacing:.5px;line-height:1}.logo small{font-size:9px;color:var(--green);letter-spacing:2px}
+.live{background:#1A2A1A;color:var(--green);border:1px solid #1E4D2B;padding:6px 10px;border-radius:20px;font-size:11px;font-weight:800}
+.hero{padding:22px 16px 10px;text-align:center}
+.badge{display:inline-block;background:#1A1A1A;border:1px solid var(--line);padding:6px 12px;border-radius:20px;font-size:11px;color:#ccc}
+.hero h1{font-size:32px;line-height:1.05;margin-top:14px;font-weight:900;letter-spacing:-.5px}
+.hero h1 span{color:var(--green)}
+.hero p{color:var(--muted);font-size:14px;line-height:1.5;margin-top:10px}
+.stats{display:flex;gap:8px;margin:16px 16px 0}
+.stat{flex:1;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px;text-align:center}
+.stat b{font-size:16px;display:block}.stat span{font-size:11px;color:var(--muted)}
+/* PHONE PREVIEW - MOBILE SIZE */
+.phone-wrap{margin:18px 16px 0;background:linear-gradient(180deg,#1A1A1A,#0A0A0A);border:1px solid var(--line);border-radius:22px;padding:16px}
+.phone-head{display:flex;justify-content:space-between;align-items:center}
+.phone-head b{font-size:13px}.phone-head span{font-size:11px;color:var(--green);background:#122A1A;padding:5px 9px;border-radius:20px}
+.phone{width:100%;max-width:280px;height:420px;background:#000;border:3px solid #333;border-radius:32px;margin:14px auto 0;overflow:hidden;position:relative;box-shadow:0 20px 40px rgba(0,0,0,.6)}
+.screen{height:100%;background:linear-gradient(180deg,#2B3BFF,#0A0A2A);padding:10px;position:relative}
+.sb{display:flex;justify-content:space-between;font-size:11px;font-weight:800}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:18px}
+.app{text-align:center}.app-icon{width:48px;height:48px;border-radius:13px;background:rgba(255,255,255,.18);margin:auto;display:grid;place-items:center;overflow:hidden;font-size:20px;font-weight:900}
+.app-icon img{width:100%;height:100%;object-fit:cover}.app-label{font-size:9px;margin-top:4px;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.you .app-icon{width:56px;height:56px;background:#fff;color:#000;box-shadow:0 0 0 3px var(--green);animation:pulse 1.5s infinite}
+@keyframes pulse{0%{box-shadow:0 0 0 3px var(--green)}50%{box-shadow:0 0 0 6px rgba(0,230,118,.3)}100%{box-shadow:0 0 0 3px var(--green)}}
+.dock{position:absolute;bottom:10px;left:10px;right:10px;background:rgba(255,255,255,.18);backdrop-filter:blur(8px);border-radius:18px;padding:8px;display:flex;justify-content:space-around}
+.dock i{width:36px;height:36px;border-radius:10px;background:rgba(255,255,255,.25);display:block}
+.facts{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:12px}
+.facts div{background:#1E1E1E;padding:9px;border-radius:11px}.facts dt{font-size:10px;color:#888}.facts dd{font-size:11px;font-weight:800;word-break:break-all;margin-top:2px}
+.preview-btn{width:100%;margin-top:12px;background:#fff;color:#000;border:none;padding:12px;border-radius:12px;font-weight:900;cursor:pointer}
+/* FORM */
+.form{background:#fff;color:#111;margin:16px;border-radius:24px;padding:20px}
+.form h2{font-size:22px;line-height:1.1}.form p{font-size:13px;color:#666;margin-top:6px}
+.seg{display:flex;background:#F0F0F0;padding:4px;border-radius:12px;margin-top:16px}.seg button{flex:1;padding:12px;border:none;border-radius:9px;font-weight:800;cursor:pointer;background:transparent;font-size:14px}.seg button.on{background:#111;color:#fff}
+.field{margin-top:16px}.field label{font-size:13px;font-weight:800;display:block}
+.inp{display:flex;align-items:center;border:1.5px solid #E0E0E0;border-radius:13px;margin-top:6px;overflow:hidden;background:#fff}.inp input{flex:1;padding:14px;border:none;outline:none;font-size:15px;min-width:0}.inp button{background:#111;color:#fff;border:none;padding:10px 14px;margin:4px;border-radius:9px;font-weight:800;white-space:nowrap}
+.hint{font-size:11px;color:#888;margin-top:5px}
+.file-drop{width:100%;padding:20px;border:2px dashed #111;border-radius:13px;background:#F8F8F8;cursor:pointer;font-weight:800;margin-top:6px;font-size:14px}
+.icon-row{display:flex;gap:12px;margin-top:16px;align-items:flex-start}
+.icon-btn{width:72px;height:72px;border-radius:18px;border:2px dashed #111;background:#F0F0F0;cursor:pointer;overflow:hidden;flex-shrink:0;font-size:26px;font-weight:900}.icon-btn img{width:100%;height:100%;object-fit:cover}
+.colors{display:flex;gap:8px;margin-top:10px}.colors button{width:30px;height:30px;border-radius:50%;border:2px solid #fff;box-shadow:0 0 0 1px #ddd;cursor:pointer}.colors button.on{box-shadow:0 0 0 2px #111}
+.pair{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.ready{display:flex;gap:6px;flex-wrap:wrap;margin-top:16px;align-items:center}.chip{background:#F0F0F0;padding:7px 10px;border-radius:20px;font-size:11px;font-weight:800}.chip.ok{background:#D1FAE5}.chip.ok::before{content:"✓ "}
+.build-btn{width:100%;padding:16px;border:none;border-radius:15px;background:var(--green);color:#000;font-weight:900;font-size:16px;cursor:pointer;margin-top:16px;box-shadow:0 8px 20px rgba(0,230,118,.3)}
+.build-btn:active{transform:scale(.98)}
+.progress{display:none;margin-top:16px;background:#F8F8F8;border-radius:14px;padding:14px}
+.steps{display:flex;gap:6px}.steps div{flex:1;background:#E8E8E8;padding:9px;border-radius:9px;font-size:11px;font-weight:800;text-align:center}.steps div.on{background:var(--green)}
+.bar{height:8px;background:#E8E8E8;border-radius:20px;overflow:hidden;margin-top:10px}.bar i{display:block;height:100%;width:0%;background:var(--green);transition:.3s}
+.dl{display:block;text-align:center;background:#111;color:#fff;padding:14px;border-radius:13px;margin-top:12px;font-weight:900;text-decoration:none}
+/* HISTORY */
+.history{margin:0 16px;background:var(--card);border:1px solid var(--line);border-radius:20px;padding:16px}
+.hs-item{background:#1E1E1E;padding:12px;border-radius:13px;display:flex;justify-content:space-between;align-items:center;margin-top:10px;gap:8px}
+.hs-item b{font-size:14px}.hs-item small{color:#888;font-size:11px}
+.sbtn{background:#2A2A2A;color:#fff;border:none;padding:9px 12px;border-radius:10px;font-weight:700;font-size:12px;white-space:nowrap}
+/* BOTTOM NAV - MOBILE APP JESA */
+.bottom{position:fixed;bottom:0;left:0;right:0;background:rgba(10,10,10,.95);backdrop-filter:blur(12px);border-top:1px solid var(--line);display:flex;padding:8px 6px calc(8px + env(safe-area-inset-bottom));z-index:100}
+.bottom a,.bottom button{flex:1;background:none;border:none;color:#888;text-align:center;font-size:11px;font-weight:700;cursor:pointer;padding:4px}.bottom a.on,.bottom button.on{color:var(--green)}
+.bottom span{font-size:20px;display:block}
+.foot{text-align:center;padding:18px;color:#666;font-size:11px;line-height:1.6}
+.foot b{color:#fff}.sig{color:var(--green)}
+.toast{position:fixed;bottom:90px;left:50%;transform:translateX(-50%);background:var(--green);color:#000;padding:12px 18px;border-radius:20px;font-weight:900;display:none;z-index:200;box-shadow:0 10px 30px rgba(0,0,0,.4);white-space:nowrap;font-size:14px}
+.launch{position:absolute;inset:0;background:#fff;color:#111;display:none;padding:14px;text-align:center}.launch.show{display:block}.launch .l-icon{width:72px;height:72px;background:var(--green);border-radius:18px;margin:50px auto 10px;display:grid;place-items:center;font-size:30px;font-weight:900;overflow:hidden;color:#000}.launch .l-icon img{width:100%;height:100%;object-fit:cover}
+@media(min-width:768px){.hero h1{font-size:44px}.phone{max-width:300px}body{max-width:520px;margin:auto;border-left:1px solid var(--line);border-right:1px solid var(--line)}}
+</style></head><body>
+<div class="topbar"><div class="logo"><div class="logo-icon">A</div><div><b>WEB TO APK</b><br><small>DEVELOPED BY AHAD</small></div></div><div class="live">● LIVE • FREE</div></div>
+<div class="hero"><span class="badge">🔥 12,400+ Apps Ban Chuki Hain</span><h1>Website Ko<br><span>Android App</span><br>Banao</h1><p>Link ya HTML file do. Icon lagao. 1 Minute me APK ready. Bilkul Free.</p></div>
+<div class="stats"><div class="stat"><b>1 Min</b><span>Build Time</span></div><div class="stat"><b>100% Free</b><span>No Watermark</span></div><div class="stat"><b>4.9 ⭐</b><span>Rating</span></div></div>
+
+<div class="phone-wrap" id="preview"><div class="phone-head"><b>📱 LIVE PREVIEW</b><span>● LIVE</span></div>
+<div class="phone"><div class="screen"><div class="sb"><span>9:41</span><span>📶 📡 🔋</span></div><div class="grid" id="grid"></div><div class="dock"><i></i><i></i><i></i><i></i></div>
+<div class="launch" id="launch"><div class="l-icon" id="lIcon">+</div><p id="lName" style="font-weight:900;font-size:18px">Your App</p><p id="lHost" style="font-size:12px;color:#888;margin-top:4px">yourwebsite.com</p><p style="margin-top:18px;background:#F0F0F0;padding:14px;border-radius:12px;font-size:13px">✅ App khul gayi! Aisi hi tumhari app khulegi.</p><button onclick="document.getElementById('launch').classList.remove('show')" style="margin-top:14px;padding:11px 18px;border:none;border-radius:11px;background:#111;color:#fff;font-weight:800">← Back</button></div>
+</div></div>
+<div class="facts"><div><dt>OPENS</dt><dd id="pvHost">yourwebsite.com</dd></div><div><dt>PACKAGE</dt><dd id="pvPkg">com.ahad.app</dd></div><div><dt>VERSION</dt><dd id="pvVer">1.0.0</dd></div></div>
+<button class="preview-btn" onclick="document.getElementById('launch').classList.add('show')">▶ Preview Launch Dekho</button></div>
+
+<div class="form" id="build"><h2>Apni APK Banao 🚀</h2><p>Neeche form bharo, sab live preview me dikhega.</p>
+<div class="seg"><button id="mUrl" class="on" onclick="setMode('url')">🌐 Website Link</button><button id="mHtml" onclick="setMode('html')">📄 HTML File</button></div>
+<div class="field" id="urlField"><label>Website URL *</label><div class="inp"><input id="websiteUrl" placeholder="https://yourwebsite.com" value="https://" inputmode="url"><button onclick="pasteUrl()">Paste</button></div><span class="hint">https:// zaroor likhna hai</span></div>
+<div class="field" id="htmlField" style="display:none"><label>HTML File *</label><input type="file" id="siteInput" accept=".html,.htm,.zip" hidden onchange="filePicked(this)"><button class="file-drop" onclick="document.getElementById('siteInput').click()" id="siteBtnText">📂 HTML File Select Karo</button><span class="hint">1 .html file, 3MB tak, offline chalegi.</span></div>
+<div class="field"><label>App Name *</label><div class="inp"><input id="appName" placeholder="Jaise: Ahad Store" maxlength="30" oninput="update()"><span style="padding-right:10px;font-size:12px;color:#888" id="nameCount">0/30</span></div><span class="hint">Home screen pe ye naam dikhega.</span></div>
+<div class="icon-row"><input type="file" id="iconInput" accept="image/*" hidden onchange="iconPicked(this)"><button class="icon-btn" onclick="document.getElementById('iconInput').click()" id="iconBtn">+</button><div style="flex:1"><span style="font-size:13px;font-weight:800">App Icon *</span><span class="hint" style="display:block">Square photo best rahega. Click kar ke select karo.</span><span class="hint" id="iconInfo"></span><div class="colors" id="colors"><button style="background:#00E676" class="on" onclick="setBg('#00E676',this)"></button><button style="background:#111" onclick="setBg('#111111',this)"></button><button style="background:#fff" onclick="setBg('#FFFFFF',this)"></button><button style="background:#FF6F61" onclick="setBg('#FF6F61',this)"></button><button style="background:#2979FF" onclick="setBg('#2979FF',this)"></button></div></div></div>
+<div class="pair"><div class="field"><label>Package Name</label><div class="inp"><input id="packageName" placeholder="com.ahad.app"><button onclick="autoPkg()">Auto</button></div></div><div class="field"><label>Version</label><div class="inp"><input id="version" value="1.0.0" oninput="update()"></div></div></div>
+<div class="ready"><span class="chip" id="cSrc">Source</span><span class="chip" id="cName">App Name</span><span class="chip" id="cIcon">Icon</span><button class="sbtn" style="background:#eee;color:#111" onclick="location.reload()">↻ Start Over</button></div>
+<button class="build-btn" id="buildBtn" onclick="build()">🚀 BUILD APK - FREE</button>
+<div class="progress" id="buildBox"><div class="steps"><div id="s1">1. Sent</div><div id="s2">2. Building</div><div id="s3">3. Ready</div></div><p id="bsMsg" style="font-weight:900;margin-top:10px">Building...</p><p id="bsSub" style="font-size:12px;color:#666"></p><div class="bar"><i id="barFill"></i></div><p style="display:flex;justify-content:space-between;font-size:12px;margin-top:6px"><span id="elapsed">0:00</span><span id="pct">0%</span></p><a class="dl" id="dlBtn" href="#" download>⬇ DOWNLOAD APK</a><div style="display:flex;gap:8px;margin-top:10px"><button class="sbtn" style="background:#111;flex:1;padding:11px" onclick="copyLink()">📋 Copy Link</button><button class="sbtn" style="background:#eee;color:#111;flex:1;padding:11px" onclick="location.reload()">Build Another</button></div></div>
+</div>
+
+<div class="history" id="history"><h2 style="font-size:17px">🕒 Recent Builds</h2><p style="font-size:12px;color:#888;margin-top:4px">Sirf is mobile pe save hota hai.</p><div id="hsList"></div><button class="sbtn" onclick="localStorage.removeItem('ahad_builds');builds=[];renderHistory()" style="margin-top:10px">Clear All</button></div>
+<div class="foot"><b>© ALL TOOLS DEVELOPED BY</b><br><span class="sig" style="font-size:16px;font-weight:900">AHAD</span><br>Web to APK • 100% Free • No Watermark</div>
+
+<div class="bottom"><button class="on" onclick="window.scrollTo({top:0,behavior:'smooth'})"><span>🏠</span>Home</button><button onclick="document.getElementById('build').scrollIntoView({behavior:'smooth'})"><span>🔨</span>Build</button><button onclick="document.getElementById('preview').scrollIntoView({behavior:'smooth'})"><span>📱</span>Preview</button><button onclick="document.getElementById('history').scrollIntoView({behavior:'smooth'})"><span>🕒</span>History</button></div>
+<div class="toast" id="toast">Done ✅</div>
+<script>
+let mode='url', iconData='', htmlData='', htmlName='index.html', bgColor='#00E676';
+let builds = JSON.parse(localStorage.getItem('ahad_builds')||'[]');
+function toast(t){let e=document.getElementById('toast');e.innerText=t;e.style.display='block';setTimeout(()=>e.style.display='none',2200)}
+function setMode(m){mode=m;document.getElementById('mUrl').classList.toggle('on',m==='url');document.getElementById('mHtml').classList.toggle('on',m==='html');document.getElementById('urlField').style.display=m==='url'?'block':'none';document.getElementById('htmlField').style.display=m==='html'?'block':'none';update()}
+async function pasteUrl(){try{let t=await navigator.clipboard.readText();if(t)document.getElementById('websiteUrl').value=t;update()}catch(e){toast('Paste manually karo')}}
+function filePicked(inp){let f=inp.files[0];if(!f)return;if(f.size>3*1024*1024)return toast('File 3MB se bari hai!');let r=new FileReader();r.onload=e=>{htmlData=e.target.result;htmlName=f.name;document.getElementById('siteBtnText').innerText='✅ '+f.name;update()};r.readAsText(f)}
+function iconPicked(inp){let f=inp.files[0];if(!f)return;let r=new FileReader();r.onload=e=>{iconData=e.target.result;document.getElementById('iconBtn').innerHTML='<img src="'+iconData+'">';document.getElementById('iconInfo').innerText='✅ '+f.name;update()};r.readAsDataURL(f)}
+function setBg(c,el){bgColor=c;document.querySelectorAll('.colors button').forEach(b=>b.classList.remove('on'));el.classList.add('on');update()}
+function autoPkg(){let n=document.getElementById('appName').value.trim().toLowerCase().replace(/[^a-z0-9]+/g,'');if(!n)n='myapp';document.getElementById('packageName').value='com.ahad.'+n;update()}
+function update(){
+ let name=document.getElementById('appName').value.trim();
+ document.getElementById('nameCount').innerText=name.length+'/30';
+ document.getElementById('pvVer').innerText=document.getElementById('version').value||'1.0.0';
+ let url=document.getElementById('websiteUrl').value.trim(); let host='yourwebsite.com';
+ try{ if(url&&url.startsWith('http')) host=new URL(url).hostname; }catch(e){}
+ document.getElementById('pvHost').innerText= mode==='url'?host:htmlName;
+ document.getElementById('lHost').innerText= mode==='url'?host:htmlName;
+ document.getElementById('lName').innerText=name||'Your App';
+ document.getElementById('pvPkg').innerText=document.getElementById('packageName').value||'com.ahad.app';
+ let srcOk = mode==='url' ? (url.length>8 && url.startsWith('http')) : !!htmlData;
+ document.getElementById('cSrc').classList.toggle('ok',srcOk);
+ document.getElementById('cName').classList.toggle('ok',name.length>=2);
+ document.getElementById('cIcon').classList.toggle('ok',!!iconData);
+ let g=''; for(let i=0;i<12;i++){ if(i===6) g+='<div class="app you"><div class="app-icon" style="background:'+(iconData?'transparent':bgColor)+'">'+(iconData?'<img src="'+iconData+'">':(name?name[0].toUpperCase():'+'))+'</div><span class="app-label">'+(name||'Your app')+'</span></div>'; else g+='<div class="app"><div class="app-icon"></div><span class="app-label"></span></div>'; }
+ document.getElementById('grid').innerHTML=g;
+ if(iconData) document.getElementById('lIcon').innerHTML='<img src="'+iconData+'">';
+ else { document.getElementById('lIcon').innerText=name?name[0].toUpperCase():'+'; document.getElementById('lIcon').style.background=bgColor; }
+}
+function build(){
+ let name=document.getElementById('appName').value.trim();
+ let url=document.getElementById('websiteUrl').value.trim();
+ let pkg=document.getElementById('packageName').value.trim()||'com.ahad.app';
+ let ver=document.getElementById('version').value.trim()||'1.0.0';
+ if(!name||name.length<2) return toast('❌ Pehle App Name likho!');
+ if(mode==='url' && (!url.startsWith('http')||url.length<9)) return toast('❌ Sahi URL likho - https:// ke saath');
+ if(mode==='html' && !htmlData) return toast('❌ Pehle HTML file select karo!');
+ if(!iconData) return toast('❌ Pehle Icon select karo!');
+ document.getElementById('buildBox').style.display='block';
+ document.getElementById('buildBox').scrollIntoView({behavior:'smooth',block:'center'});
+ let pct=0, start=Date.now();
+ let timer=setInterval(()=>{
+  pct+=Math.floor(Math.random()*12)+5; if(pct>=100)pct=100;
+  document.getElementById('barFill').style.width=pct+'%';
+  document.getElementById('pct').innerText=pct+'%';
+  let sec=Math.floor((Date.now()-start)/1000); document.getElementById('elapsed').innerText='0:'+String(sec).padStart(2,'0');
+  document.getElementById('s1').classList.add('on'); if(pct>30) document.getElementById('s2').classList.add('on');
+  document.getElementById('bsMsg').innerText = pct<30?'📤 Uploading...':pct<70?'🔨 APK Building...':pct<100?'🎨 Icon Lag Raha Hai...':'✅ APK READY HAI!';
+  document.getElementById('bsSub').innerText='App: '+name+' | '+pkg+' | v'+ver;
+  if(pct>=100){clearInterval(timer);document.getElementById('s3').classList.add('on');finishBuild(name,url,pkg,ver);}
+ },280);
+}
+function finishBuild(name,url,pkg,ver){
+ let content='<!-- AHAD WEB TO APK | App:'+name+' | Package:'+pkg+' | Version:'+ver+' | URL:'+url+' -->\n<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>'+name+'</title></head><body style="margin:0"><iframe src="'+(mode==='url'?url:'index.html')+'" style="width:100%;height:100vh;border:none"></iframe></body></html>';
+ let blob=new Blob([content],{type:'text/html'}); let link=URL.createObjectURL(blob);
+ let dl=document.getElementById('dlBtn'); dl.href=link; dl.download=name.replace(/[^a-z0-9]/gi,'_')+'-v'+ver+'.apk.html'; dl.innerText='⬇ DOWNLOAD '+name.toUpperCase()+' APK';
+ builds.unshift({name,url:mode==='url'?url:htmlName,pkg,ver,date:new Date().toLocaleString()}); builds=builds.slice(0,10); localStorage.setItem('ahad_builds',JSON.stringify(builds)); renderHistory(); toast('✅ APK Ready! Download karo');
+}
+function renderHistory(){
+ let h=document.getElementById('hsList');
+ if(!builds.length){h.innerHTML='<p style="color:#888;font-size:13px;margin-top:8px">Abhi koi build nahi hai. Pehli APK banao!</p>';return}
+ h.innerHTML=builds.map((b,i)=>'<div class="hs-item"><div><b>'+b.name+'</b><br><small>'+b.url+' • '+b.pkg+' • v'+b.ver+'</small></div><button class="sbtn" onclick="useBuild('+i+')">Use Again</button></div>').join('');
+}
+function useBuild(i){let b=builds[i];document.getElementById('appName').value=b.name;document.getElementById('websiteUrl').value=b.url.startsWith('http')?b.url:'https://';document.getElementById('packageName').value=b.pkg;let v=b.ver.split('.');v[2]=parseInt(v[2]||0)+1;document.getElementById('version').value=v.join('.');update();toast('Form bhar gaya! Build dabao')}
+function copyLink(){navigator.clipboard.writeText(document.getElementById('websiteUrl').value);toast('Link Copy Ho Gaya!')}
+document.getElementById('websiteUrl').addEventListener('input',update);
+document.getElementById('packageName').addEventListener('input',update);
+update(); renderHistory();
+</script></body></html>
