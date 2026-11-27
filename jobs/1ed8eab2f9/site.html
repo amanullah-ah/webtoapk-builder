@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<title>CHESS - AHAD | Play Chess Online</title><meta name="theme-color" content="#000000">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.3/chess.min.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{background:#000;color:#fff;font-family:system-ui,Arial,sans-serif;padding-bottom:20px;overflow-x:hidden}
+.top{position:sticky;top:0;background:rgba(0,0,0,.9);padding:12px 16px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #262626;z-index:50}
+.logo{display:flex;gap:10px;align-items:center}.logo-icon{width:38px;height:38px;background:#00E676;border-radius:11px;display:grid;place-items:center;font-size:22px}
+.logo b{font-size:16px}.logo small{font-size:9px;color:#00E676;letter-spacing:2px}
+.live{background:#122A1A;color:#00E676;padding:6px 10px;border-radius:20px;font-size:11px;font-weight:800}
+.wrap{max-width:480px;margin:auto;padding:14px}
+.status{background:#111;border:1px solid #262626;border-radius:16px;padding:14px;text-align:center}
+.status h2{font-size:20px}.status p{font-size:12px;color:#888;margin-top:4px}
+.turn{display:flex;gap:8px;margin-top:12px}.turn div{flex:1;padding:10px;border-radius:12px;text-align:center;font-weight:800;font-size:13px;background:#1A1A1A;border:1px solid #262626}.turn div.on{background:#00E676;color:#000;border-color:#00E676}
+.players{display:flex;justify-content:space-between;margin-top:12px;gap:8px}
+.player{flex:1;background:#111;border:1px solid #262626;border-radius:14px;padding:10px}.player b{font-size:13px}.player span{font-size:11px;color:#888;display:block;margin-top:2px}.player .caps{font-size:18px;margin-top:4px;min-height:24px;word-break:break-all}
+.mode{display:flex;gap:8px;margin-top:12px}.mode button{flex:1;padding:12px;border:none;border-radius:12px;font-weight:800;cursor:pointer;background:#1A1A1A;color:#fff;border:1px solid #262626}.mode button.on{background:#00E676;color:#000}
+.diff{display:flex;gap:8px;margin-top:8px}.diff button{flex:1;padding:10px;border:none;border-radius:10px;font-weight:700;cursor:pointer;background:#1A1A1A;color:#ccc}.diff button.on{background:#fff;color:#000}
+.board-wrap{background:#fff;border-radius:18px;padding:10px;margin-top:14px;box-shadow:0 10px 30px rgba(0,0,0,.5)}
+.board{display:grid;grid-template-columns:repeat(8,1fr);grid-template-rows:repeat(8,1fr);aspect-ratio:1/1;border-radius:10px;overflow:hidden;border:2px solid #111}
+.sq{display:flex;align-items:center;justify-content:center;font-size:clamp(24px,8vw,38px);cursor:pointer;position:relative;user-select:none;line-height:1}
+.sq.light{background:#F0D9B5}.sq.dark{background:#B58863}
+.sq.sel{background:#00E676 !important}
+.sq.last{background:#F7F769 !important}
+.sq.hint::after{content:"";width:22%;height:22%;background:rgba(0,0,0,.25);border-radius:50%;position:absolute}
+.sq.capture::after{content:"";width:88%;height:88%;border:3px solid rgba(255,0,0,.6);border-radius:50%;position:absolute}
+.sq.check{background:#FF5252 !important}
+.coord{position:absolute;top:2px;left:3px;font-size:9px;font-weight:800;color:rgba(0,0,0,.5)}
+.sq.dark .coord{color:rgba(255,255,255,.5)}
+.controls{display:flex;gap:8px;margin-top:14px}.controls button{flex:1;padding:13px;border:none;border-radius:13px;font-weight:900;cursor:pointer;font-size:13px}.undo{background:#fff;color:#000}.restart{background:#00E676;color:#000}.flip{background:#1A1A1A;color:#fff;border:1px solid #333}
+.moves{background:#111;border:1px solid #262626;border-radius:14px;padding:12px;margin-top:12px;max-height:120px;overflow-y:auto}.moves b{font-size:13px}.moves p{font-size:12px;color:#aaa;line-height:1.7;margin-top:6px;word-break:break-all}
+.promo{position:fixed;inset:0;background:rgba(0,0,0,.85);display:none;align-items:center;justify-content:center;z-index:100}.promo.show{display:flex}.promo-box{background:#fff;color:#111;padding:20px;border-radius:20px;text-align:center}.promo-box h3{margin-bottom:12px}.promo-box div{display:flex;gap:10px}.promo-box button{font-size:36px;width:60px;height:60px;border:none;border-radius:12px;background:#F0F0F0;cursor:pointer}
+.foot{text-align:center;padding:16px;color:#666;font-size:11px}.sig{color:#00E676;font-weight:900}
+.toast{position:fixed;bottom:30px;left:50%;transform:translateX(-50%);background:#00E676;color:#000;padding:12px 18px;border-radius:20px;font-weight:900;display:none;z-index:200}
+</style></head><body>
+<div class="top"><div class="logo"><div class="logo-icon">♟️</div><div><b>CHESS - AHAD</b><br><small>DEVELOPED BY AHAD</small></div></div><div class="live">● LIVE • FREE</div></div>
+<div class="wrap">
+<div class="status"><h2 id="statusText">🤍 White ki Baari</h2><p id="statusSub">Koi bhi mohra dabao, phir uski chaal dekho</p></div>
+<div class="turn"><div id="turnW" class="on">⚪ WHITE - Tum</div><div id="turnB">⚫ BLACK</div></div>
+<div class="players">
+<div class="player"><b>⚪ White</b><span id="whiteScore">Score: 0</span><div class="caps" id="capsByWhite"></div></div>
+<div class="player"><b>⚫ Black</b><span id="blackScore">Score: 0</span><div class="caps" id="capsByBlack"></div></div>
+</div>
+<div class="mode"><button id="mFriend" class="on" onclick="setMode('friend')">👥 2 Player</button><button id="mCpu" onclick="setMode('cpu')">🤖 Computer</button></div>
+<div class="diff" id="diffRow" style="display:none"><button id="dEasy" class="on" onclick="setDiff('easy')">😊 Easy</button><button id="dHard" onclick="setDiff('hard')">🔥 Hard</button></div>
+<div class="board-wrap"><div class="board" id="board"></div></div>
+<div class="controls"><button class="undo" onclick="undo()">↩ Undo</button><button class="flip" onclick="flipBoard()">🔄 Flip</button><button class="restart" onclick="restart()">↻ New Game</button></div>
+<div class="moves"><b>📜 Moves History</b><p id="history">Abhi koi chaal nahi chali.</p></div>
+</div>
+<div class="promo" id="promo"><div class="promo-box"><h3>👑 Promotion! Kya Banana Hai?</h3><div id="promoBtns"></div></div></div>
+<div class="foot"><b>© ALL GAMES DEVELOPED BY</b><br><span class="sig" style="font-size:16px">AHAD</span><br>Chess • 100% Free</div>
+<div class="toast" id="toast">Done</div>
+<script>
+let game=new Chess(), selected=null, legal=[], flipped=false, mode='friend', diff='easy', pendingPromo=null;
+let pieces={'p':'♟','r':'♜','n':'♞','b':'♝','q':'♛','k':'♚','P':'♙','R':'♖','N':'♘','B':'♗','Q':'♕','K':'♔'};
+let vals={p:1,n:3,b:3,r:5,q:9,k:0};
+function toast(t){let e=document.getElementById('toast');e.innerText=t;e.style.display='block';setTimeout(()=>e.style.display='none',1800)}
+function setMode(m){mode=m;document.getElementById('mFriend').classList.toggle('on',m==='friend');document.getElementById('mCpu').classList.toggle('on',m==='cpu');document.getElementById('diffRow').style.display=m==='cpu'?'flex':'none';restart();toast(m==='cpu'?'🤖 Computer Mode On':'👥 2 Player Mode On')}
+function setDiff(d){diff=d;document.getElementById('dEasy').classList.toggle('on',d==='easy');document.getElementById('dHard').classList.toggle('on',d==='hard');toast(d==='hard'?'🔥 Hard Mode - Bach ke!':'😊 Easy Mode')}
+function flipBoard(){flipped=!flipped;render()}
+function restart(){game=new Chess();selected=null;legal=[];pendingPromo=null;render();toast('♟️ Nayi Game Shuru!')}
+function undo(){
+ if(mode==='cpu'){game.undo();game.undo();}
+ else game.undo();
+ selected=null;legal=[];render();
+}
+function render(){
+ let boardEl=document.getElementById('board');boardEl.innerHTML='';
+ let b=game.board(); // 8x8
+ let hist=game.history({verbose:true});
+ let last=hist.length?hist[hist.length-1]:null;
+ let kingSq=null;
+ if(game.in_check()){
+   // king square dhoondo
+   for(let r=0;r<8;r++)for(let c=0;c<8;c++){let p=b[r][c];if(p&&p.type==='k'&&p.color===game.turn()){kingSq='abcdefgh'[c]+(8-r)}}
+ }
+ for(let i=0;i<64;i++){
+   let r=Math.floor(i/8), c=i%8;
+   let rr=flipped?7-r:r, cc=flipped?7-c:c;
+   let piece=b[rr][cc];
+   let sq='abcdefgh'[cc]+(8-rr);
+   let isLight=(rr+cc)%2===0;
+   let d=document.createElement('div');
+   d.className='sq '+(isLight?'light':'dark');
+   if(selected===sq) d.classList.add('sel');
+   if(last&&(last.from===sq||last.to===sq)) d.classList.add('last');
+   if(kingSq===sq) d.classList.add('check');
+   let mv=legal.find(m=>m.to===sq);
+   if(mv) d.classList.add(piece?'capture':'hint');
+   if(c===0||flipped&&c===7) {} // coord
+   if(cc===0) {let s=document.createElement('span');s.className='coord';s.innerText=8-rr;d.appendChild(s);}
+   if(piece){
+     let span=document.createElement('span');
+     span.innerText=pieces[piece.color==='w'?piece.type.toUpperCase():piece.type];
+     span.style.color=piece.color==='w'?'#fff':'#000';
+     span.style.textShadow=piece.color==='w'?'0 2px 3px rgba(0,0,0,.8),0 0 1px #000':'0 1px 2px rgba(255,255,255,.5)';
+     d.appendChild(span);
+   }
+   d.onclick=()=>onSquare(sq);
+   boardEl.appendChild(d);
+ }
+ // status
+ let turn=game.turn();
+ document.getElementById('turnW').classList.toggle('on',turn==='w');
+ document.getElementById('turnB').classList.toggle('on',turn==='b');
+ let txt='', sub='';
+ if(game.in_checkmate()){txt=(turn==='w'?'⚫ BLACK JEET GAYA! 🏆':'⚪ WHITE JEET GAYA! 🏆');sub='Checkmate! New Game dabao.';toast(txt)}
+ else if(game.in_draw()){txt='🤝 DRAW!';sub='Koi nahi jeeta.'}
+ else if(game.in_stalemate()){txt='🤝 STALEMATE - DRAW!';sub='Koi chaal nahi bachi.'}
+ else if(game.in_check()){txt=(turn==='w'?'🤍 White - CHECK!':'⚫ Black - CHECK!');sub='King ko bachao!'}
+ else{txt=turn==='w'?'🤍 White ki Baari':'⚫ Black ki Baari';sub=mode==='cpu'&&turn==='b'?'Computer soch raha hai...':'Koi mohra dabao'}
+ document.getElementById('statusText').innerText=txt;
+ document.getElementById('statusSub').innerText=sub;
+ // captured + score
+ let capW=[],capB=[],sW=0,sB=0;
+ let all={p:8,n:2,b:2,r:2,q:1};
+ let cntW={p:0,n:0,b:0,r:0,q:0},cntB={p:0,n:0,b:0,r:0,q:0};
+ for(let r=0;r<8;r++)for(let c=0;c<8;c++){let p=b[r][c];if(p){if(p.color==='w')cntW[p.type]++;else cntB[p.type]++;}}
+ for(let t in all){for(let i=0;i<all[t]-cntW[t];i++){capB.push(pieces[t]);sB+=vals[t]} for(let i=0;i<all[t]-cntB[t];i++){capW.push(pieces[t.toUpperCase()]);sW+=vals[t]}}
+ document.getElementById('capsByWhite').innerText=capW.join(' ');
+ document.getElementById('capsByBlack').innerText=capB.join(' ');
+ document.getElementById('whiteScore').innerText='Score: '+sW;
+ document.getElementById('blackScore').innerText='Score: '+sB;
+ // history
+ let h=game.history();
+ document.getElementById('history').innerText=h.length?h.map((m,i)=> (i%2===0?Math.floor(i/2)+1+'. ':'')+m).join(' '):'Abhi koi chaal nahi chali.';
+}
+function onSquare(sq){
+ if(game.game_over()) return;
+ if(mode==='cpu'&&game.turn()==='b') return;
+ let piece=game.get(sq);
+ if(selected){
+   let mv=legal.find(m=>m.to===sq);
+   if(mv){
+     if(mv.flags.includes('p')){
+       pendingPromo={from:selected,to:sq};
+       showPromo(game.turn());
+       return;
+     }
+     doMove(selected,sq,'q');
+     return;
+   }
+ }
+ if(piece&&piece.color===game.turn()){
+   selected=sq; legal=game.moves({square:sq,verbose:true});
+   render(); return;
+ }
+ selected=null;legal=[];render();
+}
+function showPromo(color){
+ let box=document.getElementById('promoBtns');box.innerHTML='';
+ ['q','r','b','n'].forEach(t=>{
+   let btn=document.createElement('button');
+   btn.innerText=pieces[color==='w'?t.toUpperCase():t];
+   btn.onclick=()=>{document.getElementById('promo').classList.remove('show');doMove(pendingPromo.from,pendingPromo.to,t);pendingPromo=null};
+   box.appendChild(btn);
+ });
+ document.getElementById('promo').classList.add('show');
+}
+function doMove(from,to,promo){
+ let m=game.move({from,to,promotion:promo||'q'});
+ if(!m) return;
+ selected=null;legal=[];render();
+ if(game.game_over()) return;
+ if(mode==='cpu'&&game.turn()==='b'){
+   setTimeout(cpuMove,400);
+ }
+}
+function cpuMove(){
+ if(game.game_over()) return;
+ let moves=game.moves({verbose:true});
+ if(!moves.length) return;
+ let mv;
+ if(diff==='easy'){
+   mv=moves[Math.floor(Math.random()*moves.length)];
+ } else {
+   // Hard - Best capture / check wala dhoondo
+   let best=-9999; let bestMoves=[];
+   moves.forEach(m=>{
+     let score=0;
+     if(m.captured) score+=vals[m.captured]*10;
+     if(m.flags.includes('p')) score+=80;
+     game.move(m); if(game.in_check()) score+=20; game.undo();
+     if(score>best){best=score;bestMoves=[m]} else if(score===best){bestMoves.push(m)}
+   });
+   mv=bestMoves[Math.floor(Math.random()*bestMoves.length)];
+ }
+ game.move(mv); render();
+}
+render();
+</script></body></html>
